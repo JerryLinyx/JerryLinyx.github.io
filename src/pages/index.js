@@ -243,7 +243,7 @@ const publications = [
 
 const researchExperiences = [
   {
-    image: 'index/winnetlogo.png',
+    image: 'index/winnetLogo.png',
     title: 'Edge Device Inference',
     link: '',
     metaLeft: (
