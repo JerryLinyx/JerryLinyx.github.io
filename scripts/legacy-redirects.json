@@ -206,9 +206,5 @@
   {
     "from": "/search/",
     "to": "/notes/"
-  },
-  {
-    "from": "/CV/",
-    "to": "/resume/"
   }
 ]

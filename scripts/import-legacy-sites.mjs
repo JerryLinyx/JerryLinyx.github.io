@@ -310,8 +310,7 @@ await fs.writeFile(
 );
 await fs.writeFile(
   "scripts/legacy-redirects.json",
-  JSON.stringify([...redirects, { from: "/CV/", to: "/resume/" }], null, 2) +
-    "\n",
+  JSON.stringify(redirects, null, 2) + "\n",
 );
 await fs.writeFile(
   "scripts/legacy-migration-manifest.json",

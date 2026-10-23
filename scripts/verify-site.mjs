@@ -13,6 +13,18 @@ async function walk(dir) {
   ).flat();
 }
 const files = await walk(root);
+for (const retired of ["Doc", "CV"]) {
+  if (
+    files.some((file) => {
+      const relative = path.relative(root, file);
+      return (
+        relative.startsWith(retired + path.sep) ||
+        relative === retired + ".html"
+      );
+    })
+  )
+    throw new Error(`Retired URL must not be published: /${retired}/`);
+}
 const htmlFiles = files.filter((f) => f.endsWith(".html"));
 const missing = new Set();
 let checked = 0;

@@ -41,3 +41,7 @@ One repository contains maintained source on `codex/root-site` and generated roo
 Root publication is live and verified over HTTPS. Source CI and root Pages deployment succeeded. The Doc and CV repositories are retained per the latest user decision; their replacement redirect deployments both succeeded. A deployment-transition chunk loading error during the initial live check did not recur in the full repeated check; all seven public route checks passed with zero browser errors. Older `/Doc/` design reports describe the pre-consolidation phase; this document and `2026-10-23-root-migration.md` supersede their deployment recommendation.
 
 Browser QA used headless Chrome, not a physical iOS device or Safari session. Automated accessibility checks are scoped to their named rules. Files under `output/playwright/` contain the detailed results and screenshots and are intentionally not committed.
+
+## Latest correction: unpublish old URLs
+
+The user clarified that preserving repositories does not mean retaining redirect sites. All root `/Doc/` and `/CV/` redirect generation is removed. Previous redirect acceptance results above are historical and superseded for those prefixes. Unpublishing both project Pages sites is pending authenticated Pages administration. Do not report the old links as down until public 404 responses are verified.

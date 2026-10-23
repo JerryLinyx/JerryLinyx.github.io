@@ -1,6 +1,6 @@
 # Root-domain consolidation
 
-Latest user decision (2026-10-23): **keep the Doc and CV repositories; retire their old websites only**. The new personal website is published at https://jerrylinyx.github.io/. Do not delete either repository.
+Latest user decision (2026-10-23): **keep the Doc and CV repositories; unpublish their old URLs entirely (no redirects)**. The new personal website is published at https://jerrylinyx.github.io/. Do not delete either repository.
 
 ## Content and history
 
@@ -25,7 +25,7 @@ This uses normal Git credentials without reading or exporting tokens. No additio
 
 ## Compatibility
 
-The official Docusaurus client-redirects plugin covers all existing `/Doc/…` content routes. `/CV/` points to `/resume/`; original Hexo article URLs point to their corresponding current entries; archive/taxonomy routes lead to the unified archive. Both existing project deployments now publish lightweight redirect pages: Doc `gh-pages` and CV `main`. Their repositories and original histories are preserved. The root-domain deployment also contains compatibility redirects.
+The official Docusaurus client-redirects plugin retains original Hexo article and taxonomy redirects only. The latest user correction explicitly removes all `/Doc/` and `/CV/` compatibility redirects. Both project Pages sites must be unpublished using authenticated repository administration; both repositories and histories remain intact. Removing root redirects is necessary to prevent the user-site deployment from answering the retired project paths.
 
 ## Release gates
 
@@ -33,7 +33,7 @@ The official Docusaurus client-redirects plugin covers all existing `/Doc/…` c
 2. Browser-check all imported legacy editions, current blog entries, CV, and representative old URLs.
 3. Verify local backup integrity and ancestry retention before pushing the source branch.
 4. Publish to root `master`, then verify actual HTTPS content, deployment version and representative legacy redirects.
-5. Replace the old Doc/CV published websites with redirect pages, retain both repositories, and verify the public redirects after successful Pages deployments. No repository deletion or administration login is needed.
+5. Unpublish the Doc/CV Pages sites, retain both repositories, and verify that both old URLs return 404 with no redirect. This requires authenticated repository Pages administration; it remains pending until login is available.
 
 ## Tooling constraints
 

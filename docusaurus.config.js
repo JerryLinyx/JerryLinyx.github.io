@@ -65,9 +65,6 @@ const config = {
       "@docusaurus/plugin-client-redirects",
       {
         redirects: legacyRedirects,
-        createRedirects(existingPath) {
-          return ["/Doc" + existingPath];
-        },
       },
     ],
     [

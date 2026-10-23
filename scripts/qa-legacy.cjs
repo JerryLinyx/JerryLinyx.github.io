@@ -71,13 +71,6 @@ let browser;
   }
   const redirects = [
     ...legacy.articles.map((a) => ({ from: a.oldPath, to: a.canonical })),
-    { from: "/Doc/", to: "/" },
-    { from: "/Doc/docs/notes/hpc/cuda/", to: "/docs/notes/hpc/cuda/" },
-    {
-      from: "/Doc/blog/road-to-flow-matching/",
-      to: "/blog/road-to-flow-matching/",
-    },
-    { from: "/CV/", to: "/resume/" },
     { from: "/posts/dpi/", to: "/docs/notes/algo/dpi/" },
     { from: "/archives/", to: "/archive/" },
   ];
