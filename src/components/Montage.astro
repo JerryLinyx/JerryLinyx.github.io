@@ -1,0 +1,41 @@
+---
+const names = [
+  "闪电",
+  "河流",
+  "血管",
+  "叶脉",
+  "雪花",
+  "二叉树",
+  "星系",
+  "DNA 双螺旋",
+  "点云地形",
+];
+---
+
+<section class="interlude" aria-labelledby="interlude-title">
+  <figure class="montage" data-montage>
+    <canvas aria-hidden="true"></canvas>
+    <figcaption class="montage-bar">
+      <h2 id="interlude-title" class="montage-title">
+        同一种生长
+      </h2>
+      <p class="montage-note">
+        {names.join("、")}
+        ——同一类分形结构，在不同尺度上反复出现。每一幅都由几行数学生成。
+      </p>
+      <p class="montage-now" aria-live="off">
+        <span data-scene-index></span>
+        <span data-scene-name></span>
+      </p>
+      <span class="montage-buttons">
+        <button type="button" data-montage-pause aria-pressed="false" hidden>
+          暂停
+        </button>
+        <button type="button" data-montage-next hidden>
+          下一个
+        </button>
+      </span>
+    </figcaption>
+  </figure>
+</section>
+<script src="../scripts/montage.js"></script>

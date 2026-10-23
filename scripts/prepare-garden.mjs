@@ -1,6 +1,18 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+const imageDimensions = {};
+async function recordDimensions(file, url) {
+  if (!/\.(png|jpe?g|gif|svg|webp)$/i.test(file)) return;
+  try {
+    const metadata = await sharp(file).metadata();
+    const width = metadata.autoOrient?.width || metadata.width;
+    const height = metadata.autoOrient?.height || metadata.height;
+    if (width && height) imageDimensions[url] = { width, height };
+  } catch {
+    /* Unsupported media keeps its existing browser fallback. */
+  }
+}
 async function exactSource(file) {
   const names = await fs.readdir(path.dirname(file));
   if (!names.includes(path.basename(file)))
@@ -15,6 +27,7 @@ async function copyAssets(dir) {
       const target = path.join("static/content", p);
       await fs.mkdir(path.dirname(target), { recursive: true });
       await fs.copyFile(p, target);
+      await recordDimensions(target, "/" + target.slice("static/".length));
     }
   }
 }
@@ -42,6 +55,18 @@ for (const [source, name, width] of [
     .resize({ width, withoutEnlargement: true })
     .webp({ quality: 90 })
     .toFile("static/media/" + name + ".webp");
+for (const dir of ["static/index", "static/legacy-assets", "static/media"]) {
+  for (const name of await fs.readdir(dir))
+    await recordDimensions(
+      path.join(dir, name),
+      "/" + dir.slice("static/".length) + "/" + name,
+    );
+}
+await fs.mkdir(".astro", { recursive: true });
+await fs.writeFile(
+  ".astro/image-dimensions.json",
+  JSON.stringify(imageDimensions),
+);
 console.log(
   "Prepared preserved content assets and optimized original photography.",
 );

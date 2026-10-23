@@ -361,6 +361,11 @@
   ],
   "projects": [
     {
+      "title": "Probabilistic imaging",
+      "url": "/work/probabilistic-imaging/",
+      "repo": "https://github.com/JerryLinyx/DeepMed-Imaging-Reconstruction"
+    },
+    {
       "title": "FinGOAT",
       "url": "/work/fingoat/",
       "repo": "https://github.com/JerryLinyx/FinGOAT"
@@ -371,22 +376,17 @@
       "repo": "https://github.com/JerryLinyx/PACC"
     },
     {
-      "title": "Probabilistic imaging",
-      "url": "/work/probabilistic-imaging/",
-      "repo": "https://github.com/JerryLinyx/DeepMed-Imaging-Reconstruction"
-    },
-    {
-      "title": "CUDA–LeNet5",
+      "title": "CUDA-LeNet5",
       "url": "/work/cuda-lenet/",
       "repo": "https://github.com/JerryLinyx/LeNet-CUDA-ECE408"
     },
     {
-      "title": "LOS / Linux-like OS",
+      "title": "LOS",
       "url": "/work/linux-kernel/",
       "repo": "https://github.com/JerryLinyx/Linux-OS-Kernel-ECE391/tree/main/mp3"
     },
     {
-      "title": "AID3 / Blender",
+      "title": "AID3",
       "url": "/work/aid3/",
       "repo": "https://github.com/JerryLinyx/AID3-Blender-Plugin"
     }

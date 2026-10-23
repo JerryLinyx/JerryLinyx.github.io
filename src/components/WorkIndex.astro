@@ -1,0 +1,27 @@
+---
+const { items, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}`;
+---
+
+<ul class="work-index" data-work-index>
+  {items.map((p) => (
+    <li>
+      <a class="work-row" href={`/work/${p.slug}/`}>
+        <Heading class="work-title">{p.title}</Heading>
+        <span class="work-sub">{p.subtitle}</span>
+        <span class="work-cat">{p.category}</span>
+        <span class="work-year">{p.year}</span>
+        {p.image && (
+          <span class="work-peek" aria-hidden="true">
+            <img
+              src={`/media/${p.image}.webp`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+        )}
+      </a>
+    </li>
+  ))}
+</ul>

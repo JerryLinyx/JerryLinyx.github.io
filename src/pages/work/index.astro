@@ -1,60 +1,23 @@
 ---
 import Base from "../../layouts/Base.astro";
-import FieldVisual from "../../components/FieldVisual.astro";
-import { projects, moreProjects } from "../../data/portfolio.js";
-const all = [projects[2], projects[0], projects[1], ...moreProjects];
-const kinds = ["flow", "network", "terrain", "terrain", "network", "flow"];
+import WorkIndex from "../../components/WorkIndex.astro";
+import { projects, otherProjects } from "../../data/portfolio.js";
 ---
 
-<Base title="作品档案 · 林煜轩" section="work">
-  <section class="page-heading wrap">
-    <p class="eyebrow">01 / PROJECT ARCHIVE / 2024—2026</p>
-    <h1>
-      想法经过实验，<span>留下可以验证的形状。</span>
-    </h1>
-    <div class="heading-bottom">
-      <p>
-        从生成式模型到计算系统。
-        <br />
-        六份档案：问题、方法、取舍与结果。
-      </p>
-      <span class="mono">OBSERVE / MODEL / EXPERIMENT</span>
-    </div>
-  </section>
-  <section class="project-records wrap" aria-label="全部作品">
-    {all.map((p, i) => (
-      <article class="project-record">
-        <div class="record-no">
-          <span class="mono">ARCHIVE RECORD</span>
-          <b>{String(i + 1).padStart(2, "0")}</b>
-          <span class="mono">{p.year}</span>
-        </div>
-        <a
-          class="record-visual"
-          href={`/work/${p.slug}/`}
-          aria-label={`查看 ${p.title} 项目档案`}
-        >
-          <FieldVisual kind={kinds[i]} />
-          <span class="mono">
-            MATHEMATICAL FORM STUDY / {String(i + 1).padStart(3, "0")}
-          </span>
-        </a>
-        <div class="record-body">
-          <p class="eyebrow">{p.category}</p>
-          <h2>
-            <a href={`/work/${p.slug}/`}>{p.title}</a>
-          </h2>
-          <p>{p.subtitle}</p>
-          <div class="tags">
-            {p.tags.slice(0, 3).map((t) => (
-              <span>{t}</span>
-            ))}
-          </div>
-          <a class="archive-link" href={`/work/${p.slug}/`}>
-            打开项目档案 <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </article>
-    ))}
+<Base title="作品 · 林煜轩" section="work">
+  <header class="wrap page-head">
+    <h1>作品</h1>
+    <p class="lead">
+      从生成式模型到 GPU
+      内核与操作系统。每个项目写清问题、关键取舍与结果，以及我在团队中的部分。
+    </p>
+  </header>
+  <section class="wrap" aria-label="全部项目">
+    <WorkIndex items={projects} headingLevel={2} />
+    <p class="footnote">
+      还有 {otherProjects.map((t) => t.split(" — ")[0])}，记录在
+      <a href="/about/#projects">关于</a>
+      页。项目数据根据个人简历整理，属于对应项目和测试场景中的结果。
+    </p>
   </section>
 </Base>

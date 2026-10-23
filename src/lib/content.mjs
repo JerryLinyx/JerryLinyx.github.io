@@ -22,6 +22,10 @@ legacy.extras = legacy.extras.map((e) => ({
 const noteMeta = await readJson("src/data/notes.json");
 export const curation = await readJson("content/curation.json");
 const supplements = await readJson("content/supplements.json");
+const imageDimensions = await readJson(".astro/image-dimensions.json").catch(
+  () => ({}),
+);
+export const mediaSize = (url) => imageDimensions[url] || {};
 async function walk(dir) {
   return (
     await Promise.all(
@@ -151,7 +155,9 @@ for (const [from, to] of [
   ["/notes/", "/writing/?type=notes"],
   ["/blog/", "/writing/?type=articles"],
   ["/plog/", "/life/"],
-  ["/plog/singapore-through-my-lens/", "/life/singapore/"],
+  ["/plog/singapore-through-my-lens/", "/life/"],
+  ["/life/singapore/", "/life/"],
+  ["/research/", "/about/#research"],
   ["/resume/", "/about/"],
   ["/docs/intro/", "/writing/?type=notes"],
   ["/projects/fingoat/", "/work/fingoat/"],
@@ -300,6 +306,18 @@ export function prepareHtml(html, file = "") {
   $("img").attr("loading", "lazy").attr("decoding", "async");
   $("img").each((_, el) => {
     if (!$(el).attr("alt")) $(el).attr("alt", "文章配图");
+    const src = $(el).attr("src") || "";
+    let pathname = src.split(/[?#]/)[0];
+    try {
+      pathname = decodeURIComponent(pathname);
+    } catch {
+      /* Keep the source URL. */
+    }
+    const size = imageDimensions[pathname];
+    if (size && !$(el).attr("width") && !$(el).attr("height"))
+      $(el)
+        .attr("width", String(size.width))
+        .attr("height", String(size.height));
   });
   $("a[href]").each((_, el) => {
     const href = $(el).attr("href");
@@ -360,30 +378,76 @@ export function researchPost(slug) {
   const merged = curation.merges.find((m) => m.source === `notes/${slug}`);
   return posts.find((p) => p.slug === (merged?.target || `notes/${slug}`));
 }
+// Titles, alt text and captions are the original photo log (plog/2025-07-10-Singapore).
 export const photos = [
   [
     "jewelImage.jpeg",
     "樟宜机场",
     "Jewel Changi Airport",
+    "Rain vortex inside Jewel Changi Airport",
     "雨漩涡宛若悬自天穹的水晶沙漏，时差与旅途都在此延缓。",
   ],
-  ["clarkeQuayImage.jpeg", "克拉码头", "Clarke Quay", ""],
-  ["cityHallImage.jpeg", "国会大厦", "Parliament House", ""],
-  ["nationalGalleryImage.jpeg", "维多利亚音乐厅", "Victoria Concert Hall", ""],
-  ["cliffordPierImage.jpeg", "克利福德码头", "Clifford Pier", ""],
-  ["merlionImage.jpeg", "鱼尾狮", "Merlion", ""],
-  ["chinatownImage.jpeg", "牛车水", "Chinatown", ""],
-  ["floralFantasyImage.jpeg", "滨海湾金沙", "Marina Bay Sands", ""],
+  [
+    "clarkeQuayImage.jpeg",
+    "克拉码头",
+    "Clarke Quay",
+    "Boats passing under Clarke Quay bridge at night",
+    "",
+  ],
+  [
+    "cityHallImage.jpeg",
+    "新加坡国会大厦",
+    "Parliament House",
+    "Parliament House facade glowing after dusk",
+    "",
+  ],
+  [
+    "nationalGalleryImage.jpeg",
+    "维多利亚音乐厅",
+    "Victoria Concert Hall",
+    "Victoria Concert Hall clock tower glowing after dusk",
+    "",
+  ],
+  [
+    "cliffordPierImage.jpeg",
+    "克利福德码头",
+    "Clifford Pier",
+    "Clifford Pier illuminated columns at night",
+    "",
+  ],
+  [
+    "merlionImage.jpeg",
+    "鱼尾狮",
+    "Merlion",
+    "Merlion statue spraying water toward Marina Bay",
+    "",
+  ],
+  [
+    "chinatownImage.jpeg",
+    "牛车水",
+    "Chinatown",
+    "Chinatown shophouse corridor with hanging lanterns",
+    "",
+  ],
+  [
+    "floralFantasyImage.jpeg",
+    "滨海湾金沙酒店",
+    "Marina Bay Sands",
+    "Marina Bay Sands skyline reflecting on Marina Bay",
+    "",
+  ],
   [
     "gardensByBayImage.jpg",
     "滨海湾花园",
     "Gardens by the Bay",
+    "Supertree Grove lit up at Gardens by the Bay",
     "超级树在夜里拔地而起，紫蓝色的光谱为旅程落下帷幕。",
   ],
-].map(([file, title, english, caption], index) => ({
+].map(([file, title, english, alt, caption], index) => ({
   file,
   title,
   english,
+  alt,
   caption,
   url: `/media/singapore-${index}.webp`,
 }));
@@ -400,3 +464,18 @@ for (const a of legacy.articles) {
   if (source && source.trim() === a.html.trim())
     archiveCanonical.set(a.archive, p.url);
 }
+
+// Reading routes: the original "从一个问题开始" map in docs/intro.md.
+export const readingRoutes = [
+  ["GPU 为什么快？", ["hpc/cuda"]],
+  ["模型如何跨卡训练？", ["training/distributed-training"]],
+  ["生成模型如何转换分布？", ["algo/flow-based-model", "algo/flow-matching"]],
+  ["如何构建 AI 应用？", ["application/rag", "application/evaluation"]],
+].map(([question, slugs]) => ({
+  question,
+  posts: slugs.map((s) => {
+    const post = researchPost(s);
+    if (!post) throw new Error(`Missing reading route entry: ${s}`);
+    return post;
+  }),
+}));

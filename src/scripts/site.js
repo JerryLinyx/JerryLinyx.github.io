@@ -1,21 +1,24 @@
+const header = document.querySelector(".header");
 const menu = document.querySelector(".menu-toggle");
 const mobile = document.querySelector(".mobile-nav");
-function closeMenu() {
-  menu?.setAttribute("aria-expanded", "false");
-  menu?.setAttribute("aria-label", "展开导航");
-  if (mobile) mobile.hidden = true;
-}
-menu?.addEventListener("click", () => {
-  const open = menu.getAttribute("aria-expanded") !== "true";
+const menuLabel = menu?.querySelector(".sr-only");
+function setMenu(open) {
   menu.setAttribute("aria-expanded", String(open));
-  menu.setAttribute("aria-label", open ? "收起导航" : "展开导航");
+  menuLabel.textContent = open ? "关闭导航" : "打开导航";
   mobile.hidden = !open;
-});
+}
+const closeMenu = () => menu && setMenu(false);
+menu?.addEventListener("click", () =>
+  setMenu(menu.getAttribute("aria-expanded") !== "true"),
+);
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && menu?.getAttribute("aria-expanded") === "true") {
     closeMenu();
     menu.focus();
   }
+});
+document.addEventListener("focusin", (e) => {
+  if (!e.target.closest(".header")) closeMenu();
 });
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".header")) closeMenu();
@@ -23,6 +26,19 @@ document.addEventListener("click", (e) => {
 matchMedia("(min-width:761px)").addEventListener("change", (e) => {
   if (e.matches) closeMenu();
 });
+const onScroll = () =>
+  header?.classList.toggle("is-scrolled", window.scrollY > 8);
+document.addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+for (const list of document.querySelectorAll("[data-work-index]")) {
+  list.addEventListener("pointermove", (e) => {
+    const box = list.getBoundingClientRect();
+    // Keep the preview (300px wide, offset 32px) inside the list.
+    const x = Math.min(e.clientX - box.left, box.width - 340);
+    list.style.setProperty("--peek-x", `${x}px`);
+    list.style.setProperty("--peek-y", `${e.clientY - box.top}px`);
+  });
+}
 document.querySelector("[data-backtop]")?.addEventListener("click", (e) => {
   e.preventDefault();
   window.scrollTo({
@@ -35,17 +51,42 @@ document.querySelector("[data-backtop]")?.addEventListener("click", (e) => {
 document
   .querySelector("[data-print]")
   ?.addEventListener("click", () => window.print());
-document
-  .querySelector("[data-copy-link]")
-  ?.addEventListener("click", async (e) => {
+const durationToken = getComputedStyle(document.documentElement)
+  .getPropertyValue("--feedback-duration")
+  .trim();
+const feedbackDuration =
+  Number.parseFloat(durationToken) *
+    (durationToken.endsWith("ms") ? 1 : 1000) || 2500;
+function copyFeedback(button, getText, idle, failure) {
+  let timer,
+    revision = 0;
+  button.textContent = idle;
+  button.setAttribute("aria-live", "polite");
+  button.setAttribute("aria-atomic", "true");
+  button.addEventListener("click", async () => {
+    const current = ++revision;
+    clearTimeout(timer);
+    button.dataset.copyState = "pending";
+    button.textContent = "正在复制…";
     try {
-      await navigator.clipboard.writeText(location.href);
-      e.target.textContent = "链接已复制 ✓";
+      await navigator.clipboard.writeText(getText());
+      if (current !== revision) return;
+      button.dataset.copyState = "success";
+      button.textContent = "已复制 ✓";
     } catch {
-      e.target.textContent = "请从地址栏复制链接";
+      if (current !== revision) return;
+      button.dataset.copyState = "error";
+      button.textContent = failure;
     }
-    setTimeout(() => (e.target.textContent = "复制链接 ↗"), 2400);
+    timer = setTimeout(() => {
+      button.textContent = idle;
+      delete button.dataset.copyState;
+    }, feedbackDuration);
   });
+}
+const copyLink = document.querySelector("[data-copy-link]");
+if (copyLink)
+  copyFeedback(copyLink, () => location.href, "复制链接", "复制失败，重试");
 for (const pre of document.querySelectorAll(".prose pre")) {
   pre.tabIndex = 0;
   const code = pre.querySelector("code");
@@ -53,16 +94,7 @@ for (const pre of document.querySelectorAll(".prose pre")) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "copy-code";
-    button.textContent = "复制代码";
-    button.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(code.textContent);
-        button.textContent = "已复制 ✓";
-      } catch {
-        button.textContent = "请手动选择复制";
-      }
-      setTimeout(() => (button.textContent = "复制代码"), 2000);
-    });
+    copyFeedback(button, () => code.textContent, "复制代码", "复制失败，重试");
     pre.append(button);
   }
 }
@@ -71,7 +103,7 @@ for (const el of document.querySelectorAll(
 )) {
   if (el.scrollWidth > el.clientWidth + 1) el.tabIndex = 0;
 }
-const progress = document.querySelector(".reading-progress span");
+const progress = document.querySelector(".progress span");
 if (progress) {
   const update = () => {
     const end =
@@ -88,9 +120,33 @@ if (progress) {
   };
   document.addEventListener("scroll", update, { passive: true });
   update();
-  if (innerWidth < 761) {
+  if (innerWidth < 961) {
     const toc = document.querySelector(".toc details");
     if (toc) toc.open = false;
+  }
+  const links = new Map(
+    [...document.querySelectorAll(".toc nav a")].map((a) => [
+      decodeURIComponent(a.hash.slice(1)),
+      a,
+    ]),
+  );
+  if (links.size) {
+    const seen = new Set();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries)
+          e.isIntersecting ? seen.add(e.target.id) : seen.delete(e.target.id);
+        const first = [...links.keys()].find((id) => seen.has(id));
+        if (first)
+          for (const [id, a] of links)
+            a.classList.toggle("is-active", id === first);
+      },
+      { rootMargin: "-64px 0px -60% 0px" },
+    );
+    for (const id of links.keys()) {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    }
   }
 }
 const library = document.querySelector("[data-library]");
@@ -100,9 +156,12 @@ if (library) {
   const radios = [...library.querySelectorAll("input[name=type]")];
   const cards = [...library.querySelectorAll("[data-entry]")];
   const count = library.querySelector("[data-result-count]");
-  const empty = library.querySelector(".empty-state");
+  const empty = library.querySelector(".empty");
   let index = null;
   let indexPromise;
+  let composing = false;
+  let timer;
+  const retry = library.querySelector("[data-retry-search]");
   const loadIndex = () =>
     (indexPromise ??= fetch("/search-index.json")
       .then((r) => {
@@ -117,7 +176,11 @@ if (library) {
               `${p.title} ${p.plain} ${p.topic}`.toLocaleLowerCase(),
             ]),
           )),
-      ));
+      )
+      .catch((error) => {
+        indexPromise = undefined;
+        throw error;
+      }));
   function restore() {
     const params = new URLSearchParams(location.search);
     search.value = params.get("q") || "";
@@ -128,11 +191,16 @@ if (library) {
   }
   let revision = 0;
   async function update(write = true) {
+    if (composing) return;
     const current = ++revision;
     const q = search.value.trim().toLocaleLowerCase();
     const type = radios.find((r) => r.checked).value;
     const selected = topic.value;
     let failed = false;
+    if (q && !index) {
+      library.setAttribute("aria-busy", "true");
+      count.textContent = "正在载入全文索引…";
+    }
     if (q && !index)
       try {
         await loadIndex();
@@ -140,6 +208,10 @@ if (library) {
         failed = true;
       }
     if (current !== revision) return;
+    library.setAttribute("aria-busy", "false");
+    if (!failed && document.activeElement === retry)
+      search.focus({ preventScroll: true });
+    retry.hidden = !failed;
     let total = 0;
     const words = q.split(/\s+/).filter(Boolean);
     for (const card of cards) {
@@ -168,18 +240,42 @@ if (library) {
   }
   restore();
   update(false);
-  let timer;
-  search.addEventListener("input", () => {
+  search.addEventListener("compositionstart", () => {
+    composing = true;
+    revision++;
+    clearTimeout(timer);
+    library.setAttribute("aria-busy", "false");
+  });
+  search.addEventListener("compositionend", () => {
+    composing = false;
     clearTimeout(timer);
     timer = setTimeout(update, 90);
+  });
+  search.addEventListener("input", (event) => {
+    clearTimeout(timer);
+    if (!composing && !event.isComposing) timer = setTimeout(update, 90);
+  });
+  search.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Enter" &&
+      (composing || event.isComposing || event.keyCode === 229)
+    )
+      event.preventDefault();
+  });
+  retry.addEventListener("click", () => {
+    clearTimeout(timer);
+    update();
   });
   topic.addEventListener("change", () => update());
   radios.forEach((r) => r.addEventListener("change", () => update()));
   library.querySelector("form").addEventListener("submit", (e) => {
     e.preventDefault();
-    update();
+    clearTimeout(timer);
+    if (!composing) update();
   });
   library.querySelector("[data-clear-search]").addEventListener("click", () => {
+    composing = false;
+    clearTimeout(timer);
     search.value = "";
     topic.value = "";
     radios[0].checked = true;
@@ -193,7 +289,13 @@ if (library) {
   document.addEventListener("keydown", (e) => {
     if (
       e.key === "/" &&
-      !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)
+      !e.isComposing &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.altKey &&
+      !document.activeElement.closest(
+        "input,textarea,select,[contenteditable]:not([contenteditable=false])",
+      )
     ) {
       e.preventDefault();
       search.focus();
@@ -205,23 +307,58 @@ if (dialog) {
   const photos = [...document.querySelectorAll("[data-photo]")];
   let current = 0;
   let opener = null;
+  let imageRevision = 0;
+  let savedOverflow = "";
+  const image = dialog.querySelector("img");
+  const figure = dialog.querySelector("figure");
+  const status = dialog.querySelector("[data-gallery-status]");
+  const retryPhoto = dialog.querySelector("[data-gallery-retry]");
   function show(i) {
     current = (i + photos.length) % photos.length;
-    const p = photos[current];
-    const image = dialog.querySelector("img");
-    image.src = p.dataset.src;
-    image.alt = p.dataset.caption;
+    const p = photos[current],
+      request = ++imageRevision;
+    dialog.dataset.imageState = "loading";
+    figure.setAttribute("aria-busy", "true");
+    status.hidden = false;
+    status.textContent = "正在载入照片…";
+    if (document.activeElement === retryPhoto)
+      dialog.querySelector(".lightbox-next").focus({ preventScroll: true });
+    retryPhoto.hidden = true;
+    image.alt = p.dataset.alt;
     dialog.querySelector("figcaption").textContent = p.dataset.caption;
     dialog.querySelector(".lightbox-count").textContent =
       String(current + 1).padStart(2, "0") +
       " / " +
       String(photos.length).padStart(2, "0");
+    const pending = new Image();
+    pending.onload = () => {
+      if (request !== imageRevision) return;
+      image.src = p.dataset.src;
+      image.width = pending.naturalWidth;
+      image.height = pending.naturalHeight;
+      dialog.dataset.imageState = "ready";
+      figure.setAttribute("aria-busy", "false");
+      status.hidden = true;
+      if (!retryPhoto.hidden && document.activeElement === retryPhoto)
+        dialog.querySelector(".lightbox-next").focus();
+      retryPhoto.hidden = true;
+    };
+    pending.onerror = () => {
+      if (request !== imageRevision) return;
+      dialog.dataset.imageState = "error";
+      figure.setAttribute("aria-busy", "false");
+      status.textContent = "照片暂未载入，请重试或切换其他照片。";
+      retryPhoto.hidden = false;
+    };
+    pending.src = p.dataset.src;
   }
+  retryPhoto.addEventListener("click", () => show(current));
   photos.forEach((p, i) =>
     p.addEventListener("click", () => {
       opener = p;
       show(i);
       dialog.showModal();
+      savedOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
     }),
   );
@@ -245,8 +382,9 @@ if (dialog) {
     }
   });
   dialog.addEventListener("close", () => {
-    document.body.style.overflow = "";
-    opener?.focus();
+    imageRevision++;
+    document.body.style.overflow = savedOverflow;
+    opener?.focus({ preventScroll: true });
   });
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) dialog.close();
@@ -261,11 +399,11 @@ if (diagrams.length) {
         securityLevel: "strict",
         theme: "base",
         themeVariables: {
-          primaryColor: "#e9ece2",
-          primaryTextColor: "#263e33",
-          primaryBorderColor: "#72856b",
-          lineColor: "#72856b",
-          fontFamily: "sans-serif",
+          primaryColor: "#eceaff",
+          primaryTextColor: "#17181b",
+          primaryBorderColor: "#3a2ee8",
+          lineColor: "#5f626a",
+          fontFamily: "Manrope, PingFang SC, sans-serif",
         },
         suppressErrorRendering: true,
       });
@@ -273,7 +411,7 @@ if (diagrams.length) {
         const pre = code.parentElement;
         try {
           const { svg } = await mermaid.render(
-            "garden-diagram-" + i,
+            "archive-diagram-" + i,
             code.textContent,
           );
           const wrap = document.createElement("div");
@@ -297,4 +435,58 @@ if (diagrams.length) {
       for (const code of diagrams)
         code.parentElement.setAttribute("aria-label", "图表源代码");
     });
+}
+// De-coding: headings resolve from mathematical symbols once, when they come into view.
+// Wide (CJK) characters swap with wide glyphs and narrow with narrow, so lines don't reflow.
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const wide = "数形场流构关系理解记录∴∵";
+  const narrow = "01∂∫∑∇λπ≈#/<>{}";
+  const pick = (pool) => pool[Math.floor(Math.random() * pool.length)];
+  const decode = (el) => {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode())
+      nodes.push([walker.currentNode, walker.currentNode.data]);
+    const total = nodes.reduce((n, [, s]) => n + s.length, 0);
+    if (!total) return;
+    el.setAttribute("aria-label", el.textContent.trim());
+    const duration = Math.min(900, 360 + total * 28);
+    const begin = performance.now();
+    const step = (now) => {
+      const p = Math.min(1, (now - begin) / duration);
+      let index = 0;
+      for (const [node, original] of nodes) {
+        let out = "";
+        for (const ch of original) {
+          const settled = index / total < p * 1.15 - 0.15;
+          out +=
+            settled || /\s/.test(ch)
+              ? ch
+              : pick(/[⺀-￿]/.test(ch) ? wide : narrow);
+          index++;
+        }
+        node.data = out;
+      }
+      if (p < 1) requestAnimationFrame(step);
+      else {
+        for (const [node, original] of nodes) node.data = original;
+        el.removeAttribute("aria-label");
+      }
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries)
+        if (e.isIntersecting) {
+          io.unobserve(e.target);
+          decode(e.target);
+        }
+    },
+    { threshold: 0.6 },
+  );
+  for (const el of document.querySelectorAll(
+    ".page-head h1, .block-head h2, .case-head h1, .about-head h1, .montage-title, .not-found h1",
+  ))
+    io.observe(el);
 }

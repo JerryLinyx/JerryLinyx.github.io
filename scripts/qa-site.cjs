@@ -40,10 +40,8 @@ const a11y = process.argv.includes("--a11y");
     "work/cuda-lenet/",
     "work/linux-kernel/",
     "work/aid3/",
-    "research/",
     "writing/",
     "life/",
-    "life/singapore/",
     "about/",
     "archive/",
     "archive/cv/",
@@ -78,7 +76,7 @@ const a11y = process.argv.includes("--a11y");
       );
       assert.equal(result.h1, 1, route);
       assert.deepEqual(result.broken, [], route);
-      if (route === "" || route === "life/" || route === "life/singapore/") {
+      if (route === "" || route === "life/") {
         await page.evaluate(async () => {
           for (const img of document.images) {
             img.loading = "eager";
@@ -90,7 +88,7 @@ const a11y = process.argv.includes("--a11y");
       }
       await page.screenshot({
         path: `output/playwright/archive/${route.replaceAll("/", "-") || "home"}-${width}.png`,
-        fullPage: route === "" || route === "work/" || route === "research/",
+        fullPage: route === "" || route === "work/",
       });
       if (a11y) {
         const r = await new AxeBuilder({ page })
@@ -113,7 +111,7 @@ const a11y = process.argv.includes("--a11y");
   if (!a11y) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(base, { waitUntil: "networkidle" });
-    const menu = page.getByRole("button", { name: "展开导航" });
+    const menu = page.getByRole("button", { name: "打开导航" });
     await menu.click();
     await page
       .getByRole("navigation", { name: "移动端导航" })
@@ -152,15 +150,15 @@ const a11y = process.argv.includes("--a11y");
     await page.waitForTimeout(180);
     assert.ok((await page.locator("[data-entry]:visible").count()) > 0);
     checks.push({ interaction: "Chinese full-text search", pass: true });
-    await page.goto(new URL("life/singapore/", base).href, {
+    await page.goto(new URL("life/", base).href, {
       waitUntil: "networkidle",
     });
     const opener = page.locator('[data-photo="0"]');
     await opener.click();
     assert.ok(await page.getByRole("dialog").isVisible());
-    await page.getByRole("button", { name: "下一张照片" }).click();
+    await page.getByRole("button", { name: "下一张" }).click();
     assert.match(
-      await page.locator("#lightbox-caption").textContent(),
+      await page.locator(".lightbox figcaption").textContent(),
       /克拉码头/,
     );
     await page.keyboard.press("Escape");
@@ -210,6 +208,9 @@ const a11y = process.argv.includes("--a11y");
     for (const [old, target] of [
       ["projects/fingoat/", "work/fingoat/"],
       ["resume/", "about/"],
+      ["research/", "about/#research"],
+      ["life/singapore/", "life/"],
+      ["plog/singapore-through-my-lens/", "life/"],
       ["notes/", "writing/?type=notes"],
       ["docs/notes/hpc/cuda/", "writing/notes/hpc/cuda/"],
       [

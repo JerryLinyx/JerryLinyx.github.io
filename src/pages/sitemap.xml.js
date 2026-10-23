@@ -1,18 +1,16 @@
 import { posts, legacy, archiveCanonical } from "../lib/content.mjs";
-import { projects, moreProjects } from "../data/portfolio.js";
+import { projects } from "../data/portfolio.js";
 export function GET() {
   const urls = [
     "/",
     "/work/",
-    "/research/",
     "/writing/",
     "/life/",
-    "/life/singapore/",
     "/about/",
     "/archive/",
     "/archive/cv/",
     ...posts.map((p) => p.url),
-    ...[...projects, ...moreProjects].map((p) => `/work/${p.slug}/`),
+    ...projects.map((p) => `/work/${p.slug}/`),
     ...legacy.articles
       .filter((p) => !archiveCanonical.has(p.archive))
       .map((p) => p.archive),

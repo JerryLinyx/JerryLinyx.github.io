@@ -43,7 +43,6 @@ export function getStaticPaths() {
     "/",
     "/archive/",
     "/work/",
-    "/research/",
     "/writing/",
     "/life/",
     "/about/",
@@ -80,25 +79,25 @@ const html = snapshot ? prepareHtml(snapshot.html).html : "";
     </head>
     <body>
       <p>
-        这篇内容已移到新的位置。<a href={to}>继续阅读 →</a>
+        这篇内容已移到新的位置。<a href={to}>前往新页面</a>
       </p>
     </body>
   </html>
 ) : (
   <Base title={`${snapshot.title} · 历史存档 · 林煜轩`}>
-    <article class="reader wrap">
-      <header class="reader-heading">
-        <a class="back-link" href="/archive/">
-          ← 旧日存档
+    <article class="wrap reader">
+      <header class="reader-head">
+        <a class="back" href="/archive/">
+          旧日存档
         </a>
-        <p class="eyebrow">
-          HISTORICAL EDITION / {snapshot.date || "EARLY WEB"}
-        </p>
         <h1>{snapshot.title}</h1>
+        <p class="reader-meta">
+          <span>历史版本{snapshot.date ? `，${snapshot.date}` : ""}</span>
+        </p>
         <p class="notice">
           这是历史版本，其中的信息和观点可能已经过时。
-          <a href="/writing/">阅读现行文章</a> ·{" "}
-          <a href="/about/">查看当前简介</a>
+          <a href="/writing/">阅读现行文章</a>，或
+          <a href="/about/">查看当前简介</a>。
         </p>
       </header>
       <div class="prose archive-prose" set:html={html} />

@@ -1,89 +1,87 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { photos, mediaSize } from "../../lib/content.mjs";
+// Text is the original photo log: plog/2025-07-10-Singapore/index.mdx.
 ---
 
-<Base title="生活 · 林煜轩" section="life">
-  <section class="page-heading wrap">
-    <p class="eyebrow">04 / OBSERVATIONS OUTSIDE THE MODEL</p>
-    <h1>
-      回到真实的<span>光线与时间。</span>
-    </h1>
-    <div class="heading-bottom">
-      <p>
-        带着眼睛出门，带着记忆回来。
+<Base
+  title="Singapore · Water & Light · 林煜轩"
+  description="Rain suspended mid-air, river lights refusing to sleep, and glass gardens humming after dark."
+  section="life"
+>
+  <header class="wrap page-head album-head">
+    <h1>Singapore · Water & Light</h1>
+    <div class="album-intro">
+      <p class="lead">
+        雨幕自穹顶倾泻，河水裹挟霓虹缓缓回旋。我循着湿润而鲜明的线索，徐行在这座城市。
         <br />
-        一些路过的城市，一些想留住的瞬间。
+        每一帧都维持原初的呼吸节奏，只轻轻调校色彩，将南洋的水汽同盛夏一并封存。
       </p>
-      <span class="mono">PERSONAL OBSERVATIONS / PHOTOGRAPHY</span>
+      <p class="album-meta">
+        Shot on Apple iPhone 16 Pro · 24&nbsp;mm f/1.78 & 120&nbsp;mm f/2.8
+        <br />
+        July&nbsp;8-10,&nbsp;2025 · Singapore, SG
+      </p>
     </div>
+  </header>
+  <section class="wrap gallery" aria-label="照片">
+    {photos.map((p, i) => (
+      <figure id={`photo-${i + 1}`} class:list={["shot", `shot-${i + 1}`]}>
+        <button
+          type="button"
+          data-photo={i}
+          data-src={p.url}
+          data-alt={p.alt}
+          data-caption={`${p.title} · ${p.english}${p.caption ? "。" + p.caption : ""}`}
+          aria-label={`放大查看：${p.title}`}
+        >
+          <img
+            src={p.url}
+            alt={p.alt}
+            {...mediaSize(p.url)}
+            loading={i < 2 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </button>
+        <figcaption>
+          <strong>{p.title}</strong> · {p.english}
+          {p.caption && <span>{p.caption}</span>}
+        </figcaption>
+      </figure>
+    ))}
   </section>
-  <section class="wrap life-feature">
-    <a class="life-feature-image" href="/life/singapore/">
-      <img
-        src="/media/singapore-8.webp"
-        width="1400"
-        height="900"
-        alt="夜色中新加坡滨海湾花园的超级树"
-        fetchpriority="high"
-      />
-      <span class="image-badge">进入影集 ↗</span>
-    </a>
-    <div class="life-feature-caption">
-      <div>
-        <p class="eyebrow">01 / CITY WALK / JULY 2025</p>
-        <h2>
-          <a href="/life/singapore/">新加坡，入夜之后。</a>
-        </h2>
-      </div>
-      <div>
-        <p>
-          从樟宜的雨漩涡，到滨海湾的灯光。
-          <br />
-          用九张照片，记住一座城市的呼吸。
-        </p>
-        <a href="/life/singapore/" class="text-link">
-          Singapore through my lens ↗
-        </a>
-      </div>
-    </div>
-  </section>
-  <section class="wrap life-pair">
-    <figure>
-      <img
-        src="/media/singapore-6.webp"
-        alt="新加坡牛车水的店屋长廊"
-        width="650"
-        height="850"
-        loading="lazy"
-      />
-      <figcaption>
-        <span class="mono">01 / CHINATOWN</span>
-        <span>街巷里的颜色</span>
-      </figcaption>
-    </figure>
-    <figure>
-      <img
-        src="/media/singapore-4.webp"
-        alt="克利福德码头夜间照明的柱廊"
-        width="650"
-        height="850"
-        loading="lazy"
-      />
-      <figcaption>
-        <span class="mono">02 / CLIFFORD PIER</span>
-        <span>夜晚的另一种秩序</span>
-      </figcaption>
-    </figure>
-  </section>
-  <div class="wrap life-quote">
-    <span class="eyebrow">NOTE TO SELF</span>
+  <section class="wrap album-end" aria-labelledby="behind">
+    <h2 id="behind">Behind the Frame</h2>
     <p>
-      偶尔离开熟悉的路径。
-      <br />
-      <em>有些答案，在路上。</em>
+      若你也想感受狮城的脉搏，可以从午后的克拉码头启程，沿着新加坡河走到滨海湾——流水和光影会替你规划好每一幕。
     </p>
-    <a href="/life/singapore/" class="round-link">
-      看完整影集 <span aria-hidden="true">↗</span>
-    </a>
-  </div>
+  </section>
+  <dialog class="lightbox" aria-label="照片查看器">
+    <figure>
+      <img src={photos[0].url} alt="" />
+      <figcaption></figcaption>
+    </figure>
+    <p
+      class="lightbox-status"
+      role="status"
+      aria-live="polite"
+      data-gallery-status
+      hidden
+    ></p>
+    <div class="lightbox-bar">
+      <span class="lightbox-count"></span>
+      <button type="button" class="link-button" data-gallery-retry hidden>
+        重试
+      </button>
+      <button type="button" class="lightbox-prev" aria-label="上一张">
+        ←
+      </button>
+      <button type="button" class="lightbox-next" aria-label="下一张">
+        →
+      </button>
+      <button type="button" class="lightbox-close">
+        关闭
+      </button>
+    </div>
+  </dialog>
 </Base>

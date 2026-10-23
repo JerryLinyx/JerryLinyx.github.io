@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { load } from "cheerio";
 const root = path.resolve("build");
 const base = process.env.SITE_BASE_URL || "/";
 async function walk(dir) {
@@ -29,6 +30,7 @@ for (const retired of ["Doc", "CV"]) {
 const htmlFiles = files.filter((f) => f.endsWith(".html"));
 const missing = new Set();
 let checked = 0;
+let reservedImages = 0;
 for (const file of htmlFiles) {
   const html = await fs.readFile(file, "utf8");
   if (
@@ -36,6 +38,23 @@ for (const file of htmlFiles) {
     html.includes('class="katex-error"')
   )
     missing.add("Invalid rendered formula: " + path.relative(root, file));
+  if (file.includes(path.sep + "writing" + path.sep)) {
+    const $ = load(html);
+    $(".prose img[src^='/']").each((_, image) => {
+      if (
+        Number($(image).attr("width")) > 0 &&
+        Number($(image).attr("height")) > 0
+      )
+        reservedImages++;
+      else
+        missing.add(
+          "Image missing reserved dimensions: " +
+            path.relative(root, file) +
+            " → " +
+            $(image).attr("src"),
+        );
+    });
+  }
   for (const match of html.matchAll(/(?:href|src)="([^"#?]+)[^\"]*"/g)) {
     const url = match[1].replaceAll("&amp;", "&");
     if (!url.startsWith(base) || url.startsWith("//")) continue;
@@ -61,18 +80,26 @@ for (const file of htmlFiles) {
 }
 const home = await fs.readFile(path.join(root, "index.html"), "utf8");
 for (const expected of [
-  "takes form",
+  "data-flow",
+  "data-montage",
   "/work/",
-  "/research/",
   "/writing/",
   "/life/",
+  "/about/",
+  "/about/#research",
 ]) {
   if (!home.includes(expected)) missing.add("Home missing " + expected);
+}
+// Folded routes must stay redirects, never pages of their own.
+for (const folded of ["research", "life/singapore"]) {
+  const html = await fs.readFile(path.join(root, folded, "index.html"), "utf8");
+  if (!html.includes('http-equiv="refresh"'))
+    missing.add("Folded route is not a redirect: /" + folded + "/");
 }
 if (missing.size) {
   console.error([...missing].join("\n"));
   process.exit(1);
 }
 console.log(
-  `Verified ${checked} internal links/assets across ${htmlFiles.length} rendered pages.`,
+  `Verified ${checked} internal links/assets across ${htmlFiles.length} rendered pages; ${reservedImages} local reading images reserve their dimensions.`,
 );

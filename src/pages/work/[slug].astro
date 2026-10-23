@@ -1,23 +1,16 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { projects, moreProjects } from "../../data/portfolio.js";
-import { oldRoutes } from "../../lib/content.mjs";
+import { projects } from "../../data/portfolio.js";
+import { oldRoutes, mediaSize } from "../../lib/content.mjs";
 export function getStaticPaths() {
-  return [...projects, ...moreProjects].map((p) => ({
+  return projects.map((p) => ({
     params: { slug: p.slug },
     props: { project: p },
   }));
 }
 const { project: p } = Astro.props;
-const all = [...projects, ...moreProjects];
-const next = all[(all.findIndex((x) => x.slug === p.slug) + 1) % all.length];
-const image = {
-  fingoat: "fingoat",
-  pacc: "pacc",
-  "probabilistic-imaging": "imaging",
-  "cuda-lenet": "cuda",
-  "linux-kernel": "os",
-}[p.slug];
+const index = projects.findIndex((x) => x.slug === p.slug);
+const next = projects[(index + 1) % projects.length];
 const related =
   oldRoutes.get(p.related.endsWith("/") ? p.related : p.related + "/") ||
   "/writing/";
@@ -28,89 +21,84 @@ const related =
   description={p.description}
   section="work"
 >
-  <article>
-    <header class="case-heading wrap">
-      <a class="back-link" href="/work/">
-        ← 所有作品
+  <article class="case">
+    <header class="wrap case-head">
+      <a class="back" href="/work/">
+        所有作品
       </a>
-      <p class="eyebrow">
-        {p.number} / {p.category} / {p.year}
-      </p>
       <h1>{p.title}</h1>
       <p class="case-subtitle">{p.subtitle}</p>
-      <div class="case-summary">
-        <p>{p.description}</p>
+      <dl class="case-meta">
         <div>
-          <a class="button" href={p.repo}>
-            查看源代码 <span aria-hidden="true">↗</span>
-          </a>
-          {p.paper && (
-            <a class="text-link" href={p.paper}>
-              阅读论文 ↗
-            </a>
-          )}
+          <dt>方向</dt>
+          <dd>{p.category}</dd>
         </div>
-      </div>
-      <div class="tags">
-        {p.tags.map((t) => (
-          <span>{t}</span>
-        ))}
-      </div>
+        <div>
+          <dt>时间</dt>
+          <dd>{p.year}</dd>
+        </div>
+        <div>
+          <dt>技术</dt>
+          <dd>{p.tags.join("、")}</dd>
+        </div>
+        <div>
+          <dt>链接</dt>
+          <dd class="case-links">
+            <a href={p.repo}>源代码 ↗</a>
+            {p.paper && <a href={p.paper}>论文 ↗</a>}
+          </dd>
+        </div>
+      </dl>
     </header>
-    {image && (
-      <figure class="case-image wrap">
-        <img
-          src={`/media/${image}.webp`}
-          alt={p.imageAlt || `${p.title} 项目示意图`}
-          loading="eager"
-        />
-        <figcaption class="mono">
-          PROJECT MATERIAL / {p.title.toUpperCase()}
-        </figcaption>
+    {p.image && (
+      <figure class="wrap case-figure">
+        <div class="plate">
+          <img
+            src={`/media/${p.image}.webp`}
+            alt={p.imageAlt}
+            {...mediaSize(`/media/${p.image}.webp`)}
+          />
+        </div>
+        <figcaption>{p.imageAlt}</figcaption>
       </figure>
     )}
-    <div class="case-body wrap">
-      <aside class="case-meta">
-        <p class="eyebrow">THE PROCESS</p>
-        <a href="#context">01 问题与背景</a>
-        <a href="#decisions">02 设计与实现</a>
-        <a href="#outcome">03 结果与反思</a>
-      </aside>
-      <div class="case-prose">
-        <section id="context">
-          <p class="eyebrow">01 / CONTEXT</p>
-          <h2>从什么问题出发？</h2>
-          <p>{p.context}</p>
-        </section>
-        <section id="decisions">
-          <p class="eyebrow">02 / DECISIONS</p>
-          <h2>关键设计与取舍。</h2>
-          {p.decisions.map(([title, text], i) => (
-            <div class="decision">
-              <span class="mono">0{i + 1}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </div>
+    <div class="wrap case-body">
+      <p class="case-summary">{p.description}</p>
+      <section>
+        <h2>问题</h2>
+        <p>{p.context}</p>
+      </section>
+      <section>
+        <h2>关键取舍</h2>
+        <dl class="decisions">
+          {p.decisions.map(([title, text]) => (
+            <div>
+              <dt>{title}</dt>
+              <dd>{text}</dd>
             </div>
           ))}
-        </section>
-        <section id="outcome">
-          <p class="eyebrow">03 / REFLECTION</p>
-          <h2>留下了什么。</h2>
-          <p>{p.outcome}</p>
-          <a class="text-link" href={related}>
-            相关学习手记 <span aria-hidden="true">↗</span>
-          </a>
-        </section>
-      </div>
+        </dl>
+      </section>
+      <section>
+        <h2>结果</h2>
+        {p.metric && (
+          <p class="metric">
+            <strong>{p.metric}</strong>
+            <span>{p.metricLabel}</span>
+          </p>
+        )}
+        <p>{p.outcome}</p>
+        <a class="inline-more" href={related}>
+          相关笔记
+        </a>
+      </section>
     </div>
-    <div class="next-project wrap">
-      <span class="eyebrow">NEXT PROJECT</span>
+    <nav class="wrap next" aria-label="下一个项目">
+      <span>下一个项目</span>
       <a href={`/work/${next.slug}/`}>
-        {next.title}
-        <span aria-hidden="true">↗</span>
+        <strong>{next.title}</strong>
+        <span>{next.subtitle}</span>
       </a>
-    </div>
+    </nav>
   </article>
 </Base>
