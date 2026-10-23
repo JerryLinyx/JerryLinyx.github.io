@@ -59,7 +59,7 @@ npm run deploy
 
 The publisher requires a clean, pushed source commit, builds and verifies the site, then fast-forwards the static `master` branch. It does not force-push, modify Pages settings or extract tokens. `master` retains both the previous deployment and source commit as parents. The existing root Pages publishing setup is preserved.
 
-`/archive/` unifies 17 original Hexo articles, their exact historical editions, the old CV and the populated legacy links page. `archive/source/hugo/` retains the local Hugo project content and configuration. Original Git histories are reachable in this same repository. Old `/Doc/`, `/CV/`, article and taxonomy URLs are served as redirects from the root site after the old project repositories are removed.
+`/archive/` unifies 17 original Hexo articles, their exact historical editions, the old CV and the populated legacy links page. `archive/source/hugo/` retains the local Hugo project content and configuration. Original Git histories are reachable in this same repository. The Doc and CV repositories are preserved per the latest user decision. Their former websites publish lightweight redirects to the new site; `/Doc/`, `/CV/`, article and taxonomy compatibility redirects also exist in the root deployment. Do not delete the old repositories.
 
 For another hostname at its root, set `SITE_BASE_URL=/` for the build and change `url` in `docusaurus.config.js`. Update the Person structured-data URL in `src/pages/index.js` if moving the canonical site. No hosting service credentials are stored in the project.
 

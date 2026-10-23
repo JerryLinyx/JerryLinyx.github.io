@@ -38,6 +38,6 @@ Date: 2026-10-23. Canonical website: https://jerrylinyx.github.io/.
 
 One repository contains maintained source on `codex/root-site` and generated root-domain output on `master`. The publisher uses a normal fast-forward Git push and records the source commit at `/site-version.json`. Its deployment commit retains both the preceding deployment and exact source commit as parents. No token is read or exported by the publisher.
 
-Root publication and repository retirement are external release steps, separately verified in the final handoff. Older `/Doc/` design reports describe the pre-consolidation phase; this document and `2026-10-23-root-migration.md` supersede their deployment recommendation.
+Root publication is live and verified over HTTPS. Source CI and root Pages deployment succeeded. The Doc and CV repositories are retained per the latest user decision; their replacement redirect deployments both succeeded. A deployment-transition chunk loading error during the initial live check did not recur in the full repeated check; all seven public route checks passed with zero browser errors. Older `/Doc/` design reports describe the pre-consolidation phase; this document and `2026-10-23-root-migration.md` supersede their deployment recommendation.
 
 Browser QA used headless Chrome, not a physical iOS device or Safari session. Automated accessibility checks are scoped to their named rules. Files under `output/playwright/` contain the detailed results and screenshots and are intentionally not committed.
