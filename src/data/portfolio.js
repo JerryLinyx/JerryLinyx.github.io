@@ -2,6 +2,7 @@ export const profile = {
   name: "Yuxuan Lin",
   chineseName: "林煜轩",
   handle: "JerryLinyx",
+  twitterHandle: "JerryLinyx",
   email: "yl6061@columbia.edu",
   github: "https://github.com/JerryLinyx",
   linkedin: "https://www.linkedin.com/in/yuxuan0/",

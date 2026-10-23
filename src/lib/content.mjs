@@ -20,6 +20,8 @@ legacy.extras = legacy.extras.map((e) => ({
   archive: e.archive || `/archive/pages/${e.key}/`,
 }));
 const noteMeta = await readJson("src/data/notes.json");
+export const curation = await readJson("content/curation.json");
+const supplements = await readJson("content/supplements.json");
 async function walk(dir) {
   return (
     await Promise.all(
@@ -31,17 +33,29 @@ async function walk(dir) {
 }
 const entries = [];
 for (const kind of ["notes", "articles"]) {
-  const dir = kind === "notes" ? "docs/notes" : "blog";
-  for (const file of (await walk(dir)).filter((p) => /\.mdx?$/.test(p))) {
-    const { data, content } = matter(await fs.readFile(file, "utf8"));
+  const dirs = kind === "notes" ? ["docs/notes", "content/notes"] : ["blog"];
+  const files = (await Promise.all(dirs.map(walk))).flat();
+  for (const file of files.filter((p) => /\.mdx?$/.test(p))) {
+    const dir = dirs.find((d) => file.startsWith(d + "/"));
+    if (curation.merges.some((m) => m.file === file)) continue;
+    const parsed = matter(await fs.readFile(file, "utf8"));
+    const data = parsed.data;
+    let content = parsed.content;
     if (data.draft === true) continue;
     const rel = path.relative(dir, file).replace(/\\/g, "/");
     const stem =
       kind === "notes"
-        ? rel.replace(/\.md$/, "")
+        ? data.slug?.replace(/^\/notes\//, "") || rel.replace(/\.md$/, "")
         : rel.split("/")[0].replace(/^\d{4}-\d{2}-\d{2}-/, "");
     const meta = noteMeta.find((n) => n.slug === stem);
     const slug = `${kind}/${data.slug && !data.slug.startsWith("/") ? data.slug : stem}`;
+    const supplement = supplements[slug];
+    const extra =
+      supplement?.links.filter((l) => !content.includes(l.url)) || [];
+    if (extra.length)
+      content +=
+        `\n\n## ${supplement.heading}\n\n` +
+        extra.map((l) => `- [${l.label}](${l.url})`).join("\n");
     const date =
       kind === "articles"
         ? String(
@@ -99,6 +113,7 @@ for (const kind of ["notes", "articles"]) {
       kind,
       title: String(data.title || stem),
       topic:
+        data.topic ||
         meta?.topic ||
         (Array.isArray(data.tags) ? data.tags[0] : data.category) ||
         "随笔",
@@ -145,6 +160,26 @@ for (const [from, to] of [
   ["/posts/dpi/", "/writing/notes/algo/dpi/"],
 ])
   oldRoutes.set(from, to);
+for (const merge of curation.merges) {
+  const target = posts.find((p) => p.slug === merge.target);
+  if (!target) throw new Error(`Missing consolidated entry: ${merge.target}`);
+  oldRoutes.set(`/writing/${merge.source}/`, target.url);
+  if (merge.source.startsWith("notes/"))
+    oldRoutes.set(`/docs/${merge.source}/`, target.url);
+  for (const a of legacy.articles.filter(
+    (a) => a.currentSource === merge.file,
+  )) {
+    oldRoutes.set(a.canonical, target.url);
+    oldRoutes.set(a.oldPath, target.url);
+  }
+}
+for (const name of ["Go", "Gin", "Auth", "DB", "Redis"])
+  oldRoutes.set(
+    `/docs/WebDev/${name}/`,
+    "/writing/notes/engineering/go-web-resources/",
+  );
+oldRoutes.set("/docs/WebDev/FinGoat/", "/work/fingoat/");
+oldRoutes.set("/docs/cpp/", "/writing/notes/leetcode/C++语法/");
 const slash = (s) => (s.endsWith("/") ? s : s + "/");
 export function localLink(url, file) {
   if (!url || /^(https?:|mailto:|tel:|data:|#|\/\/)/.test(url)) return url;
@@ -322,7 +357,8 @@ export function prepareHtml(html, file = "") {
   return { html: $.html(), headings };
 }
 export function researchPost(slug) {
-  return posts.find((p) => p.slug === `notes/${slug}`);
+  const merged = curation.merges.find((m) => m.source === `notes/${slug}`);
+  return posts.find((p) => p.slug === (merged?.target || `notes/${slug}`));
 }
 export const photos = [
   [
@@ -351,3 +387,16 @@ export const photos = [
   caption,
   url: `/media/singapore-${index}.webp`,
 }));
+
+// Identical historical editions share the canonical body rather than duplicating it.
+export const archiveCanonical = new Map();
+for (const a of legacy.articles) {
+  const p = posts.find((p) => p.file === a.currentSource);
+  if (!p) continue;
+  let source = p.legacyHtml;
+  if (p.file.endsWith(".mdx"))
+    source = (await readJson(path.join(path.dirname(p.file), "content.json")))
+      .html;
+  if (source && source.trim() === a.html.trim())
+    archiveCanonical.set(a.archive, p.url);
+}

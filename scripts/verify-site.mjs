@@ -61,7 +61,7 @@ for (const file of htmlFiles) {
 }
 const home = await fs.readFile(path.join(root, "index.html"), "utf8");
 for (const expected of [
-  "把好奇心",
+  "和沿途的事",
   "/work/",
   "/research/",
   "/writing/",

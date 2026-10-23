@@ -1,0 +1,44 @@
+{
+  "notes/leetcode/C++语法": {
+    "heading": "补充参考",
+    "links": [
+      {
+        "label": "C++基础-map与unordered_map",
+        "url": "https://zhuanlan.zhihu.com/p/48066839"
+      },
+      {
+        "label": "C++中push_back和emplace_back的区别",
+        "url": "https://zhuanlan.zhihu.com/p/213853588"
+      },
+      {
+        "label": "【C++】万能头文件 ＜bits/stdc++.h＞ 的用法和优缺点",
+        "url": "https://blog.csdn.net/Sunnyside_/article/details/118190897"
+      },
+      {
+        "label": "`<bits/stdc++.h>` in C++",
+        "url": "https://www.geeksforgeeks.org/bitsstdc-h-c/"
+      },
+      {
+        "label": "C++中getline()的用法",
+        "url": "https://blog.csdn.net/weixin_44480968/article/details/104282535"
+      },
+      {
+        "label": "【数据结构】02.C++ ACM模式总结",
+        "url": "https://www.nowcoder.com/discuss/476652382114357248?sourceSSR=search"
+      }
+    ]
+  },
+  "notes/hpc/cuda": {
+    "heading": "编程入门参考",
+    "links": [
+      {
+        "label": "CUDA-Programming-Guide-in-Chinese",
+        "url": "https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese/tree/main"
+      },
+      {
+        "label": "CUDA编程入门极简教程",
+        "url": "https://zhuanlan.zhihu.com/p/34587739"
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { legacy, oldRoutes } from "../../lib/content.mjs";
+import { legacy, oldRoutes, archiveCanonical } from "../../lib/content.mjs";
 ---
 
 <Base title="旧日存档 · 林煜轩">
@@ -13,9 +13,9 @@ import { legacy, oldRoutes } from "../../lib/content.mjs";
       <p>
         网站会变，来路不必消失。
         <br />
-        这里保留早期博客的原始版本，以及过去的个人介绍。
+        这里保留早期博客记录和过去的个人介绍；相同正文合并到同一处。
       </p>
-      <span class="mono">17 ORIGINAL EDITIONS / 2024</span>
+      <span class="mono">17 HISTORICAL RECORDS / 2024</span>
     </div>
   </section>
   <section class="wrap archive-list">
@@ -37,12 +37,16 @@ import { legacy, oldRoutes } from "../../lib/content.mjs";
           {a.title}
           <span aria-hidden="true">↗</span>
         </a>
-        <a
-          class="archive-current"
-          href={oldRoutes.get(a.canonical) || a.canonical}
-        >
-          现行版本
-        </a>
+        {archiveCanonical.has(a.archive) ? (
+          <span class="archive-current">共用正文</span>
+        ) : (
+          <a
+            class="archive-current"
+            href={oldRoutes.get(a.canonical) || a.canonical}
+          >
+            现行版本
+          </a>
+        )}
       </div>
     ))}
     {legacy.extras.map((a) => (

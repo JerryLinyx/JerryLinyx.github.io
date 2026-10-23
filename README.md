@@ -34,13 +34,13 @@ npm run qa:a11y
 
 | Section | Route | Content |
 | --- | --- | --- |
-| Garden | `/` | Four equal interest areas and a custom linked garden map |
+| Garden | `/` | Sparse personal cover, four equal section links and an editorial content index |
 | Work | `/work/` | Six projects with complete case studies |
 | Research | `/research/` | ISBI publication, research project and connected learning trails |
-| Writing | `/writing/` | 18 articles and 25 notes, full-text search, topic/type filters, shareable queries |
+| Writing | `/writing/` | 17 articles and 25 notes/resources, full-text search, topic/type filters, shareable queries |
 | Life | `/life/` | Personal photo journal and Singapore gallery |
 | About | `/about/` | Biography, education, experience, tools and printable profile |
-| Archive | `/archive/` | 17 original Hexo editions, historical CV and old links |
+| Archive | `/archive/` | 17 historical records (10 shared canonical bodies, seven distinct editions), historical CV and old links |
 
 RSS: `/feed.xml`. Sitemap: `/sitemap.xml`. No external analytics or runtime font requests.
 
@@ -50,10 +50,14 @@ RSS: `/feed.xml`. Sitemap: `/sitemap.xml`. No external analytics or runtime font
 - `src/layouts/Base.astro`: global document, navigation and footer.
 - `src/styles/garden.css`: design tokens, complete responsive layouts, print and reduced-motion styles.
 - `src/scripts/garden.js`: native browser interactions.
-- `src/components/GardenMap.astro`: original SVG navigation artwork.
+- `src/styles/zine.css`: paper/ink/cobalt visual system, restrained poster-scale cover and section layouts.
 - `src/data/portfolio.js`: verified project, experience and profile information.
 - `src/lib/content.mjs`: Markdown, KaTeX, highlighting, old-content mapping and historical HTML rendering.
-- `docs/notes/`: 25 imported Obsidian public notes. The eight excluded outlines remain unpublished.
+- `docs/notes/`: authorized imported Obsidian notes; duplicate Flow Matching is consolidated into the dated article. The eight excluded outlines remain unpublished.
+- `content/notes/`: curated cross-source notes, including the consolidated Go Web resource index.
+- `content/curation.json` and `content/supplements.json`: canonical merge decisions and unique references retained across future Obsidian syncs.
+- `content/asset-merges.json`: exact-byte media consolidation provenance.
+- `docs/inventory/`: human-readable asset plan, canonical entries and a snapshot of 40 public repositories.
 - `blog/`: authored article sources. Explicit drafts are excluded. Previously published articles whose current Markdown is mostly commented out use the preserved original HTML so their reading pages remain complete.
 - `plog/`: original photography and captions, preserved as source material.
 - `src/data/legacy.json`: preserved original HTML editions and historical CV.
@@ -61,7 +65,7 @@ RSS: `/feed.xml`. Sitemap: `/sitemap.xml`. No external analytics or runtime font
 - `scripts/verify-site.mjs`: rendered link/assets, homepage and retired-prefix checks.
 - `scripts/qa-garden.cjs`: viewport, content, interactions, redirects and axe verification.
 
-`static/content/` and `static/media/` are generated and ignored; the source material is tracked. Other original public assets remain available for historical links. Article source is not rewritten by the build.
+`static/content/` and `static/media/` are generated and ignored; the source material is tracked. Exact duplicate media copies have been removed after rewriting retained references to the canonical source. Article source is not rewritten by the build.
 
 To resync the authorized Obsidian Public folder:
 
@@ -85,3 +89,11 @@ The publisher requires a clean, pushed source commit, builds and verifies the si
 **Doc and CV repositories must remain intact, and their websites must remain unpublished.** Both Pages sources were set to `None`; `/Doc/` and `/CV/` have no redirects and must return HTTP 404. Build verification rejects either prefix. Former root content routes (`/notes/`, `/blog/…`, `/docs/notes/…`, `/projects/…`, `/resume/`) map to the new corresponding routes. Date-based Hexo links and `/archive/…` originals are preserved.
 
 Full previous root, Doc and CV Git histories remain reachable through consolidation commit `cc2311cb262602eb23faabbb6bc71d747154ac0f`. Local full mirrors are retained under ignored `.migration/backups/`. Earlier design/deployment reports document previous versions; the current design and acceptance review are in `docs/plans/2026-10-23-digital-garden.md` and `docs/plans/2026-10-23-garden-quality-review.md`.
+
+## Asset curation and zine direction
+
+Run `npm run inventory` to regenerate the repository asset report. `npm run verify:site` also enforces unique published bodies, merged aliases and media provenance. Ten repeated/source-stub documents are consolidated; 55 exact media copies (42.02 MiB of file copies) and nine editor-state files are removed. Two duplicate old-framework author records now share `src/data/portfolio.js`. Git history remains intact.
+
+Presentation: one canonical entry per subject, equal work/research/writing/life navigation, quiet related-reading paths, secondary about/archive. The website interprets the paper surface, sparse visual focus and single accent from [GC Minimal Zine Poster](https://github.com/LiamGvchi/gc-minimal-zine-poster); reference images or exact compositions are not copied. Real photography and scientific figures remain original source material.
+
+Current plans: `docs/plans/2026-10-23-zine-curation.md`, `docs/inventory/2026-10-23-assets.md`, and `docs/plans/2026-10-23-zine-quality-review.md`. Earlier garden reports describe superseded art direction and content counts.

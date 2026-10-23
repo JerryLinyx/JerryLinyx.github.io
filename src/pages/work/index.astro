@@ -2,55 +2,48 @@
 import Base from "../../layouts/Base.astro";
 import { projects, moreProjects } from "../../data/portfolio.js";
 const all = [...projects, ...moreProjects];
-const themes = ["green", "orange", "purple", "ochre", "blue", "rose"];
+const images = {
+  fingoat: "fingoat",
+  pacc: "pacc",
+  "probabilistic-imaging": "imaging",
+  "cuda-lenet": "cuda",
+  "linux-kernel": "os",
+};
 ---
 
 <Base title="作品 · 林煜轩" section="work">
   <section class="page-heading wrap">
-    <p class="eyebrow">01 / MAKE SOMETHING REAL</p>
+    <p class="eyebrow">01 / SELECTED WORK / 2024—2026</p>
     <h1>
-      想法的<span>另一种形状。</span>
+      一些想法，<span>有了具体的形状。</span>
     </h1>
     <div class="heading-bottom">
       <p>
         从 AI 应用到系统底层。
         <br />
-        在真实的约束里设计、构建、验证。
+        六个项目，记录问题、取舍与结果。
       </p>
-      <span class="mono">06 PROJECTS / 2024—2026</span>
+      <span class="mono">ENGINEERING / RESEARCH / TOOLS</span>
     </div>
   </section>
   <section class="wrap project-grid" aria-label="全部作品">
-    {all.map((p, i) => (
-      <a href={`/work/${p.slug}/`} class:list={["project-card", themes[i]]}>
+    {all.map((p) => (
+      <a href={`/work/${p.slug}/`} class="project-card">
         <div class="project-cover">
           <span class="mono">
             {p.number} / {p.category}
           </span>
-          {i === 0 ? (
-            <div class="cover-graph">
-              <span>DATA</span>
-              <i>↗</i>
-              <span>AGENTS</span>
-              <i>↗</i>
-              <span>INSIGHT</span>
-            </div>
-          ) : i === 1 ? (
-            <div class="cover-bars">
-              {[44, 82, 58, 100, 66, 38, 76, 52].map((n) => (
-                <i style={`height:${n}%`}></i>
-              ))}
-            </div>
-          ) : i === 2 ? (
-            <div class="cover-orbits">
-              <i></i>
-              <i></i>
-              <i></i>
-              <span>p(x | y)</span>
-            </div>
+          {images[p.slug] ? (
+            <img
+              src={`/media/${images[p.slug]}.webp`}
+              alt={`${p.title} 的真实项目图示`}
+              width="500"
+              height="240"
+              loading="lazy"
+            />
           ) : (
-            <div class="cover-type">
-              {i === 3 ? "__global__" : i === 4 ? "0x0000" : "3D ↗"}
+            <div class="type-specimen" aria-hidden="true">
+              text → shape
             </div>
           )}
           <span class="cover-bottom mono">

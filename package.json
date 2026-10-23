@@ -7,11 +7,12 @@
     "build": "node scripts/prepare-garden.mjs && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "serve": "node scripts/serve.mjs",
     "deploy": "node scripts/publish-site.mjs",
-    "verify:site": "node scripts/verify-site.mjs",
+    "verify:site": "node scripts/verify-site.mjs && node scripts/verify-curation.mjs",
     "sync:notes": "node scripts/sync-notes.mjs",
     "qa:browser": "node scripts/qa-garden.cjs",
     "qa:a11y": "node scripts/qa-garden.cjs --a11y",
-    "format": "prettier --write src scripts astro.config.mjs"
+    "format": "prettier --write src scripts astro.config.mjs",
+    "inventory": "node scripts/inventory-assets.mjs"
   },
   "dependencies": {
     "astro": "^7.4.2",

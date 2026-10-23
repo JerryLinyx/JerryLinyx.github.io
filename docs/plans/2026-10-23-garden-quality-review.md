@@ -1,3 +1,5 @@
+> Historical garden-map phase. The current minimal-zine style and curation review are documented in [zine review](2026-10-23-zine-quality-review.md). Content counts and art direction below describe the earlier version.
+
 # Digital garden acceptance review
 
 Date: 2026-10-23. Target: https://jerrylinyx.github.io/.

@@ -1,0 +1,32 @@
+{
+  "merges": [
+    {
+      "source": "notes/algo/flow-matching",
+      "file": "docs/notes/algo/flow-matching.md",
+      "target": "articles/road-to-flow-matching",
+      "reason": "正文完全一致；保留有原始发布日期的文章作为唯一正文。"
+    },
+    {
+      "source": "articles/cuda",
+      "file": "blog/2024-05-09-cuda/index.md",
+      "target": "notes/hpc/cuda",
+      "reason": "早期页面只有资料链接；独有链接合并到完整 CUDA 笔记，原版配图留在历史记录。"
+    }
+  ],
+  "sourceMerges": [
+    {
+      "file": "docs/cpp.md",
+      "target": "docs/notes/leetcode/C++语法.md",
+      "reason": "实质内容重合；补齐独有参考链接，统一到 C++ 语法。"
+    },
+    {
+      "file": "docs/DeepLearning/nn.md",
+      "targets": [
+        "docs/notes/training/deep-learning.md",
+        "docs/notes/algo/transformer.md",
+        "docs/notes/algo/text2image.md"
+      ],
+      "reason": "所有实质文本已分布于三篇主题笔记；不再保留混合主题副本。"
+    }
+  ]
+}

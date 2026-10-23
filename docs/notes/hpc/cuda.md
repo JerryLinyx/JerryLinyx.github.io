@@ -544,3 +544,9 @@ Wen-mei Hwu, David Kirk and Izzat El Hajj, “Programming Massively Parallel Pro
 - https://github.com/karpathy/llm.c
 - [有没有一本讲解gpu和CUDA编程的经典入门书籍？ - JerryYin777的回答 - 知乎](https://www.zhihu.com/question/26570985/answer/3465784970)
 - [reed - 知乎](https://www.zhihu.com/people/reed-84-49)
+
+
+## 编程入门参考
+
+- [CUDA-Programming-Guide-in-Chinese](https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese/tree/main)
+- [CUDA编程入门极简教程](https://zhuanlan.zhihu.com/p/34587739)

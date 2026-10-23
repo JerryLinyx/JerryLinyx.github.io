@@ -1,0 +1,246 @@
+{
+  "capturedAt": "2026-10-23",
+  "scope": "Public repository metadata only; not a claim of sole authorship.",
+  "repositories": [
+    {
+      "name": "CS225",
+      "url": "https://github.com/JerryLinyx/CS225",
+      "archived": false,
+      "sizeKB": 628791
+    },
+    {
+      "name": "FinGOAT",
+      "url": "https://github.com/JerryLinyx/FinGOAT",
+      "archived": false,
+      "sizeKB": 19026
+    },
+    {
+      "name": "DeepMed-Imaging-Reconstruction",
+      "url": "https://github.com/JerryLinyx/DeepMed-Imaging-Reconstruction",
+      "archived": false,
+      "sizeKB": 801545
+    },
+    {
+      "name": "DeepAccident",
+      "url": "https://github.com/JerryLinyx/DeepAccident",
+      "archived": false,
+      "sizeKB": 10972
+    },
+    {
+      "name": "JerryLinyx",
+      "url": "https://github.com/JerryLinyx/JerryLinyx",
+      "archived": false,
+      "sizeKB": 49
+    },
+    {
+      "name": "muce",
+      "url": "https://github.com/JerryLinyx/muce",
+      "archived": false,
+      "sizeKB": 615
+    },
+    {
+      "name": "AID3-Blender-Plugin",
+      "url": "https://github.com/JerryLinyx/AID3-Blender-Plugin",
+      "archived": false,
+      "sizeKB": 9
+    },
+    {
+      "name": "ECE385",
+      "url": "https://github.com/JerryLinyx/ECE385",
+      "archived": false,
+      "sizeKB": 13
+    },
+    {
+      "name": "CV",
+      "url": "https://github.com/JerryLinyx/CV",
+      "archived": false,
+      "sizeKB": 129142
+    },
+    {
+      "name": "Flow-Based-PET-Reconstruction",
+      "url": "https://github.com/JerryLinyx/Flow-Based-PET-Reconstruction",
+      "archived": false,
+      "sizeKB": 431843
+    },
+    {
+      "name": "ECE220",
+      "url": "https://github.com/JerryLinyx/ECE220",
+      "archived": false,
+      "sizeKB": 3179
+    },
+    {
+      "name": "imeanflow",
+      "url": "https://github.com/JerryLinyx/imeanflow",
+      "archived": false,
+      "sizeKB": 244
+    },
+    {
+      "name": "GoalFlow",
+      "url": "https://github.com/JerryLinyx/GoalFlow",
+      "archived": false,
+      "sizeKB": 323434
+    },
+    {
+      "name": "seedots",
+      "url": "https://github.com/JerryLinyx/seedots",
+      "archived": false,
+      "sizeKB": 1195
+    },
+    {
+      "name": "MeanFlow",
+      "url": "https://github.com/JerryLinyx/MeanFlow",
+      "archived": false,
+      "sizeKB": 31529
+    },
+    {
+      "name": "ai-algorithms-and-systems",
+      "url": "https://github.com/JerryLinyx/ai-algorithms-and-systems",
+      "archived": false,
+      "sizeKB": 37887
+    },
+    {
+      "name": "2020-Coding-Challenge",
+      "url": "https://github.com/JerryLinyx/2020-Coding-Challenge",
+      "archived": false,
+      "sizeKB": 0
+    },
+    {
+      "name": "Robotics-ECE470",
+      "url": "https://github.com/JerryLinyx/Robotics-ECE470",
+      "archived": false,
+      "sizeKB": 28883
+    },
+    {
+      "name": "PanopticBEV",
+      "url": "https://github.com/JerryLinyx/PanopticBEV",
+      "archived": false,
+      "sizeKB": 667
+    },
+    {
+      "name": "PACC",
+      "url": "https://github.com/JerryLinyx/PACC",
+      "archived": false,
+      "sizeKB": 132714
+    },
+    {
+      "name": "COMS4732-ComputerVisionII",
+      "url": "https://github.com/JerryLinyx/COMS4732-ComputerVisionII",
+      "archived": false,
+      "sizeKB": 1037557
+    },
+    {
+      "name": "CriticalSceneGen",
+      "url": "https://github.com/JerryLinyx/CriticalSceneGen",
+      "archived": false,
+      "sizeKB": 8260
+    },
+    {
+      "name": "docs",
+      "url": "https://github.com/JerryLinyx/docs",
+      "archived": false,
+      "sizeKB": 37823
+    },
+    {
+      "name": "EdgeSimPy",
+      "url": "https://github.com/JerryLinyx/EdgeSimPy",
+      "archived": false,
+      "sizeKB": 7581
+    },
+    {
+      "name": "JerryLinyx.github.io",
+      "url": "https://github.com/JerryLinyx/JerryLinyx.github.io",
+      "archived": false,
+      "sizeKB": 28950
+    },
+    {
+      "name": "teldrive",
+      "url": "https://github.com/JerryLinyx/teldrive",
+      "archived": false,
+      "sizeKB": 6003
+    },
+    {
+      "name": "kaida",
+      "url": "https://github.com/JerryLinyx/kaida",
+      "archived": false,
+      "sizeKB": 2659
+    },
+    {
+      "name": "ml-starflow",
+      "url": "https://github.com/JerryLinyx/ml-starflow",
+      "archived": false,
+      "sizeKB": 4038
+    },
+    {
+      "name": "Doc",
+      "url": "https://github.com/JerryLinyx/Doc",
+      "archived": false,
+      "sizeKB": 56678
+    },
+    {
+      "name": "CS440-ECE448",
+      "url": "https://github.com/JerryLinyx/CS440-ECE448",
+      "archived": false,
+      "sizeKB": 123469
+    },
+    {
+      "name": "The-Fitness-Coach",
+      "url": "https://github.com/JerryLinyx/The-Fitness-Coach",
+      "archived": false,
+      "sizeKB": 81890
+    },
+    {
+      "name": "ml-tarflow",
+      "url": "https://github.com/JerryLinyx/ml-tarflow",
+      "archived": false,
+      "sizeKB": 1293
+    },
+    {
+      "name": "COMS4119-ComputerNetworks",
+      "url": "https://github.com/JerryLinyx/COMS4119-ComputerNetworks",
+      "archived": false,
+      "sizeKB": 24069
+    },
+    {
+      "name": "cross-view",
+      "url": "https://github.com/JerryLinyx/cross-view",
+      "archived": false,
+      "sizeKB": 953
+    },
+    {
+      "name": "CS415",
+      "url": "https://github.com/JerryLinyx/CS415",
+      "archived": false,
+      "sizeKB": 1728950
+    },
+    {
+      "name": "CS411",
+      "url": "https://github.com/JerryLinyx/CS411",
+      "archived": false,
+      "sizeKB": 6382
+    },
+    {
+      "name": "Gote",
+      "url": "https://github.com/JerryLinyx/Gote",
+      "archived": false,
+      "sizeKB": 1416
+    },
+    {
+      "name": "Linux-OS-Kernel-ECE391",
+      "url": "https://github.com/JerryLinyx/Linux-OS-Kernel-ECE391",
+      "archived": false,
+      "sizeKB": 1857
+    },
+    {
+      "name": "py-meanflow",
+      "url": "https://github.com/JerryLinyx/py-meanflow",
+      "archived": false,
+      "sizeKB": 2800
+    },
+    {
+      "name": "LeNet-CUDA-ECE408",
+      "url": "https://github.com/JerryLinyx/LeNet-CUDA-ECE408",
+      "archived": false,
+      "sizeKB": 22254
+    }
+  ]
+}

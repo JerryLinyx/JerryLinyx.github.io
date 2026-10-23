@@ -1,12 +1,19 @@
 ---
 import Base from "../layouts/Base.astro";
-import { legacy, oldRoutes, prepareHtml } from "../lib/content.mjs";
+import {
+  legacy,
+  oldRoutes,
+  prepareHtml,
+  archiveCanonical,
+} from "../lib/content.mjs";
 import redirects from "../../scripts/legacy-redirects.json";
 import "katex/dist/katex.min.css";
 export function getStaticPaths() {
   const snapshots = [...legacy.articles, ...legacy.extras].map((a) => ({
     params: { legacy: a.archive.replace(/^\//, "").replace(/\/$/, "") },
-    props: { snapshot: a },
+    props: archiveCanonical.has(a.archive)
+      ? { to: archiveCanonical.get(a.archive) }
+      : { snapshot: a },
   }));
   snapshots.push({
     params: { legacy: "archive/cv" },

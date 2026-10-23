@@ -1,0 +1,414 @@
+{
+  "removedSources": [
+    "docs/notes/algo/flow-matching.md",
+    "blog/2024-05-09-cuda/index.md",
+    "docs/cpp.md",
+    "docs/DeepLearning/nn.md",
+    "docs/WebDev/Go.md",
+    "docs/WebDev/Gin.md",
+    "docs/WebDev/Auth.md",
+    "docs/WebDev/DB.md",
+    "docs/WebDev/Redis.md",
+    "docs/WebDev/FinGoat.md"
+  ],
+  "removedEditorMetadata": [
+    "docs/.obsidian/app.json",
+    "docs/.obsidian/appearance.json",
+    "docs/.obsidian/core-plugins.json",
+    "docs/.obsidian/workspace.json",
+    "docs/docs/.obsidian/app.json",
+    "docs/docs/.obsidian/appearance.json",
+    "docs/docs/.obsidian/core-plugins.json",
+    "docs/docs/.obsidian/graph.json",
+    "docs/docs/.obsidian/workspace.json"
+  ],
+  "media": [
+    {
+      "from": "/legacy-assets/733859d4caceeb.png",
+      "to": "/content/blog/2024-04-18-duolingo/Duolingo.png",
+      "keeper": "blog/2024-04-18-duolingo/Duolingo.png",
+      "removed": "static/legacy-assets/733859d4caceeb.png",
+      "bytes": 1422082
+    },
+    {
+      "from": "/legacy-assets/f8a0ffa4c8389d.png",
+      "to": "/content/blog/2024-04-18-toefl/ADTemplate.png",
+      "keeper": "blog/2024-04-18-toefl/ADTemplate.png",
+      "removed": "static/legacy-assets/f8a0ffa4c8389d.png",
+      "bytes": 2592666
+    },
+    {
+      "from": "/legacy-assets/d8d0b66885b785.png",
+      "to": "/content/blog/2024-04-18-toefl/ADTemplate1.png",
+      "keeper": "blog/2024-04-18-toefl/ADTemplate1.png",
+      "removed": "static/legacy-assets/d8d0b66885b785.png",
+      "bytes": 657574
+    },
+    {
+      "from": "/legacy-assets/006c4399e93e1b.png",
+      "to": "/content/blog/2024-04-18-toefl/ADTemplate2.png",
+      "keeper": "blog/2024-04-18-toefl/ADTemplate2.png",
+      "removed": "static/legacy-assets/006c4399e93e1b.png",
+      "bytes": 530214
+    },
+    {
+      "from": "/legacy-assets/223ee70e7c448c.png",
+      "to": "/content/blog/2024-04-18-toefl/ADTemplate3.png",
+      "keeper": "blog/2024-04-18-toefl/ADTemplate3.png",
+      "removed": "static/legacy-assets/223ee70e7c448c.png",
+      "bytes": 291955
+    },
+    {
+      "from": "/legacy-assets/dd87a17d09fc7c.png",
+      "to": "/content/blog/2024-04-18-toefl/ADTemplate4.png",
+      "keeper": "blog/2024-04-18-toefl/ADTemplate4.png",
+      "removed": "static/legacy-assets/dd87a17d09fc7c.png",
+      "bytes": 357329
+    },
+    {
+      "from": "/legacy-assets/15611f3d9fd6bc.png",
+      "to": "/content/blog/2024-04-18-toefl/ADTopics.png",
+      "keeper": "blog/2024-04-18-toefl/ADTopics.png",
+      "removed": "static/legacy-assets/15611f3d9fd6bc.png",
+      "bytes": 369899
+    },
+    {
+      "from": "/legacy-assets/3e7cd0e7d00019.png",
+      "to": "/content/blog/2024-04-18-toefl/ADstructure.png",
+      "keeper": "blog/2024-04-18-toefl/ADstructure.png",
+      "removed": "static/legacy-assets/3e7cd0e7d00019.png",
+      "bytes": 2752759
+    },
+    {
+      "from": "/legacy-assets/6880591431acc7.png",
+      "to": "/content/blog/2024-04-18-toefl/AcademicDiscussion0.png",
+      "keeper": "blog/2024-04-18-toefl/AcademicDiscussion0.png",
+      "removed": "static/legacy-assets/6880591431acc7.png",
+      "bytes": 76183
+    },
+    {
+      "from": "/legacy-assets/a956489ec1313d.png",
+      "to": "/content/blog/2024-04-18-toefl/IndependentReasoning.png",
+      "keeper": "blog/2024-04-18-toefl/IndependentReasoning.png",
+      "removed": "static/legacy-assets/a956489ec1313d.png",
+      "bytes": 3087386
+    },
+    {
+      "from": "/legacy-assets/0302619c4e5785.png",
+      "to": "/content/blog/2024-04-18-toefl/Untitled.png",
+      "keeper": "blog/2024-04-18-toefl/Untitled.png",
+      "removed": "static/legacy-assets/0302619c4e5785.png",
+      "bytes": 3353597
+    },
+    {
+      "from": "/legacy-assets/9b4b37e1a82197.png",
+      "to": "/content/blog/2024-04-18-toefl/eg1.png",
+      "keeper": "blog/2024-04-18-toefl/eg1.png",
+      "removed": "static/legacy-assets/9b4b37e1a82197.png",
+      "bytes": 502749
+    },
+    {
+      "from": "/legacy-assets/818358afa78588.png",
+      "to": "/content/blog/2024-04-18-toefl/eg10.png",
+      "keeper": "blog/2024-04-18-toefl/eg10.png",
+      "removed": "static/legacy-assets/818358afa78588.png",
+      "bytes": 569428
+    },
+    {
+      "from": "/legacy-assets/e7365ec5c67cd0.png",
+      "to": "/content/blog/2024-04-18-toefl/eg11.png",
+      "keeper": "blog/2024-04-18-toefl/eg11.png",
+      "removed": "static/legacy-assets/e7365ec5c67cd0.png",
+      "bytes": 569428
+    },
+    {
+      "from": "/legacy-assets/8c2c7e2ba3b149.png",
+      "to": "/content/blog/2024-04-18-toefl/eg12.png",
+      "keeper": "blog/2024-04-18-toefl/eg12.png",
+      "removed": "static/legacy-assets/8c2c7e2ba3b149.png",
+      "bytes": 625853
+    },
+    {
+      "from": "/legacy-assets/584045dab00800.png",
+      "to": "/content/blog/2024-04-18-toefl/eg13.png",
+      "keeper": "blog/2024-04-18-toefl/eg13.png",
+      "removed": "static/legacy-assets/584045dab00800.png",
+      "bytes": 795111
+    },
+    {
+      "from": "/legacy-assets/0afb2621ca31ae.png",
+      "to": "/content/blog/2024-04-18-toefl/eg14.png",
+      "keeper": "blog/2024-04-18-toefl/eg14.png",
+      "removed": "static/legacy-assets/0afb2621ca31ae.png",
+      "bytes": 784852
+    },
+    {
+      "from": "/legacy-assets/b1d85e33a47362.png",
+      "to": "/content/blog/2024-04-18-toefl/eg2.png",
+      "keeper": "blog/2024-04-18-toefl/eg2.png",
+      "removed": "static/legacy-assets/b1d85e33a47362.png",
+      "bytes": 574561
+    },
+    {
+      "from": "/legacy-assets/e39e487cf27f8c.png",
+      "to": "/content/blog/2024-04-18-toefl/eg3.png",
+      "keeper": "blog/2024-04-18-toefl/eg3.png",
+      "removed": "static/legacy-assets/e39e487cf27f8c.png",
+      "bytes": 1533725
+    },
+    {
+      "from": "/legacy-assets/f0b64da93d4bdb.png",
+      "to": "/content/blog/2024-04-18-toefl/eg4.png",
+      "keeper": "blog/2024-04-18-toefl/eg4.png",
+      "removed": "static/legacy-assets/f0b64da93d4bdb.png",
+      "bytes": 605328
+    },
+    {
+      "from": "/legacy-assets/a88bb490cacfdb.png",
+      "to": "/content/blog/2024-04-18-toefl/eg5.png",
+      "keeper": "blog/2024-04-18-toefl/eg5.png",
+      "removed": "static/legacy-assets/a88bb490cacfdb.png",
+      "bytes": 789990
+    },
+    {
+      "from": "/legacy-assets/9071e7bd1f4e35.png",
+      "to": "/content/blog/2024-04-18-toefl/eg6.png",
+      "keeper": "blog/2024-04-18-toefl/eg6.png",
+      "removed": "static/legacy-assets/9071e7bd1f4e35.png",
+      "bytes": 846410
+    },
+    {
+      "from": "/legacy-assets/085f07e5b6d560.png",
+      "to": "/content/blog/2024-04-18-toefl/eg7.png",
+      "keeper": "blog/2024-04-18-toefl/eg7.png",
+      "removed": "static/legacy-assets/085f07e5b6d560.png",
+      "bytes": 564295
+    },
+    {
+      "from": "/legacy-assets/1c332b5608270a.png",
+      "to": "/content/blog/2024-04-18-toefl/eg8.png",
+      "keeper": "blog/2024-04-18-toefl/eg8.png",
+      "removed": "static/legacy-assets/1c332b5608270a.png",
+      "bytes": 579682
+    },
+    {
+      "from": "/legacy-assets/2cbc74f6597259.png",
+      "to": "/content/blog/2024-04-18-toefl/eg9.png",
+      "keeper": "blog/2024-04-18-toefl/eg9.png",
+      "removed": "static/legacy-assets/2cbc74f6597259.png",
+      "bytes": 554036
+    },
+    {
+      "from": "/legacy-assets/aee5d2766296b9.png",
+      "to": "/content/blog/2024-04-18-toefl/integradewriting2.png",
+      "keeper": "blog/2024-04-18-toefl/integradewriting2.png",
+      "removed": "static/legacy-assets/aee5d2766296b9.png",
+      "bytes": 274378
+    },
+    {
+      "from": "/legacy-assets/2bea221c5d1b52.png",
+      "to": "/content/blog/2024-04-18-toefl/task1.png",
+      "keeper": "blog/2024-04-18-toefl/task1.png",
+      "removed": "static/legacy-assets/2bea221c5d1b52.png",
+      "bytes": 244764
+    },
+    {
+      "from": "/legacy-assets/ada2089874cea5.png",
+      "to": "/content/blog/2024-04-18-toefl/task2.png",
+      "keeper": "blog/2024-04-18-toefl/task2.png",
+      "removed": "static/legacy-assets/ada2089874cea5.png",
+      "bytes": 827224
+    },
+    {
+      "from": "/legacy-assets/83638f77c85024.png",
+      "to": "/content/blog/2024-04-18-toefl/task2template.png",
+      "keeper": "blog/2024-04-18-toefl/task2template.png",
+      "removed": "static/legacy-assets/83638f77c85024.png",
+      "bytes": 368991
+    },
+    {
+      "from": "/legacy-assets/216416fd289186.png",
+      "to": "/content/blog/2024-04-18-toefl/task3.png",
+      "keeper": "blog/2024-04-18-toefl/task3.png",
+      "removed": "static/legacy-assets/216416fd289186.png",
+      "bytes": 800296
+    },
+    {
+      "from": "/legacy-assets/6ca1fb555b6b3a.png",
+      "to": "/content/blog/2024-04-18-toefl/task3template.png",
+      "keeper": "blog/2024-04-18-toefl/task3template.png",
+      "removed": "static/legacy-assets/6ca1fb555b6b3a.png",
+      "bytes": 307155
+    },
+    {
+      "from": "/legacy-assets/65c2d184c005d9.png",
+      "to": "/content/blog/2024-04-18-toefl/task4.png",
+      "keeper": "blog/2024-04-18-toefl/task4.png",
+      "removed": "static/legacy-assets/65c2d184c005d9.png",
+      "bytes": 1023433
+    },
+    {
+      "from": "/legacy-assets/94fe6a2a557e53.png",
+      "to": "/content/blog/2024-04-18-toefl/task4template.png",
+      "keeper": "blog/2024-04-18-toefl/task4template.png",
+      "removed": "static/legacy-assets/94fe6a2a557e53.png",
+      "bytes": 279397
+    },
+    {
+      "from": "/legacy-assets/ae32af7dcc7cfc.png",
+      "to": "/content/blog/2024-04-18-toefl/tasks.png",
+      "keeper": "blog/2024-04-18-toefl/tasks.png",
+      "removed": "static/legacy-assets/ae32af7dcc7cfc.png",
+      "bytes": 2469993
+    },
+    {
+      "from": "/legacy-assets/1f018462ec5092.png",
+      "to": "/content/blog/2024-04-21-cs-skillsets/fullstack.png",
+      "keeper": "blog/2024-04-21-cs-skillsets/fullstack.png",
+      "removed": "static/legacy-assets/1f018462ec5092.png",
+      "bytes": 1040244
+    },
+    {
+      "from": "/legacy-assets/7f065d2dbe831c.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.10.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.10.png",
+      "removed": "static/legacy-assets/7f065d2dbe831c.png",
+      "bytes": 61782
+    },
+    {
+      "from": "/legacy-assets/35db12bf7c9627.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.11.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.11.png",
+      "removed": "static/legacy-assets/35db12bf7c9627.png",
+      "bytes": 279447
+    },
+    {
+      "from": "/legacy-assets/feb82d6055dc28.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.12.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.12.png",
+      "removed": "static/legacy-assets/feb82d6055dc28.png",
+      "bytes": 335091
+    },
+    {
+      "from": "/legacy-assets/1950675dae3178.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.14.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.14.png",
+      "removed": "static/legacy-assets/1950675dae3178.png",
+      "bytes": 106145
+    },
+    {
+      "from": "/legacy-assets/e728180e67866c.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.15.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.15.png",
+      "removed": "static/legacy-assets/e728180e67866c.png",
+      "bytes": 147526
+    },
+    {
+      "from": "/legacy-assets/dabc601eafd3fe.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.3.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.3.png",
+      "removed": "static/legacy-assets/dabc601eafd3fe.png",
+      "bytes": 293782
+    },
+    {
+      "from": "/legacy-assets/96f7471cc4ecd8.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.4.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.4.png",
+      "removed": "static/legacy-assets/96f7471cc4ecd8.png",
+      "bytes": 1017537
+    },
+    {
+      "from": "/legacy-assets/86ace9eef0ad3d.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.5.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.5.png",
+      "removed": "static/legacy-assets/86ace9eef0ad3d.png",
+      "bytes": 97668
+    },
+    {
+      "from": "/legacy-assets/79432a9766c635.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.6.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.6.png",
+      "removed": "static/legacy-assets/79432a9766c635.png",
+      "bytes": 108050
+    },
+    {
+      "from": "/legacy-assets/e4aa3967652af2.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.7.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.7.png",
+      "removed": "static/legacy-assets/e4aa3967652af2.png",
+      "bytes": 193407
+    },
+    {
+      "from": "/legacy-assets/8639bf10cfb715.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.8.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.8.png",
+      "removed": "static/legacy-assets/8639bf10cfb715.png",
+      "bytes": 234260
+    },
+    {
+      "from": "/legacy-assets/b6b7c359c5f6aa.png",
+      "to": "/content/blog/2024-04-29-cs415/CS415/w10.9.png",
+      "keeper": "blog/2024-04-29-cs415/CS415/w10.9.png",
+      "removed": "static/legacy-assets/b6b7c359c5f6aa.png",
+      "bytes": 55968
+    },
+    {
+      "from": "/legacy-assets/fcd0bb2b2722f8.png",
+      "to": "/content/blog/2024-05-09-cuda/CUDA/CPUvsGPU.png",
+      "keeper": "blog/2024-05-09-cuda/CUDA/CPUvsGPU.png",
+      "removed": "static/legacy-assets/fcd0bb2b2722f8.png",
+      "bytes": 141832
+    },
+    {
+      "from": "/legacy-assets/e240bf1e58ff36.png",
+      "to": "/index/PET0.png",
+      "keeper": "static/index/PET0.png",
+      "removed": "static/legacy-assets/e240bf1e58ff36.png",
+      "bytes": 3604156
+    },
+    {
+      "from": "/legacy-assets/f5ad0b16d82065.jpg",
+      "to": "/index/YuxuanLin.jpg",
+      "keeper": "static/index/YuxuanLin.jpg",
+      "removed": "static/legacy-assets/f5ad0b16d82065.jpg",
+      "bytes": 134256
+    },
+    {
+      "from": "/legacy-assets/dcb5af2ea177fc.png",
+      "to": "/index/fish.png",
+      "keeper": "static/index/fish.png",
+      "removed": "static/legacy-assets/dcb5af2ea177fc.png",
+      "bytes": 21496
+    },
+    {
+      "from": "/legacy-assets/c96ef8984b14fb.png",
+      "to": "/index/fourlevels.png",
+      "keeper": "static/index/fourlevels.png",
+      "removed": "static/legacy-assets/c96ef8984b14fb.png",
+      "bytes": 3044919
+    },
+    {
+      "from": "/legacy-assets/a8ab71bc865c81.jpeg",
+      "to": "/index/hikvision.jpeg",
+      "keeper": "static/index/hikvision.jpeg",
+      "removed": "static/legacy-assets/a8ab71bc865c81.jpeg",
+      "bytes": 475615
+    },
+    {
+      "from": "/legacy-assets/4278ca198205a3.png",
+      "to": "/index/officechair.png",
+      "keeper": "static/index/officechair.png",
+      "removed": "static/legacy-assets/4278ca198205a3.png",
+      "bytes": 654974
+    },
+    {
+      "from": "/legacy-assets/ab2af445ef1b34.png",
+      "to": "/index/zjui.png",
+      "keeper": "static/index/zjui.png",
+      "removed": "static/legacy-assets/ab2af445ef1b34.png",
+      "bytes": 34932
+    }
+  ],
+  "reclaimedBytes": 44065810,
+  "removedLegacyAuthorMetadata": ["blog/authors.yml", "plog/authors.yml"]
+}

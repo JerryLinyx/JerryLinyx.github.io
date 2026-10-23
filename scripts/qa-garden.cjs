@@ -212,6 +212,13 @@ const a11y = process.argv.includes("--a11y");
       ["resume/", "about/"],
       ["notes/", "writing/?type=notes"],
       ["docs/notes/hpc/cuda/", "writing/notes/hpc/cuda/"],
+      [
+        "writing/notes/algo/flow-matching/",
+        "writing/articles/road-to-flow-matching/",
+      ],
+      ["writing/articles/cuda/", "writing/notes/hpc/cuda/"],
+      ["docs/WebDev/Go/", "writing/notes/engineering/go-web-resources/"],
+      ["docs/cpp/", "writing/notes/leetcode/C++语法/"],
     ]) {
       await page.goto(new URL(old, base).href, { waitUntil: "networkidle" });
       await page.waitForURL(new URL(target, base).href);
