@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_web=self.webpackChunkmy_web||[]).push([[529],{41344:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/blog","page":1,"postsPerPage":8,"totalPages":3,"totalCount":18,"nextPage":"/blog/page/2","blogDescription":"\u6280\u672f\u63a2\u7d22\u4e0e\u5b66\u4e60\u8bb0\u5f55 \xb7 Yuxuan Lin","blogTitle":"Journal"}}')}}]);

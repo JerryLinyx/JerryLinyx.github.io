@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>ACM 模式 · 林煜轩</title><meta name="description" content="面向编程题的输入输出模板，以及链表、二叉树等数据的处理方式。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/leetcode/ACM%E6%A8%A1%E5%BC%8F/"><meta property="og:title" content="ACM 模式 · 林煜轩"><meta property="og:description" content="面向编程题的输入输出模板，以及链表、二叉树等数据的处理方式。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/leetcode/ACM%E6%A8%A1%E5%BC%8F/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Programming</p><h1>ACM 模式</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>2 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#1-输入函数模板">1. 输入函数模板</a><a href="#11-获取输入数据" class="sub">1.1 获取输入数据</a><a href="#2-输出函数模板">2. 输出函数模板</a><a href="#3-链表的输入输出" class="sub">3. 链表的输入输出</a><a href="#4-二叉树的输入输出">4. 二叉树的输入输出</a><a href="#41-完全二叉树格式输入" class="sub">4.1 完全二叉树格式输入</a><a href="#注意事项">注意事项</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><p><a href="https://blog.csdn.net/single_dog/article/details/125702956">Python ACM 模式下的输入输出 - CSDN</a>
+<a href="https://www.bilibili.com/read/cv15996133">ACM模式笔试编程题Python3的输入和输出格式详解</a><br>
+<a href="https://blog.csdn.net/weixin_42327752/article/details/124381258">ACM模式下链表、二叉树的输入Python实现</a></p>
+<h2 id="1-输入函数模板">1. 输入函数模板</h2>
+<h3 id="11-获取输入数据">1.1 获取输入数据</h3>
+<p>Python输入数据主要通过<code>input()</code>函数实现，<code>input()</code>会读取控制台一行的输入，如果输入有多行的话，需要多次使用<code>input()</code>。</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># 输入为: 1 2 3 4 5</span>
+a = <span class="hljs-built_in">input</span>()
+<span class="hljs-comment"># a = '1 2 3 4 5'</span>
+
+a = <span class="hljs-built_in">input</span>().split() <span class="hljs-comment"># 1. 读取一行，按空格分割成字符串列表 </span>
+<span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, ...) <span class="hljs-comment"># 2. 将每个字符串转换为整数 </span>
+<span class="hljs-built_in">list</span>(...) <span class="hljs-comment"># 3. 转换成列表</span>
+</code></pre>
+<p>Python3中的<code>input()</code>会将接受的数据返回为一个<code>string</code>类型，如果一行中有多个数据的话，则需要使用<code>split()</code>进行切割。<code>split()</code>切割后返回一个列表。</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># 输入为： 1 2 3 4 5</span>
+a = <span class="hljs-built_in">input</span>().split() <span class="hljs-comment"># split()默认以空字符为分隔符，包括空格、换行(\n)、制表符(\t)等</span>
+<span class="hljs-comment"># a = ['1', '2', '3', '4', '5']</span>
+
+<span class="hljs-comment"># 输入为：1,2,3,4,5</span>
+b = <span class="hljs-built_in">input</span>().split(<span class="hljs-string">','</span>) <span class="hljs-comment"># 以逗号为分隔符</span>
+<span class="hljs-comment"># b = ['1', '2', '3', '4', '5']</span>
+</code></pre>
+<p>因为<code>input()</code>返回的是<code>string</code>，分割后也是一个字符列表，如果输入数据是数字则需要进行类型转换。可以单个转换或是用列表批量转换，或者是使用<code>map()</code>并行转换。<code>map()</code>函数返回的是一个迭代器，不能改变值，如果需要改变值的话还需要转换成列表</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># 输入为： 1 </span>
+a = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>()) <span class="hljs-comment"># 单个转换</span>
+  
+<span class="hljs-comment"># 输入为：1 2 3 4 5</span>
+b = <span class="hljs-built_in">input</span>().split() <span class="hljs-comment"># b = ['1', '2', '3', '4', '5']</span>
+c = [<span class="hljs-built_in">int</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> b] <span class="hljs-comment"># 使用列表进行批量转换 c = [1, 2, 3, 4, 5]</span>
+d = [<span class="hljs-built_in">int</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">input</span>().split()] <span class="hljs-comment"># 当然可以一步倒位</span>
+  
+<span class="hljs-comment"># 使用map进行并行转换</span>
+e = <span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">input</span>().split()) <span class="hljs-comment"># 此时e是一个map迭代器，不能赋值，也不能索引</span>
+f = <span class="hljs-built_in">list</span>(e) <span class="hljs-comment"># 转换为列表，e = [1, 2, 3, 4, 5]</span>
+g = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">input</span>().split())) <span class="hljs-comment"># 一步到位  </span>
+</code></pre>
+<h2 id="2-输出函数模板">2. 输出函数模板</h2>
+<p>Python3的输出主要靠<code>print()</code>函数，就是把结果打印至终端。需要对<code>print()</code>函数的<code>sep</code>和<code>end</code>两个参数有一定的了解，可以查看<a href="https://www.runoob.com/python3/python-func-print.html">菜鸟教程</a></p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># 输出 a=1, b=2, c=3</span>
+<span class="hljs-built_in">print</span>(a, b, c) <span class="hljs-comment"># print默认以空格为分隔符</span>
+<span class="hljs-comment"># output：1 2 3</span>
+<span class="hljs-built_in">print</span>(a, b, c, sep=<span class="hljs-string">','</span>) <span class="hljs-comment"># 以逗号为分隔符</span>
+<span class="hljs-comment"># output：1,2,3</span>
+
+
+<span class="hljs-comment"># 最终结果 res = [1, 2, 3]</span>
+<span class="hljs-comment"># 1. 直接输出列表</span>
+<span class="hljs-built_in">print</span>(res)
+<span class="hljs-comment"># 2. 输出列表, 每个元素单独输出</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(res)):
+    <span class="hljs-built_in">print</span>(res[i])
+<span class="hljs-comment">#output: 1</span>
+<span class="hljs-comment">#        2</span>
+<span class="hljs-comment">#        3</span>
+
+<span class="hljs-comment"># 3. 输出列表，每个元素单独输出，同时还需要在同一行输出, 以空格分隔</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(res)):
+    <span class="hljs-built_in">print</span>(res[i], end=<span class="hljs-string">' '</span>)  <span class="hljs-comment"># end的默认值是'\n'，即换行</span>
+    <span class="hljs-comment"># output: 1 2 3 </span>
+    
+<span class="hljs-comment"># res = ['a', 'b', 'c']</span>
+<span class="hljs-comment"># 输出是一个字符串</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">""</span>.join(res))
+<span class="hljs-comment"># output: abc</span>
+
+<span class="hljs-comment"># 输出是一个字符串，且用 * 号分隔</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"*"</span>.join(res))
+<span class="hljs-comment"># output: a*b*c</span>
+<span class="hljs-comment"># 如果用 print(res[i], end = '*') 的话，输出就是 a*b*c*了，在末尾还多了一个*</span>
+</code></pre>
+<h3 id="3-链表的输入输出">3. 链表的输入输出</h3>
+<p>acm模式中的链表也是通过输入一个数组来模拟的，所以获取输入数据和前面没有什么不同。<br>
+主要在于定义链表结构、将输入数据转化为链表以及输出链表。<br>
+<a href="https://www.nowcoder.com/practice/f96cd47e812842269058d483a11ced4f?tpId=37&amp;tqId=21271&amp;rp=1&amp;ru=/exam/oj/ta&amp;qru=/exam/oj/ta&amp;sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&amp;difficulty=undefined&amp;judgeStatus=undefined&amp;tags=&amp;title=">华为机试：从单向链表中删除指定值的节点</a><br>
+<a href="https://www.nowcoder.com/practice/54404a78aec1435a81150f15f899417d?tpId=37&amp;tqId=21274&amp;rp=1&amp;ru=/exam/oj/ta&amp;qru=/exam/oj/ta&amp;sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&amp;difficulty=undefined&amp;judgeStatus=undefined&amp;tags=&amp;title=">华为机试：输出单向链表中倒数第k个节点</a></p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># 定义链表结构</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ListNode</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,val,<span class="hljs-built_in">next</span>=<span class="hljs-literal">None</span></span>):
+        <span class="hljs-variable language_">self</span>.val = val
+        <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">next</span> = <span class="hljs-built_in">next</span>
+
+<span class="hljs-comment"># 数组转链表</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">nums2ListNode</span>(<span class="hljs-params">nums</span>):
+    dummy = ListNode(<span class="hljs-literal">None</span>)
+    root = ListNode(nums[<span class="hljs-number">0</span>])
+    dummy.<span class="hljs-built_in">next</span> = root
+    i = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> i &lt; <span class="hljs-built_in">len</span>(nums):
+        node = ListNode(nums[i])
+        root.<span class="hljs-built_in">next</span> = node
+        root = root.<span class="hljs-built_in">next</span>
+        i += <span class="hljs-number">1</span>
+        root.<span class="hljs-built_in">next</span> = <span class="hljs-literal">None</span>
+    <span class="hljs-keyword">return</span> dummy.<span class="hljs-built_in">next</span>
+
+<span class="hljs-comment"># 打印链表</span>
+nums = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+root = nums2ListNode(nums)
+<span class="hljs-keyword">while</span> root:
+    <span class="hljs-built_in">print</span>(root.val)
+    root = root.<span class="hljs-built_in">next</span>
+</code></pre>
+<h2 id="4-二叉树的输入输出">4. 二叉树的输入输出</h2>
+<h3 id="41-完全二叉树格式输入">4.1 完全二叉树格式输入</h3>
+<p>acm模式中一般用输入一行数字代表一个二叉树，一般会以完全二叉树格式输入。这行数字的按照层序遍历的顺序排列，且其中空节点一般会用特定的符号表示，如0或是null
+可以直接用数组表示二叉树，例如列表Tree, 将Tree[i]的左子树和右子树分别为Tree[2<em>i+1]和Tree[2</em>i+2]，不过会比较占用空间。</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># 中序遍历</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">inorder_traversal</span>(<span class="hljs-params">nums, index</span>):
+    <span class="hljs-keyword">if</span> index &gt;= <span class="hljs-built_in">len</span>(nums) <span class="hljs-keyword">or</span> nums[index] == -<span class="hljs-number">1</span>:
+        <span class="hljs-keyword">return</span>
+    left, right = <span class="hljs-number">2</span> * index + <span class="hljs-number">1</span>, <span class="hljs-number">2</span> * index + <span class="hljs-number">2</span>
+    inorder_traversal(nums, left)
+    <span class="hljs-built_in">print</span>(nums[index], end = <span class="hljs-string">' '</span>)
+    inorder_traversal(nums, right)
+	  
+	  
+<span class="hljs-comment"># 输入为 1 2 3 null 4 null 5</span>
+<span class="hljs-comment">#      1</span>
+<span class="hljs-comment">#    /   \</span>
+<span class="hljs-comment">#   2     3</span>
+<span class="hljs-comment">#    \     \</span>
+<span class="hljs-comment">#     4     5</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    nums = <span class="hljs-built_in">input</span>().split()
+    nums = [<span class="hljs-built_in">int</span>(num) <span class="hljs-keyword">if</span> num != <span class="hljs-string">'null'</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums]
+    inorder_traversal(nums, <span class="hljs-number">0</span>)
+
+    <span class="hljs-comment"># output: 2 4 1 3 5 </span>
+
+</code></pre>
+<h2 id="注意事项">注意事项</h2>
+<p>Python执行效率很低，尝试用PyPy提交
+递归深度默认只有1000，DFS前先加sys.setrecursionlimit(200000)</p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/leetcode/C语言/"><span>C 语言</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/C++语法/"><span>C++ 语法</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/python-syntax/"><span>Python 语法</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>C 语言 · 林煜轩</title><meta name="description" content="数据类型、指针和底层表示：C 语言基础知识与实践。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/leetcode/C%E8%AF%AD%E8%A8%80/"><meta property="og:title" content="C 语言 · 林煜轩"><meta property="og:description" content="数据类型、指针和底层表示：C 语言基础知识与实践。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/leetcode/C%E8%AF%AD%E8%A8%80/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Programming</p><h1>C 语言</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>3 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#数据类型">数据类型</a><a href="#inline">inline</a><a href="#static用法">Static用法</a><a href="#1先来介绍它的第一条也是最重要的一条隐藏">（1）先来介绍它的第一条也是最重要的一条：隐藏。</a><a href="#ac-文件代码" class="sub">a.c 文件代码</a><a href="#mainc-文件代码" class="sub">main.c 文件代码</a><a href="#2static-的第二个作用是保持变量内容的持久">（2）static 的第二个作用是保持变量内容的持久。</a><a href="#实例" class="sub">实例</a><a href="#3static-的第三个作用是默认初始化为-0">（3）static 的第三个作用是默认初始化为 0。</a><a href="#实例-1" class="sub">实例</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><h2 id="数据类型">数据类型</h2>
+<p><img src="/content/docs/notes/_assets/47970120a4b4.webp" alt="C 语言 配图" loading="lazy" decoding="async">
+<img src="/content/docs/notes/_assets/d7ff0768c1eb.webp" alt="C 语言 配图" loading="lazy" decoding="async">
+In Linux, they can be used by including the stdint.h header file in user code or the linux/types.h header file in kernel code.</p>
+<h2 id="inline">inline</h2>
+<p><a href="https://www.runoob.com/w3cnote/cpp-inline-usage.html">C++ 中的 inline 用法</a></p>
+<h2 id="static用法">Static用法</h2>
+<p>在 C 语言中，static 的字面意思很容易把我们导入歧途，其实它的作用有三条。</p>
+<h2 id="1先来介绍它的第一条也是最重要的一条隐藏"><strong>（1）先来介绍它的第一条也是最重要的一条：隐藏。</strong></h2>
+<p>当我们同时编译多个文件时，所有未加 static 前缀的全局变量和函数都具有全局可见性。为理解这句话，我举例来说明。我们要同时编译两个源文件，一个是 a.c，另一个是 main.c。</p>
+<p>下面是 a.c 的内容：</p>
+<h3 id="ac-文件代码">a.c 文件代码</h3>
+<pre><code class="hljs language-jsx">char&nbsp;a&nbsp;=&nbsp;<span class="hljs-string">'A'</span>;&nbsp;<span class="hljs-comment">// global variable</span>
+<span class="hljs-keyword">void</span>&nbsp;<span class="hljs-title function_">msg</span>(<span class="hljs-params"></span>)
+{&nbsp; &nbsp;&nbsp;
+	<span class="hljs-title function_">printf</span>(<span class="hljs-string">"Hello**\\n**"</span>);
+}
+</code></pre>
+<p>下面是 main.c 的内容：</p>
+<h3 id="mainc-文件代码">main.c 文件代码</h3>
+<pre><code class="hljs language-jsx">int <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-keyword">void</span></span>)
+{ &nbsp; &nbsp;
+&nbsp; &nbsp; extern char a; &nbsp; &nbsp;<span class="hljs-comment">// extern variable must be declared before use</span>
+&nbsp; &nbsp; <span class="hljs-title function_">printf</span>(<span class="hljs-string">"%c "</span>, a);
+&nbsp; &nbsp; (<span class="hljs-keyword">void</span>)<span class="hljs-title function_">msg</span>();
+&nbsp; &nbsp; <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>程序的运行结果是：</p>
+<pre><code>A Hello
+</code></pre>
+<p>你可能会问：为什么在 a.c 中定义的全局变量 a 和函数 msg 能在 main.c 中使用？前面说过，所有未加 static 前缀的全局变量和函数都具有全局可见性，其它的源文件也能访问。此例中，a 是全局变量，msg 是函数，并且都没有加 static 前缀，因此对于另外的源文件 main.c 是可见的。</p>
+<p>如果加了 static，就会对其它源文件隐藏。例如在 a 和 msg 的定义前加上 static，main.c 就看不到它们了。利用这一特性可以在不同的文件中定义同名函数和同名变量，而不必担心命名冲突。static 可以用作函数和变量的前缀，对于函数来讲，static 的作用仅限于隐藏，而对于变量，static 还有下面两个作用。</p>
+<h2 id="2static-的第二个作用是保持变量内容的持久"><strong>（2）static 的第二个作用是保持变量内容的持久。</strong></h2>
+<p>存储在静态数据区的变量会在程序刚开始运行时就完成初始化，也是唯一的一次初始化。共有两种变量存储在静态存储区：全局变量和 static 变量，只不过和全局变量比起来，static 可以控制变量的可见范围，说到底 static 还是用来隐藏的。虽然这种用法不常见，但我还是举一个例子。</p>
+<h3 id="实例">实例</h3>
+<pre><code class="hljs language-jsx">#include &lt;stdio.<span class="hljs-property">h</span>&gt;
+
+int <span class="hljs-title function_">fun</span>(<span class="hljs-params"><span class="hljs-keyword">void</span></span>){
+&nbsp; &nbsp; <span class="hljs-keyword">static</span> int count = <span class="hljs-number">10</span>; &nbsp; &nbsp;<span class="hljs-comment">// 事实上此赋值语句从来没有执行过</span>
+&nbsp; &nbsp; <span class="hljs-keyword">return</span> count--;
+}
+
+int count = <span class="hljs-number">1</span>;
+
+int <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-keyword">void</span></span>)
+{ &nbsp; &nbsp;
+&nbsp; &nbsp; <span class="hljs-title function_">printf</span>(<span class="hljs-string">"global\\t\\tlocal static\\n"</span>);
+&nbsp; &nbsp; <span class="hljs-keyword">for</span>(; count &lt;= <span class="hljs-number">10</span>; ++count)
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="hljs-title function_">printf</span>(<span class="hljs-string">"%d\\t\\t%d\\n"</span>, count, <span class="hljs-title function_">fun</span>()); &nbsp; &nbsp;
+&nbsp; &nbsp; 
+&nbsp; &nbsp; <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>程序的运行结果是：</p>
+<pre><code>global          local static
+
+1               10
+
+2               9
+
+3               8
+
+4               7
+
+5               6
+
+6               5
+
+7               4
+
+8               3
+
+9               2
+
+10              1
+</code></pre>
+<h2 id="3static-的第三个作用是默认初始化为-0"><strong>（3）static 的第三个作用是默认初始化为 0。</strong></h2>
+<p>其实全局变量也具备这一属性，因为全局变量也存储在静态数据区。在静态数据区，内存中所有的字节默认值都是&nbsp;<strong>0x00</strong>，某些时候这一特点可以减少程序员的工作量。比如初始化一个稀疏矩阵，我们可以一个一个地把所有元素都置&nbsp;<strong>0</strong>，然后把不是&nbsp;<strong>0</strong>&nbsp;的几个元素赋值。如果定义成静态的，就省去了一开始置&nbsp;<strong>0</strong>&nbsp;的操作。再比如要把一个字符数组当字符串来用，但又觉得每次在字符数组末尾加&nbsp;<strong>\0</strong>&nbsp;太麻烦。如果把字符串定义成静态的，就省去了这个麻烦，因为那里本来就是&nbsp;<strong>\0</strong>&nbsp;。</p>
+<p>不妨做个小实验验证一下。</p>
+<h3 id="实例-1">实例</h3>
+<pre><code class="hljs language-jsx">#include &lt;stdio.<span class="hljs-property">h</span>&gt;
+
+int a;
+
+int <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-keyword">void</span></span>)
+{
+&nbsp; &nbsp; int i;
+&nbsp; &nbsp; <span class="hljs-keyword">static</span> char str[<span class="hljs-number">10</span>];
+
+&nbsp; &nbsp; <span class="hljs-title function_">printf</span>(<span class="hljs-string">"integer: %d; &nbsp;string: (begin)%s(end)"</span>, a, str);
+
+&nbsp; &nbsp; <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>程序的运行结果如下:</p>
+<pre><code>integer: 0; string: (begin)(end)
+</code></pre>
+<p>最后对 static 的三条作用做一句话总结。首先 static 的最主要功能是隐藏，其次因为 static 变量存放在静态存储区，所以它具备持久性和默认值0。</p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/leetcode/ACM模式/"><span>ACM 模式</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/C++语法/"><span>C++ 语法</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/python-syntax/"><span>Python 语法</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

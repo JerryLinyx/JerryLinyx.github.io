@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>图论 · 林煜轩</title><meta name="description" content="邻接矩阵、邻接表与图算法中的数据表示选择。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/leetcode/%E5%9B%BE%E8%AE%BA/"><meta property="og:title" content="图论 · 林煜轩"><meta property="og:description" content="邻接矩阵、邻接表与图算法中的数据表示选择。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/leetcode/%E5%9B%BE%E8%AE%BA/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Programming</p><h1>图论</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>4 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#邻接矩阵">邻接矩阵</a><a href="#邻接表">邻接表</a><a href="#104建造最大岛屿">104.建造最大岛屿</a><a href="#106岛屿的周长">106.岛屿的周长</a><a href="#110字符串接龙">110.字符串接龙</a><a href="#并查集">并查集</a><a href="#399除法求值" class="sub">399.除法求值</a><a href="#prim">prim</a><a href="#拓扑排序">拓扑排序</a><a href="#dijkstra">Dijkstra</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><h2 id="邻接矩阵">邻接矩阵</h2>
+<p>邻接矩阵的优点：</p>
+<ul>
+<li>表达方式简单，易于理解</li>
+<li>检查任意两个顶点间是否存在边的操作非常快</li>
+<li>适合稠密图，在边数接近顶点数平方的图中，邻接矩阵是一种空间效率较高的表示方法。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>遇到稀疏图，会导致申请过大的二维数组造成空间浪费 且遍历 边 的时候需要遍历整个n * n矩阵，造成时间浪费</li>
+</ul>
+<h2 id="邻接表">邻接表</h2>
+<p>邻接表的优点：</p>
+<ul>
+<li>对于稀疏图的存储，只需要存储边，空间利用率高</li>
+<li>遍历节点连接情况相对容易</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>检查任意两个节点间是否存在边，效率相对低，需要 O(V)时间，V表示某节点连接其他节点的数量。</li>
+<li>实现相对复杂，不易理解</li>
+</ul>
+<h2 id="104建造最大岛屿">104.建造最大岛屿</h2>
+<p>直接给岛编号（mark+=1），并维护一个 编号-面积 的list</p>
+<h2 id="106岛屿的周长">106.岛屿的周长</h2>
+<p>岛屿问题最容易让人想到BFS或者DFS，但 106.岛屿的周长 确实还用不上</p>
+<h2 id="110字符串接龙">110.字符串接龙</h2>
+<ul>
+<li>本题是一个无向图，需要用标记位，标记着节点是否走过，否则就会死循环！</li>
+<li>使用set来检查字符串是否出现在字符串集合里更快一些</li>
+</ul>
+<p><strong>在无权图中，用广搜求最短路最为合适，广搜只要搜到了终点，那么一定是最短的路径</strong>。</p>
+<h2 id="并查集">并查集</h2>
+<p>并查集常用来解决连通性问题。</p>
+<p>大白话就是当我们需要判断两个元素是否在同一个集合里的时候，我们就要想到用并查集。</p>
+<p>并查集主要有两个功能：</p>
+<ul>
+<li>将两个元素添加到一个集合中。</li>
+<li>判断两个元素在不在同一个集合</li>
+</ul>
+<pre><code class="hljs language-cpp"><span class="hljs-type">int</span> n = <span class="hljs-number">1005</span>; <span class="hljs-comment">// n根据题目中节点数量而定，一般比节点数量大一点就好</span>
+vector&lt;<span class="hljs-type">int</span>&gt; father = <span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt; (n, <span class="hljs-number">0</span>); <span class="hljs-comment">// C++里的一种数组结构</span>
+
+<span class="hljs-comment">// 并查集初始化</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) {
+        father[i] = i;
+    }
+}
+<span class="hljs-comment">// 并查集里寻根的过程</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span> </span>{
+    <span class="hljs-keyword">return</span> u == father[u] ? u : father[u] = <span class="hljs-built_in">find</span>(father[u]); <span class="hljs-comment">// 路径压缩</span>
+}
+
+<span class="hljs-comment">// 判断 u 和 v是否找到同一个根</span>
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isSame</span><span class="hljs-params">(<span class="hljs-type">int</span> u, <span class="hljs-type">int</span> v)</span> </span>{
+    u = <span class="hljs-built_in">find</span>(u);
+    v = <span class="hljs-built_in">find</span>(v);
+    <span class="hljs-keyword">return</span> u == v;
+}
+
+<span class="hljs-comment">// 将v-&gt;u 这条边加入并查集</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">join</span><span class="hljs-params">(<span class="hljs-type">int</span> u, <span class="hljs-type">int</span> v)</span> </span>{
+    u = <span class="hljs-built_in">find</span>(u); <span class="hljs-comment">// 寻找u的根</span>
+    v = <span class="hljs-built_in">find</span>(v); <span class="hljs-comment">// 寻找v的根</span>
+    <span class="hljs-keyword">if</span> (u == v) <span class="hljs-keyword">return</span> ; <span class="hljs-comment">// 如果发现根相同，则说明在一个集合，不用两个节点相连直接返回</span>
+    father[v] = u;
+}
+</code></pre>
+<p>并查集只能加边，遇到删边的情况，可以考虑逆序操作</p>
+<h3 id="399除法求值">399.除法求值</h3>
+<p>加权并查集</p>
+<h2 id="prim">prim</h2>
+<p>prim算法核心就是三步，我称为<strong>prim三部曲</strong>，大家一定要熟悉这三步，代码相对会好些很多：</p>
+<ol>
+<li>第一步，选距离生成树最近节点</li>
+<li>第二步，最近节点加入生成树</li>
+<li>第三步，更新非生成树节点到生成树的距离（即更新minDist数组）</li>
+</ol>
+<p>kruscal的思路：</p>
+<ul>
+<li>边的权值排序，因为要优先选最小的边加入到生成树里</li>
+<li>遍历排序后的边
+<ul>
+<li>如果边首尾的两个节点在同一个集合，说明如果连上这条边图中会出现环</li>
+<li>如果边首尾的两个节点不在同一个集合，加入到最小生成树，并把两个节点加入同一个集合</li>
+</ul>
+</li>
+</ul>
+<p>Kruskal 与 prim 的关键区别在于，prim维护的是节点的集合，而 Kruskal 维护的是边的集合。 如果 一个图中，节点多，但边相对较少，那么使用Kruskal 更优。</p>
+<p>为什么边少的话，使用 Kruskal 更优呢？</p>
+<p>因为 Kruskal 是对边进行排序的后 进行操作是否加入到最小生成树。</p>
+<p>边如果少，那么遍历操作的次数就少。</p>
+<p>在节点数量固定的情况下，图中的边越少，Kruskal 需要遍历的边也就越少。</p>
+<p>而 prim 算法是对节点进行操作的，节点数量越少，prim算法效率就越优。</p>
+<p>所以在 稀疏图中，用Kruskal更优。 在稠密图中，用prim算法更优。</p>
+<blockquote>
+<p>边数量较少为稀疏图，接近或等于完全图（所有节点皆相连）为稠密图</p>
+</blockquote>
+<p>Prim 算法 时间复杂度为 O(n^2)，其中 n 为节点数量，它的运行效率和图中边树无关，适用稠密图。</p>
+<p>Kruskal算法 时间复杂度 为 nlogn，其中n 为边的数量，适用稀疏图。</p>
+<h2 id="拓扑排序">拓扑排序</h2>
+<p>BFS + 入度</p>
+<h2 id="dijkstra">Dijkstra</h2>
+<p><strong>Dijkstra三部曲</strong>：</p>
+<ol>
+<li>第一步，选源点到哪个节点近且该节点未被访问过</li>
+<li>第二步，该最近节点被标记访问过</li>
+<li>第三步，更新非访问节点到源点的距离（即更新minDist数组）</li>
+</ol>
+<p>需要注意两点：</p>
+<ul>
+<li>dijkstra 算法可以同时求 起点到所有节点的最短路径</li>
+<li>权值不能为负数</li>
+</ul>
+<p>Bellman &amp; Ford</p>
+<p>对所有边松弛 n-1 次，然后得出得到终点的最短路径</p>
+<ul>
+<li>时间复杂度： O(N * E) , N为节点数量，E为图中边的数量</li>
+<li>空间复杂度： O(N) ，即 minDist 数组所开辟的空间</li>
+</ul>
+<p>（没有负权回路）
+队列优化 SPFA算法（Shortest Path Faster Algorithm）
+如果图越稠密，则 SPFA的效率越接近与 Bellman_ford
+SPFA 在最坏的情况下是 O(N * E)，但 一般情况下 时间复杂度为 O(K * N)，K 为不定值</p>
+<p>有负权回路: 无限松弛 -&gt; 无限最短路径
+检测：n-1 基础上，再多松弛一次，看minDist数组 是否发生变化</p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/leetcode/ACM模式/"><span>ACM 模式</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/C语言/"><span>C 语言</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/C++语法/"><span>C++ 语法</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>Big Data · 林煜轩</title><meta name="description" content="Hadoop、分布式存储与大规模数据处理的入门梳理。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/data/big-data/"><meta property="og:title" content="Big Data · 林煜轩"><meta property="og:description" content="Hadoop、分布式存储与大规模数据处理的入门梳理。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/data/big-data/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Data</p><h1>Big Data</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>2 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#1-hadoop大数据的开山鼻祖">1. Hadoop：大数据的开山鼻祖</a><a href="#2-spark全能的内存计算大师">2. Spark：全能的“内存计算”大师</a><a href="#3-flink真正的流处理王者">3. Flink：真正的流处理王者</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><h2 id="1-hadoop大数据的开山鼻祖">1. Hadoop：大数据的开山鼻祖</h2>
+<p>Hadoop 是大数据生态的基石。它解决的是最核心的问题：<strong>如何廉价地存储海量数据</strong>以及<strong>如何在大规模集群上运行计算</strong>。</p>
+<ul>
+<li><strong>核心组件：</strong>
+<ul>
+<li><strong>HDFS (存储)：</strong> 分布式文件系统，把文件切碎存放在成百上千台服务器上。</li>
+<li><strong>MapReduce (计算)：</strong> 第一代计算引擎，采用“分而治之”的思想，但因为频繁读写硬盘，速度较慢。</li>
+<li><strong>YARN (资源管理)：</strong> 相当于数据中心的操作系统，负责分配 CPU 和内存。</li>
+</ul>
+</li>
+<li><strong>适用场景：</strong> 离线批处理、大规模数据备份、对时间不敏感的长周期任务。</li>
+</ul>
+<hr>
+<h2 id="2-spark全能的内存计算大师">2. Spark：全能的“内存计算”大师</h2>
+<p>Spark 的出现是为了解决 Hadoop MapReduce 太慢的问题。它最大的创新是 <strong>RDD（弹性分布式数据集）</strong>，尽可能将数据放在<strong>内存</strong>中计算。</p>
+<ul>
+<li><strong>核心特点：</strong>
+<ul>
+<li><strong>快：</strong> 官方称其在内存中比 MapReduce 快 100 倍。</li>
+<li><strong>全栈：</strong> 一个引擎搞定一切（Spark SQL、Spark Streaming、MLlib 机器学习、GraphX 图计算）。</li>
+<li><strong>微批处理 (Micro-batch)：</strong> Spark Streaming 其实是将流数据切成一小段一小段的“微型批处理”来执行。</li>
+</ul>
+</li>
+<li><strong>适用场景：</strong> 迭代计算（机器学习）、交互式查询、复杂的 ETL 处理。</li>
+</ul>
+<hr>
+<h2 id="3-flink真正的流处理王者">3. Flink：真正的流处理王者</h2>
+<p>Flink 是目前大数据领域最炙手可热的技术。与 Spark 不同，Flink 天生就是为了**流处理（Stream Processing）**而设计的，它认为“一切皆流”。</p>
+<ul>
+<li><strong>核心特点：</strong>
+<ul>
+<li><strong>极低延迟：</strong> 能够实现毫秒级的实时响应。</li>
+<li><strong>真正的流处理：</strong> 数据来一条处理一条，而不是攒一小堆再处理。</li>
+<li><strong>Exactly-once 语义：</strong> 哪怕系统崩溃，也能保证数据不丢不重，这在金融支付领域极其重要。</li>
+</ul>
+</li>
+<li><strong>适用场景：</strong> 实时大屏展示、反欺诈实时监测、实时推荐系统。</li>
+</ul>
+<hr></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

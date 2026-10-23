@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>NVIDIA 架构 · 林煜轩</title><meta name="description" content="NVIDIA GPU 架构、产品系列与计算平台的学习记录。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/hpc/nvidia-architecture/"><meta property="og:title" content="NVIDIA 架构 · 林煜轩"><meta property="og:description" content="NVIDIA GPU 架构、产品系列与计算平台的学习记录。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/hpc/nvidia-architecture/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · HPC</p><h1>NVIDIA 架构</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>2 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><p>芯片架构发展</p>
+<ol>
+<li>消费级 GeForce 系列
+RTX 50XX 系列（Blackwell）
+RTX 40XX 系列（Ada Lovelace）
+RTX 30XX 系列（Ampere）
+RTX 20XX 系列（Turing）
+GTX 16/10 系列（Turing / Pascal）</li>
+<li>专业工作站级
+RTX A50XX 系列（Ada / Ampere）
+RTX A60XX 系列（Ada / Ampere）</li>
+<li>数据中心级
+Rubin / Vera Rubin 平台（Rubin，2026 H2 起）
+Tesla H100 系列（Hopper）
+Tesla A100 系列（Ampere）
+Tesla V100 系列（Volta）
+Tesla L40 系列（Ada Lovelace）</li>
+</ol>
+<p>为什么 Tensor Core 发展到现在这样？
+Volta → Turing → Ampere → Hopper → Blackwell → Rubin</p>
+<p>The number of cores in a GPU is still somewhat reliably scaling over time (although more slowly than Moore's law would dictate).&nbsp;
+2015ﾠMaxwellﾠGTX 980 Ti (2,816)
+2017ﾠPascalﾠGTX 1080 Ti (3,584)
+2018ﾠTuringﾠRTX 2080 Ti (4,352)
+2020ﾠAmpereﾠRTX 3090 (10,496)
+2022ﾠAda LovelaceﾠRTX 4090 (16,384)
+2025ﾠBlackwellﾠRTX 5090 (21,760)</p>
+<p>Rubin（Vera Rubin 平台，面向数据中心，2026）</p>
+<ul>
+<li>定位：继 Blackwell 之后的下一代数据中心 AI 平台，强调“极限协同设计（extreme codesign）”，不仅是 GPU，而是整套机架级系统。</li>
+<li>6 个核心组件（官方平台叙述）：Vera CPU + Rubin GPU + NVLink 6 Switch + ConnectX-9 SuperNIC + BlueField-4 DPU + Spectrum-6 Ethernet。</li>
+<li>关键指标（平台级口径）：
+<ul>
+<li>推理 token 成本：相对 Blackwell 平台最高可降低到 1/10。</li>
+<li>MoE 训练：相对 Blackwell 平台可用 4x 更少 GPU 完成训练（同等目标下）。</li>
+</ul>
+</li>
+<li>关键指标（单芯片/互联口径）：
+<ul>
+<li>Rubin GPU：50 PFLOPS（NVFP4 inference）。</li>
+<li>NVLink 6：每 GPU 3.6 TB/s；Vera Rubin NVL72 机架级 260 TB/s。</li>
+<li>Vera CPU：88 个自研 Olympus ARM 核心（Armv9.2），NVLink-C2C 互联。</li>
+</ul>
+</li>
+<li>常见形态（官方命名）：Vera Rubin NVL72（机架级）与 HGX Rubin NVL8（板级，8 GPU）。</li>
+</ul>
+<p>Rubin CPX（长上下文推理取向，2025-09 公布）</p>
+<ul>
+<li>Rubin CPX GPU：面向百万 token 级“massive-context”推理；最高 30 PFLOPS（NVFP4），配 128GB GDDR7。</li>
+<li>Vera Rubin NVL144 CPX（机架级）：8 EFLOPS AI compute、100TB fast memory、1.7 PB/s memory bandwidth（官方口径）；Rubin CPX 预计 2026 年底可用。</li>
+</ul></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/hpc/compiler/"><span>Compiler</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/hpc/cuda/"><span>CUDA</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

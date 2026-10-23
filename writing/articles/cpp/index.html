@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>C/C++ 手册 · 林煜轩</title><meta name="description" content="C++ 类型、语法与常用编程概念的学习记录。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/articles/cpp/"><meta property="og:title" content="C/C++ 手册 · 林煜轩"><meta property="og:description" content="C++ 类型、语法与常用编程概念的学习记录。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/articles/cpp/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">文章 / ARTICLE · SDE</p><h1>C/C++ 手册</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><time datetime="2024-05-25">2024-05-25</time><span>4 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#1-引入inline关键字的原因" class="sub">1. 引入inline关键字的原因</a><a href="#2-inline使用限制" class="sub">2. inline使用限制</a><a href="#3-inline仅是一个对编译器的建议" class="sub">3. inline仅是一个对编译器的建议</a><a href="#4-建议inline函数的定义放在头文件中" class="sub">4. 建议：inline函数的定义放在头文件中</a><a href="#5-类中的成员函数与inline" class="sub">5. 类中的成员函数与inline</a><a href="#6-inline-是一种用于实现的关键字" class="sub">6. inline 是一种“用于实现的关键字”</a><a href="#7-慎用inline" class="sub">7. 慎用inline</a><a href="#8总结" class="sub">8.总结</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><p>原文：<a href="https://www.cnblogs.com/fnlingnzb-learner/p/6423917.html">C++中的inline用法</a></p>
+<h3 id="1-引入inline关键字的原因">1. 引入inline关键字的原因</h3>
+<p>在c/c++中，<strong>为了解决</strong>一些频繁调用的小函数大量消耗栈空间（栈内存）的问题，特别的引入了inline修饰符，表示为内联函数。</p>
+<p><strong>栈空间</strong>就是指放置程序的局部数据（也就是函数内数据）的内存空间。</p>
+<p>在系统下，栈空间是有限的，假如频繁大量的使用就会造成因栈空间不足而导致程序出错的问题，如，函数的死循环递归调用的最终结果就是导致栈内存空间枯竭。</p>
+<p>下面我们来看一个例子：</p>
+<pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-comment">//函数定义为inline即:内联函数</span>
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">char</span>* <span class="hljs-title">dbtest</span><span class="hljs-params">(<span class="hljs-type">int</span> a)</span> </span>{
+    <span class="hljs-keyword">return</span> (i % <span class="hljs-number">2</span> &gt; <span class="hljs-number">0</span>) ? <span class="hljs-string">"奇"</span> : <span class="hljs-string">"偶"</span>;
+} 
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+   <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+   <span class="hljs-keyword">for</span> (i=<span class="hljs-number">1</span>; i &lt; <span class="hljs-number">100</span>; i++) {
+       <span class="hljs-built_in">printf</span>(<span class="hljs-string">"i:%d    奇偶性:%s /n"</span>, i, <span class="hljs-built_in">dbtest</span>(i));    
+   }
+}
+</code></pre>
+<p>上面的例子就是标准的内联函数的用法，使用inline修饰带来的好处我们表面看不出来，其实，在内部的工作就是在每个for循环的内部任何调用<strong><em>dbtest(i)</em></strong>的地方都换成了<strong><em>(i%2&gt;0)?”奇”:”偶”</em></strong>，这样就避免了频繁调用函数对栈内存重复开辟所带来的消耗。</p>
+<blockquote>
+<h3 id="2-inline使用限制">2. inline使用限制</h3>
+</blockquote>
+<p>inline的使用是<strong>有所限制的</strong>，inline只适合涵数体内代码简单的涵数使用，不能包含复杂的结构控制语句例如while、switch，并且不能内联函数本身不能是直接递归函数（即，自己内部还调用自己的函数）。</p>
+<blockquote>
+<h3 id="3-inline仅是一个对编译器的建议">3. inline仅是一个对编译器的建议</h3>
+</blockquote>
+<p>inline函数仅仅是一个<strong>对编译器的建议</strong>，所以<strong>最后能否真正内联，看编译器的意思</strong>，它如果认为函数不复杂，能在调用点展开，就会真正内联，并不是说声明了内联就会内联，声明内联只是一个建议而已。</p>
+<blockquote>
+<h3 id="4-建议inline函数的定义放在头文件中">4. 建议：inline函数的定义放在头文件中</h3>
+</blockquote>
+<p>其次，因为内联函数要在调用点展开，所以<strong>编译器必须随处可见内联函数的定义</strong>，要不然就成了非内联函数的调用了。所以，这要求每个调用了内联函数的文件都出现了该<strong>内联函数的定义</strong>。</p>
+<p>因此，将<strong>内联函数的定义</strong>放在<strong>头文件</strong>里实现是合适的，省却你为每个文件实现一次的麻烦。</p>
+<p><strong>声明跟定义要一致</strong>：如果在每个文件里都实现一次该内联函数的话，那么，最好保证每个定义都是一样的，否则，将会引起未定义的行为。如果不是每个文件里的定义都一样，那么，编译器展开的是哪一个，那要看具体的编译器而定。所以，最好将<strong>内联函数定义</strong>放在<strong>头文件</strong>中。</p>
+<blockquote>
+<h3 id="5-类中的成员函数与inline">5. 类中的成员函数与inline</h3>
+</blockquote>
+<p><strong>定义</strong>在类中的<strong>成员函数</strong>缺省都是<strong>内联的</strong>，如果在类定义时就在类内给出函数定义，那当然最好。如果在类中未给出成员函数定义，而又想内联该函数的话，那在类外要加上inline，否则就认为不是内联的。</p>
+<p>例如，</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span>
+{
+    <span class="hljs-keyword">public</span>:<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Foo</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x, <span class="hljs-built_in">int</span> y</span>)</span> {  } <span class="hljs-comment">// 自动地成为内联函数</span>
+}
+</code></pre>
+<p>将成员函数的定义体放在类声明之中虽然能带来书写上的方便，但不是一种良好的编程风格，上例应该改成：</p>
+<pre><code class="hljs language-csharp"><span class="hljs-comment">// 头文件</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title">A</span>
+{
+    <span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Foo</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x, <span class="hljs-built_in">int</span> y</span>)</span>;
+}
+</code></pre>
+<pre><code class="hljs language-objectivec"><span class="hljs-comment">// 定义文件</span>
+<span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> A::Foo(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y){} 
+</code></pre>
+<blockquote>
+<h3 id="6-inline-是一种用于实现的关键字">6. inline 是一种“用于实现的关键字”</h3>
+</blockquote>
+<p>关键字inline 必须与<strong>函数定义体</strong>放在一起才能使函数成为内联，仅将inline 放在函数声明前面<strong>不起任何作用</strong>。</p>
+<p>如下风格的函数Foo 不能成为内联函数：</p>
+<pre><code class="hljs language-objectivec"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> Foo(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y); <span class="hljs-comment">// inline 仅与函数声明放在一起</span>
+
+<span class="hljs-type">void</span> Foo(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y){}
+</code></pre>
+<p>而如下风格的函数Foo 则成为内联函数：</p>
+<pre><code class="hljs language-objectivec"><span class="hljs-type">void</span> Foo(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y);
+
+<span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> Foo(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y) {} <span class="hljs-comment">// inline 与函数定义体放在一起</span>
+</code></pre>
+<p>所以说，inline 是一种“<strong>用于实现的关键字</strong>”，而不是一种“用于声明的关键字”。一般地，用户可以阅读函数的声明，但是看不到函数的定义。尽管在大多数教科书中内联函数的声明、定义体前面都加了inline 关键字，但我认为<strong>inline不应该出现在函数的声明中</strong>。这个细节虽然不会影响函数的功能，但是体现了高质量C++/C 程序设计风格的一个基本原则：<strong>声明与定义不可混为一谈，用户没有必要、也不应该知道函数是否需要内联。</strong></p>
+<blockquote>
+<h3 id="7-慎用inline">7. 慎用inline</h3>
+</blockquote>
+<p>内联能提高函数的执行效率，为什么不把所有的函数都定义成内联函数？如果所有的函数都是内联函数，还用得着“内联”这个关键字吗？&nbsp;<br>
+内联是以**代码膨胀（复制）**为代价，仅仅省去了函数调用的开销，从而提高函数的执行效率。&nbsp;<br>
+如果执行函数体内代码的时间，相比于函数调用的开销较大，那么效率的收获会很少。另一方面，每一处内联函数的调用都要复制代码，将使程序的总代码量增大，消耗更多的内存空间。</p>
+<p><strong>以下情况不宜使用内联：</strong>&nbsp;<br>
+（1）如果函数体内的代码<strong>比较长</strong>，使用内联将导致<strong>内存消耗代价较高</strong>。&nbsp;<br>
+（2）如果函数体内出现<strong>循环</strong>，那么执行函数体内代码的时间要比函数调用的开销大。类的构造函数和析构函数容易让人误解成使用内联更有效。要当心<strong>构造函数和析构函数可能会隐藏一些行为</strong>，如“偷偷地”执行了<strong>基类或成员对象</strong>的构造函数和析构函数。所以<strong>不要随便地将构造函数和析构函数的定义体放在类声明中</strong>。一个好的编译器将会根据函数的定义体，自动地取消不值得的内联（这进一步说明了 inline 不应该出现在函数的声明中）。</p>
+<blockquote>
+<h3 id="8总结">8.总结</h3>
+</blockquote>
+<p>内联函数并不是一个增强性能的灵丹妙药。只有当<strong>函数非常短小</strong>的时候它才能得到我们想要的效果；但是，如果函数并不是很短而且在很多地方都被调用的话，那么将会使得可执行体的体积增大。&nbsp;<br>
+<strong>最令人烦恼的</strong>还是当<strong>编译器拒绝内联</strong>的时候。在老的实现中，结果很不尽人意，虽然在新的实现中有很大的改善，但是仍然还是不那么完善的。一些编译器能够足够的聪明来指出哪些函数可以内联哪些不能，但是大多数编译器就不那么聪明了，因此这就需要我们的经验来判断。<strong>如果内联函数不能增强性能，就避免使用它！</strong></p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/articles/cs-skillsets/"><span>CS技术栈汇总+项目</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

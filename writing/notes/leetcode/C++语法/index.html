@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>C++ 语法 · 林煜轩</title><meta name="description" content="容器、内存与语言细节：C++ 编程中的常见问题和使用记录。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/leetcode/C++%E8%AF%AD%E6%B3%95/"><meta property="og:title" content="C++ 语法 · 林煜轩"><meta property="og:description" content="容器、内存与语言细节：C++ 编程中的常见问题和使用记录。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/leetcode/C++%E8%AF%AD%E6%B3%95/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Programming</p><h1>C++ 语法</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>9 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#map">Map</a><a href="#vector">Vector</a><a href="#string">String</a><a href="#queue">Queue</a><a href="#type">Type</a><a href="#algorithm">&lt;algorithm&gt;</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><p>思考：</p>
+<ol>
+<li>相同点</li>
+<li>不同点</li>
+<li>性能：内存，时间</li>
+</ol>
+<p>回文取反注意int overflow</p>
+<ol>
+<li>全局变量的int类型的数组初始值默认为0</li>
+<li>局部int类型的数组初始值是随机的垃圾数值</li>
+</ol>
+<h2 id="map">Map</h2>
+<p>参考：<a href="https://zhuanlan.zhihu.com/p/48066839">C++基础-map与unordered_map</a>
+map：
+基于红黑树实现。红黑树作为一种自平衡二叉树，保障了良好的最坏情况运行时间，即它可以做到在O(log n)时间内完成查找，插入和删除，在对单次时间敏感的场景下比较建议使用map做为容器。比如实时应用，可以保证最坏情况的运行时间也在预期之内。
+有序--另红黑树是一种二叉查找树，二叉查找树一个重要的性质是有序，且中序遍历时取出的元素是有序的。对于一些需要用到有序性的应用场景，应使用map。
+unordered_map：
+基于hash_table实现，一般是由一个大vector，vector元素节点可挂接链表来解决冲突来实现。hash_table最大的优点，就是把数据的存储和查找消耗的时间大大降低，几乎可以看成是常数时间；而代价仅仅是消耗比较多的内存。然而在当前可利用内存越来越多的情况下，用空间换时间的做法是值得的。</p>
+<p>map在增删查三项上均弱于unordered_map，内存使用map略少，但不明显
+为什么unordered_map占用内存更多？
+哈希表要开辟一块比数据量更大的空间，要控制填充因子不能太大，否则性能会退化。</p>
+<h2 id="vector">Vector</h2>
+<p>在 C++ 中，<code>vector</code> 是一种非常灵活的容器，可以存储几乎任何类型的数据。以下是 <code>vector</code> 可以存放的一些常见数据类型和对象类型的例子：</p>
+<ol>
+<li>
+<p><strong>基本数据类型</strong>：</p>
+<ul>
+<li>整型（如 <code>int</code>, <code>short</code>, <code>long</code> 等）</li>
+<li>浮点型（如 <code>float</code>, <code>double</code>）</li>
+<li>字符类型（如 <code>char</code>, <code>unsigned char</code>）</li>
+<li>布尔类型（<code>bool</code>）</li>
+</ul>
+</li>
+<li>
+<p><strong>复合数据类型</strong>：</p>
+<ul>
+<li>字符串（<code>std::string</code>）</li>
+<li>数组（固定大小的数组，如 <code>std::array&lt;int, 5&gt;</code>）</li>
+<li>指针（如 <code>int*</code>, <code>double*</code> 等）</li>
+</ul>
+</li>
+<li>
+<p><strong>用户定义的数据类型</strong>：</p>
+<ul>
+<li>结构体（<code>struct</code>）</li>
+<li>类（<code>class</code>），包括可以有构造函数、析构函数、复制控制等</li>
+</ul>
+</li>
+<li>
+<p><strong>其他 STL 容器</strong>：</p>
+<ul>
+<li>另一个 <code>vector</code>（如 <code>vector&lt;vector&lt;int&gt;&gt;</code> 二维动态数组）</li>
+<li>列表（<code>std::list</code>）</li>
+<li>双端队列（<code>std::deque</code>）</li>
+<li>集合（<code>std::set</code>）</li>
+<li>映射表（<code>std::map</code>）</li>
+</ul>
+</li>
+<li>
+<p><strong>智能指针</strong>：</p>
+<ul>
+<li>如 <code>std::shared_ptr</code>, <code>std::unique_ptr</code></li>
+</ul>
+</li>
+<li>
+<p><strong>函数指针和 lambda 表达式</strong>：</p>
+<ul>
+<li>可以存储指向函数的指针或者可调用对象（如 <code>std::function</code>）</li>
+</ul>
+</li>
+</ol>
+<p><code>vector</code> 的灵活性来自于 C++ 的模板特性，使其能够通过参数化类型来适应不同的数据类型。此外，<code>vector</code> 保持元素的顺序，并且能够动态地调整大小，提供了随机访问迭代器，使得访问任何元素都像数组一样快速。</p>
+<p>使用 <code>vector</code> 存储数据时，需要注意的是，由于 <code>vector</code> 在动态扩展容量时可能进行内存重新分配和元素复制，所以对于大型对象或者资源管理敏感的对象，推荐使用指针或智能指针来避免不必要的复制开销。此外，对于非默认构造的类型，确保提供合适的构造函数和赋值操作符以支持 <code>vector</code> 的这些操作。</p>
+<p>在 C++ 中，<code>std::vector</code> 是一种非常灵活的动态数组容器，可以通过多种方式初始化。这里是一些常用的 <code>std::vector</code> 初始化方法：</p>
+<h4 id="1-默认初始化">1. 默认初始化</h4>
+<p><code>std::vector&lt;int&gt; vec;  // 创建一个空的整型向量</code></p>
+<h4 id="2-初始化给定大小和默认值">2. 初始化给定大小和默认值</h4>
+<p><code>std::vector&lt;int&gt; vec(10);  // 创建一个包含10个整数的向量，每个整数初始化为0</code></p>
+<h4 id="3-初始化给定大小和指定值">3. 初始化给定大小和指定值</h4>
+<p><code>std::vector&lt;int&gt; vec(10, 5);  // 创建一个包含10个整数的向量，每个整数初始化为5</code></p>
+<h4 id="4-列表初始化c11-及之后">4. 列表初始化（C++11 及之后）</h4>
+<p><code>std::vector&lt;int&gt; vec = {1, 2, 3, 4, 5};  // 使用初始化列表初始化向量</code></p>
+<h4 id="5-使用数组初始化">5. 使用数组初始化</h4>
+<p><code>int arr[] = {1, 2, 3, 4, 5}; std::vector&lt;int&gt; vec(arr, arr + sizeof(arr) / sizeof(arr[0]));  // 从数组初始化向量</code></p>
+<h4 id="6-使用另一个向量初始化">6. 使用另一个向量初始化</h4>
+<p><code>std::vector&lt;int&gt; vec1 = {1, 2, 3, 4, 5}; std::vector&lt;int&gt; vec2(vec1);  // 使用 vec1 初始化 vec2</code></p>
+<h4 id="7-使用迭代器范围初始化">7. 使用迭代器范围初始化</h4>
+<p><code>std::vector&lt;int&gt; vec1 = {1, 2, 3, 4, 5}; std::vector&lt;int&gt; vec2(vec1.begin(), vec1.end());  // 使用 vec1 的迭代器范围初始化 vec2</code></p>
+<h4 id="8-复制构造函数">8. 复制构造函数</h4>
+<p><code>std::vector&lt;int&gt; vec1 = {1, 2, 3, 4, 5}; std::vector&lt;int&gt; vec2 = vec1;  // 使用 vec1 直接初始化 vec2</code></p>
+<h4 id="9-移动构造函数c11-及之后">9. 移动构造函数（C++11 及之后）</h4>
+<p><code>std::vector&lt;int&gt; vec1 = {1, 2, 3, 4, 5}; std::vector&lt;int&gt; vec2 = std::move(vec1);  // 使用移动构造函数初始化 vec2</code></p>
+<h4 id="10-使用-stdinitializerlistc11-及之后">10. 使用 <code>std::initializer_list</code>（C++11 及之后）</h4>
+<p><code>std::vector&lt;int&gt; initVector(std::initializer_list&lt;int&gt; ilist); std::vector&lt;int&gt; vec = {1, 2, 3, 4, 5};  // 使用初始化列表构造函数</code></p>
+<p>这些初始化方法提供了极大的灵活性，可以根据不同的需求和上下文选择最合适的方式。例如，如果你需要一个具体大小但初始值不确定的向量，可以选择第二种或第三种方法。如果你已知所有元素值，使用列表初始化是最直观的方式。</p>
+<p>以下是一些常用的 <code>std::vector</code> 成员函数及其简要说明：</p>
+<h4 id="修改容器内容的函数">修改容器内容的函数</h4>
+<ul>
+<li><strong><code>push_back(const T&amp; value)</code></strong>：在 vector 的末尾添加一个新元素。</li>
+<li><strong><code>pop_back()</code></strong>：移除 vector 末尾的元素。</li>
+<li><strong><code>insert(iterator position, const T&amp; value)</code></strong>：在指定位置插入一个新元素。</li>
+<li><strong><code>erase(iterator position)</code></strong>：移除指定位置的元素。</li>
+<li><strong><code>erase(iterator first, iterator last)</code></strong>：移除从 <code>first</code> 到 <code>last</code>（不包括 <code>last</code>）之间的元素。</li>
+<li><strong><code>clear()</code></strong>：清空所有元素。</li>
+<li><strong><code>resize(size_type num, T val = T())</code></strong>：调整 vector 的大小，新位置被初始化为 <code>val</code> 的拷贝。</li>
+<li><strong><code>emplace_back(Args&amp;&amp;... args)</code></strong>：在 vector 末尾直接构造一个新元素，可以避免额外的复制或移动操作。</li>
+<li><strong><code>emplace(iterator position, Args&amp;&amp;... args)</code></strong>：在指定位置直接构造一个新元素。</li>
+</ul>
+<h4 id="容器容量相关的函数">容器容量相关的函数</h4>
+<ul>
+<li><strong><code>size()</code></strong>：返回当前存储在 vector 中的元素数量。</li>
+<li><strong><code>max_size()</code></strong>：返回 vector 可以容纳的最大元素数量。</li>
+<li><strong><code>capacity()</code></strong>：返回 vector 当前的容量。</li>
+<li><strong><code>empty()</code></strong>：检查 vector 是否为空（即 <code>size() == 0</code>）。</li>
+<li><strong><code>reserve(size_type n)</code></strong>：请求改变 vector 的容量，以至少容纳 <code>n</code> 个元素。</li>
+<li><strong><code>shrink_to_fit()</code></strong>：尝试减少容量以匹配其大小，释放未使用的内存。</li>
+</ul>
+<h4 id="元素访问相关的函数">元素访问相关的函数</h4>
+<ul>
+<li><strong><code>operator[](size_type n)</code></strong>：返回对应于位置 <code>n</code> 的元素的引用。</li>
+<li><strong><code>at(size_type n)</code></strong>：与 <code>operator[]</code> 类似，但带有边界检查，如果 <code>n</code> 超出范围则抛出 <code>std::out_of_range</code> 异常。</li>
+<li><strong><code>front()</code></strong>：返回对第一个元素的引用。</li>
+<li><strong><code>back()</code></strong>：返回对最后一个元素的引用。</li>
+<li><strong><code>data()</code></strong>：返回指向第一个元素的指针。</li>
+</ul>
+<h4 id="迭代器相关的函数">迭代器相关的函数</h4>
+<ul>
+<li><strong><code>begin()</code></strong>：返回指向 vector 开始位置的迭代器。</li>
+<li><strong><code>end()</code></strong>：返回指向 vector 结束位置的迭代器（指向最后一个元素之后的位置）。</li>
+<li><strong><code>rbegin()</code></strong>：返回指向 vector 末尾的反向迭代器。</li>
+<li><strong><code>rend()</code></strong>：返回指向 vector 开头之前位置的反向迭代器。</li>
+</ul>
+<p>这些函数使得 <code>std::vector</code> 可以灵活地处理各种数据和操作，是 C++ 标准模板库中使用最广泛的容器之一。</p>
+<p>参考：<a href="https://zhuanlan.zhihu.com/p/213853588">C++中push_back和emplace_back的区别</a>
+push_back</p>
+<pre><code class="hljs language-text">/**
+ *  以下程序来自STL源码 bits/stl_vector.h
+ *
+ *  @brief  Add data to the end of the %vector.
+ *  @param  __x  Data to be added.
+ *
+ *  This is a typical stack operation.  The function creates an
+ *  element at the end of the %vector and assigns the given data
+ *  to it.  Due to the nature of a %vector this operation can be
+ *  done in constant time if the %vector has preallocated space
+ *  available.
+ */
+void push_back(const value_type &amp;__x) {
+    if (this-&gt;_M_impl._M_finish != this-&gt;_M_impl._M_end_of_storage) {
+        // 首先判断容器满没满，如果没满那么就构造新的元素，然后插入新的元素
+        _Alloc_traits::construct(this-&gt;_M_impl, this-&gt;_M_impl._M_finish,
+                                 __x);
+        ++this-&gt;_M_impl._M_finish; // 更新当前容器内元素数量
+    } else
+        // 如果满了，那么就重新申请空间，然后拷贝数据，接着插入新数据 __x
+        _M_realloc_insert(end(), __x);
+}
+
+// 如果 C++ 版本为 C++11 及以上（也就是从 C++11 开始新加了这个方法），使用 emplace_back() 代替
+#if __cplusplus &gt;= 201103L
+void push_back(value_type &amp;&amp;__x) {
+    emplace_back(std::move(__x));
+}
+#endif
+</code></pre>
+<p>emplace_back() 直接使用<strong>构造参数列表</strong>来添加元素的方法，它会使用到了移动构造函数&nbsp;<code>move</code>&nbsp;。这也是&nbsp;<code>emplace_back()</code>&nbsp;方法的一大特色。
+<code>emplace_back()</code>&nbsp;函数在原理上比&nbsp;<code>push_back()</code>&nbsp;有了一定的改进，包括在内存优化方面和运行效率方面。内存优化主要体现在使用了<strong>就地构造（直接在容器内构造对象，不用拷贝一个复制品再使用）+强制类型转换</strong>的方法来实现，在运行效率方面，由于省去了拷贝构造过程，因此也有一定的提升。</p>
+<h2 id="string">String</h2>
+<p>substr用法</p>
+<pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    std::string str = <span class="hljs-string">"Hello, world!"</span>;
+    std::string sub1 = str.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>);  <span class="hljs-comment">// 从位置 0 开始，长度为 5</span>
+    std::string sub2 = str.<span class="hljs-built_in">substr</span>(<span class="hljs-number">7</span>);     <span class="hljs-comment">// 从位置 7 开始到结束</span>
+
+    std::cout &lt;&lt; <span class="hljs-string">"Sub1: "</span> &lt;&lt; sub1 &lt;&lt; std::endl;  <span class="hljs-comment">// 输出 "Hello"</span>
+    std::cout &lt;&lt; <span class="hljs-string">"Sub2: "</span> &lt;&lt; sub2 &lt;&lt; std::endl;  <span class="hljs-comment">// 输出 "world!"</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+</code></pre>
+<p>在 C++ 中，<code>std::stoi</code> 是一个用来将字符串转换为整数的函数。这个函数定义在 <code>&lt;string&gt;</code> 头文件中，并是 C++11 标准的一部分。它提供了一个方便的方式来处理和转换包含数字的字符串</p>
+<pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">stoi</span><span class="hljs-params">(<span class="hljs-type">const</span> std::string&amp; str, std::<span class="hljs-type">size_t</span>* pos = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> base = <span class="hljs-number">10</span>)</span></span>;
+</code></pre>
+<ul>
+<li><strong>参数</strong>：
+<ul>
+<li><code>str</code>：要转换的字符串。</li>
+<li><code>pos</code>：可选参数，是一个指针，用来存储第一个未被转换的字符的位置。如果你不关心这个信息，可以忽略这个参数。</li>
+<li><code>base</code>：转换的基数。默认是 10，意味着按十进制进行转换。你可以指定其他值如 2（二进制）、8（八进制）或 16（十六进制）来进行转换。</li>
+</ul>
+</li>
+</ul>
+<h2 id="queue">Queue</h2>
+<p>在 C++ 的标准库中，<code>std::queue</code> 是一个容器适配器，它提供了先进先出（FIFO）的数据结构。它在内部通常使用 <code>std::deque</code> 或 <code>std::list</code> 作为底层容器来实现。以下是 <code>std::queue</code> 的一些主要成员函数和它们的用途：</p>
+<h4 id="容器操作">容器操作</h4>
+<ul>
+<li><strong><code>push(const T&amp; value)</code></strong>：将一个新元素添加到队列的末尾。</li>
+<li><strong><code>emplace(Args&amp;&amp;... args)</code></strong>：在队列末尾直接构造一个元素，可以减少一次复制或移动操作，提高效率。</li>
+<li><strong><code>pop()</code></strong>：移除队列前端的元素。</li>
+<li><strong><code>swap(queue&amp; other)</code></strong>：与另一个相同类型的队列交换内容。</li>
+</ul>
+<h4 id="元素访问">元素访问</h4>
+<ul>
+<li><strong><code>front()</code></strong>：访问队列前端的元素。</li>
+<li><strong><code>back()</code></strong>：访问队列末尾的元素。</li>
+</ul>
+<h4 id="容量和状态检查">容量和状态检查</h4>
+<ul>
+<li><strong><code>empty()</code></strong>：检查队列是否为空。</li>
+<li><strong><code>size()</code></strong>：返回队列中的元素数量。</li>
+</ul>
+<h2 id="type">Type</h2>
+<p>在 C++ 中，<code>&lt;cctype&gt;</code> 头文件（在 C 中是 <code>&lt;ctype.h&gt;</code>）提供了一系列用于字符分类的函数，这些函数可以帮助你确定字符的具体类别，比如是否是字母、数字等。以下是一些与 <code>isdigit</code> 和 <code>isalpha</code> 类似的函数及其用途：</p>
+<ol>
+<li><strong><code>isalpha(int c)</code></strong>：检查给定字符是否为字母（a-z 或 A-Z）。</li>
+<li><strong><code>isdigit(int c)</code></strong>：检查给定字符是否为十进制数字（0-9）。</li>
+<li><strong><code>isalnum(int c)</code></strong>：检查给定字符是否为字母或数字（即 <code>isalpha</code> 或 <code>isdigit</code> 的合集）。</li>
+<li><strong><code>iscntrl(int c)</code></strong>：检查给定字符是否为控制字符。</li>
+<li><strong><code>islower(int c)</code></strong>：检查给定字符是否为小写字母。</li>
+<li><strong><code>isupper(int c)</code></strong>：检查给定字符是否为大写字母。</li>
+<li><strong><code>ispunct(int c)</code></strong>：检查给定字符是否为标点符号（即非字母、非数字、非控制字符的可打印字符）。</li>
+<li><strong><code>isspace(int c)</code></strong>：检查给定字符是否为空白字符，如空格、制表符、换行符等。</li>
+<li><strong><code>isxdigit(int c)</code></strong>：检查给定字符是否为十六进制数字（0-9, a-f, A-F）。</li>
+<li><strong><code>isgraph(int c)</code></strong>：检查给定字符是否有图形表示（即除空格外的所有可打印字符）。</li>
+<li><strong><code>isprint(int c)</code></strong>：检查给定字符是否为可打印字符（包括空格）。</li>
+</ol>
+<h2 id="algorithm"><code>&lt;algorithm&gt;</code></h2>
+<p>在 C++ 中，<code>reverse</code> 函数是用于反转容器中元素顺序的算法。这个函数定义在 <code>&lt;algorithm&gt;</code> 头文件中，可以应用于任何支持双向迭代器的容器，比如 <code>std::vector</code>, <code>std::deque</code>, <code>std::list</code> 等。</p>
+<pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">reverse</span><span class="hljs-params">(BidirectionalIterator first, BidirectionalIterator last)</span></span>;
+</code></pre>
+<p><a href="https://blog.csdn.net/Sunnyside_/article/details/118190897">【C++】万能头文件 ＜bits/stdc++.h＞ 的用法和优缺点</a></p>
+<blockquote>
+<p>优点：
+1、在竞赛中节约时间
+2、减少了编写所有必要头文件的工作量
+3、对于使用的每个函数，不用记住GNU C++的所有STL
+缺点：
+1、不属于GNU C++库的标准头文件，在部分情况下可能会失败
+2、使用它将包含许多不必要的东西，并增加编译时间
+3、这个头文件不是C++标准的一部分，因此是不可移植的，应该避免
+4、编译器每次编译翻译单元时都必须实际读取和分析每个包含的头文件，应该减少这类头文件的使用</p>
+</blockquote>
+<p><a href="https://www.geeksforgeeks.org/bitsstdc-h-c/"><code>&lt;bits/stdc++.h&gt;</code> in C++</a></p>
+<p><a href="https://blog.csdn.net/weixin_44480968/article/details/104282535">C++中getline()的用法</a></p>
+<p><a href="https://www.nowcoder.com/discuss/476652382114357248?sourceSSR=search">【数据结构】02.C++ ACM模式总结</a></p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/leetcode/ACM模式/"><span>ACM 模式</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/C语言/"><span>C 语言</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/leetcode/python-syntax/"><span>Python 语法</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

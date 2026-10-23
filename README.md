@@ -4,4 +4,4 @@ Published website: https://jerrylinyx.github.io/
 
 [Website source, content and build instructions](https://github.com/JerryLinyx/JerryLinyx.github.io/tree/codex/root-site)
 
-This branch contains generated GitHub Pages output. Source commit: 6d5cd5de806c81abdbc2259ec73401a5290e3844.
+This branch contains generated GitHub Pages output. Source commit: dafd25d98e5c1a57f377b37120d68013ea2b1fe3.

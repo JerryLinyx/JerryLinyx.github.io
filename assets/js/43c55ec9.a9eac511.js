@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_web=self.webpackChunkmy_web||[]).push([[9530],{45609:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Singapore \xb7 City Walk","permalink":"/plog/singapore-through-my-lens","unlisted":false,"date":"2025-07-10T00:00:00.000Z"}]}')}}]);

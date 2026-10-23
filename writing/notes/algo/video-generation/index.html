@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f4ed"><title>Video Generation · 林煜轩</title><meta name="description" content="从时空卷积到视频生成，梳理视频建模的演变思路。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/algo/video-generation/"><meta property="og:title" content="Video Generation · 林煜轩"><meta property="og:description" content="从时空卷积到视频生成，梳理视频建模的演变思路。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/algo/video-generation/"><meta property="og:image" content="https://jerrylinyx.github.io/social-garden.png"><link rel="icon" type="image/svg+xml" href="/garden-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.BA1KJbRX.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，花园首页"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 30V13M18 21C5 23 4 11 5 6c9-1 14 5 13 15ZM18 17C29 18 33 9 31 4c-9 0-14 5-13 13Z" stroke="currentColor" stroke-width="1.6"></path></svg><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/">作品<span>MAKE</span></a><a href="/research/">研究<span>STUDY</span></a><a href="/writing/" aria-current="page">写作<span>WRITE</span></a><a href="/life/">生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Generative models</p><h1>Video Generation</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>1 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#古人的智慧">古人的智慧</a><a href="#2d-convolution-lstm" class="sub">2D Convolution + LSTM</a><a href="#3d-convolution">3D Convolution</a><a href="#two-stream-network" class="sub">Two-Stream Network</a><a href="#3d-fused-two-stream" class="sub">3D-Fused Two Stream</a><a href="#i3d" class="sub">I3D</a><a href="#wan">Wan</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><h2 id="古人的智慧">古人的智慧</h2>
+<h3 id="2d-convolution-lstm">2D Convolution + LSTM</h3>
+<p>CNN + RNN</p>
+<h2 id="3d-convolution">3D Convolution</h2>
+<p>数据/算力需求大
+3D CNN
+效果一般</p>
+<h3 id="two-stream-network">Two-Stream Network</h3>
+<ul>
+<li>spatial stream: CNN 理解 single frame</li>
+<li>temporal stream: multi-frame optical flow 帧变化的方向
+对当前帧以及后续几帧，即只能处理一个clip
+效果好</li>
+</ul>
+<h3 id="3d-fused-two-stream">3D-Fused Two Stream</h3>
+<p>改进双流，处理多clip （叠多个双流 + conv）
+feature maps -&gt; 3D conv (理解整体视频) -&gt; linear -&gt; result</p>
+<h3 id="i3d">I3D</h3>
+<p><a href="https://arxiv.org/abs/1705.07750">https://arxiv.org/abs/1705.07750</a></p>
+<p>Two-Stream + Inflated-3D Network
+每一帧都理解
+spatial stream -&gt; 3D conv
+temporal stream -&gt; 3D conv</p>
+<p>用训好的2D resnet weight 初始化3D模型
+对比曾经3D Convolution 数据/算力变大了</p>
+<p><img src="/content/docs/notes/_assets/71040504de25.webp" alt="Video Generation 配图" loading="lazy" decoding="async"></p>
+<h2 id="wan">Wan</h2>
+<p><a href="https://arxiv.org/abs/2503.20314">Wan: Open and Advanced Large-Scale Video Generative Models</a>
+<a href="https://www.bilibili.com/video/BV1wGSKBVEd8">https://www.bilibili.com/video/BV1wGSKBVEd8</a>
+开源sota
+spatio-temporal VAE</p>
+<p>TODO
+Meta MovieGen
+Tencent Hunyuan
+快手 kling
+谷歌 Veo 3<br>
+OpenAI Sora
+字节 Seedance
+MiniMax 海螺
+阿里 Wan
+Mochi</p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/algo/dpi/"><span>Deep Probabilistic Imaging (DPI)</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/algo/flow-matching/"><span>Flow Matching</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/algo/flow-based-model/"><span>Flow-based Model</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>保持好奇。<br><span>让想法继续生长。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">来打个招呼 <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">一片持续生长的数字花园</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>

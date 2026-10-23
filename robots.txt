@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /Doc/
+Disallow: /CV/
+Sitemap: https://jerrylinyx.github.io/sitemap.xml
