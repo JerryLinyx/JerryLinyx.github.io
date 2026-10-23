@@ -44,4 +44,4 @@ Browser QA used headless Chrome, not a physical iOS device or Safari session. Au
 
 ## Latest correction: unpublish old URLs
 
-The user clarified that preserving repositories does not mean retaining redirect sites. All root `/Doc/` and `/CV/` redirect generation is removed. Previous redirect acceptance results above are historical and superseded for those prefixes. Unpublishing both project Pages sites is pending authenticated Pages administration. Do not report the old links as down until public 404 responses are verified.
+The user clarified that preserving repositories does not mean retaining redirect sites. All root `/Doc/` and `/CV/` redirect generation is removed. Previous redirect acceptance results above are historical and superseded for those prefixes. Completed after authenticated Pages administration: Doc and CV both unpublished, source branch set to `None`. Public HTTP verification confirms `/Doc/`, `/CV/` and `/Doc/docs/notes/hpc/cuda/` return 404 without Location headers or URL changes; the root homepage returns 200. Proof screenshots and HTTP results are saved under `output/playwright/`.

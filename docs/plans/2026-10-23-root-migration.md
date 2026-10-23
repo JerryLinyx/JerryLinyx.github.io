@@ -25,7 +25,7 @@ This uses normal Git credentials without reading or exporting tokens. No additio
 
 ## Compatibility
 
-The official Docusaurus client-redirects plugin retains original Hexo article and taxonomy redirects only. The latest user correction explicitly removes all `/Doc/` and `/CV/` compatibility redirects. Both project Pages sites must be unpublished using authenticated repository administration; both repositories and histories remain intact. Removing root redirects is necessary to prevent the user-site deployment from answering the retired project paths.
+The official Docusaurus client-redirects plugin retains original Hexo article and taxonomy redirects only. The latest user correction explicitly removes all `/Doc/` and `/CV/` compatibility redirects. Both project Pages sites have been unpublished using authenticated repository administration, with source branch set to `None`; both repositories and histories remain intact. Removing root redirects is necessary to prevent the user-site deployment from answering the retired project paths.
 
 ## Release gates
 
@@ -33,7 +33,7 @@ The official Docusaurus client-redirects plugin retains original Hexo article an
 2. Browser-check all imported legacy editions, current blog entries, CV, and representative old URLs.
 3. Verify local backup integrity and ancestry retention before pushing the source branch.
 4. Publish to root `master`, then verify actual HTTPS content, deployment version and representative legacy redirects.
-5. Unpublish the Doc/CV Pages sites, retain both repositories, and verify that both old URLs return 404 with no redirect. This requires authenticated repository Pages administration; it remains pending until login is available.
+5. Unpublish the Doc/CV Pages sites, retain both repositories, and verify that both old URLs return 404 with no redirect. Completed after the user logged in: both Pages sites unpublished and source branch set to `None`. Public `/Doc/`, `/CV/` and a representative old Doc deep link return 404 without redirects; the root site returns 200.
 
 ## Tooling constraints
 
