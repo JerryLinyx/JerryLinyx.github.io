@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#eeede7"><title>CUDA · 林煜轩</title><meta name="description" content="从线程、内存与调度出发，理解 GPU 编程与性能优化。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/hpc/cuda/"><meta property="og:title" content="CUDA · 林煜轩"><meta property="og:description" content="从线程、内存与调度出发，理解 GPU 编程与性能优化。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/hpc/cuda/"><meta property="og:image" content="https://jerrylinyx.github.io/social-preview.png"><link rel="icon" type="image/svg+xml" href="/site-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.xHZvBWmw.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，个人网站首页"><span class="wordmark-stamp" aria-hidden="true">∴</span><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/"><small class="nav-no">01</small>作品<span>MAKE</span></a><a href="/research/"><small class="nav-no">02</small>研究<span>STUDY</span></a><a href="/writing/" aria-current="page"><small class="nav-no">03</small>写作<span>WRITE</span></a><a href="/life/"><small class="nav-no">04</small>生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><noscript><nav class="no-script-nav" aria-label="无脚本主导航"><a href="/work/">作品 ↗</a><a href="/research/">研究 ↗</a><a href="/writing/">写作 ↗</a><a href="/life/">生活 ↗</a></nav></noscript><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · HPC</p><h1>CUDA</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>11 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#fundamentals">Fundamentals</a><a href="#cpu-vs-gpu" class="sub">CPU vs GPU</a><a href="#process-vs-thread" class="sub">Process vs Thread</a><a href="#cuda-kernel---grid-block-thread-single-program-multiple-data" class="sub">CUDA Kernel - Grid, Block, Thread (Single Program Multiple Data)</a><a href="#memory-api" class="sub">Memory API</a><a href="#cuda-function-declarations-函数声明" class="sub">CUDA Function Declarations 函数声明</a><a href="#compiling-a-cuda-program" class="sub">Compiling A CUDA Program</a><a href="#cuda-编程注意事项" class="sub">CUDA 编程注意事项</a><a href="#grid-block-thread-续" class="sub">Grid, Block, Thread 续</a><a href="#blockthreads-与-smwarp-关系" class="sub">Block/Threads 与 SM/Warp 关系</a><a href="#pitfall-controlbranch-divergence" class="sub">Pitfall: Control/Branch Divergence</a><a href="#memory" class="sub">Memory</a><a href="#mm---matrix-multiplication" class="sub">MM - Matrix Multiplication</a><a href="#global-memory---shared-memory" class="sub">Global Memory -&gt; Shared Memory</a><a href="#tiled-multiply" class="sub">Tiled Multiply</a><a href="#barrier-synchronization-syncthreads" class="sub">Barrier Synchronization __syncthreads()</a><a href="#device-query" class="sub">Device Query</a><a href="#tile-边界处理" class="sub">tile 边界处理</a><a href="#convolution" class="sub">Convolution</a><a href="#cache-locality" class="sub">Cache &amp; Locality</a><a href="#shared-memory-vs-cache" class="sub">Shared Memory vs. Cache</a><a href="#constant-cache-vs-l1-cache" class="sub">Constant Cache vs. L1 Cache</a><a href="#constant-memory" class="sub">Constant Memory</a><a href="#gpu-l2l1-caches" class="sub">GPU L2/L1 Caches</a><a href="#tiled-convolution" class="sub">Tiled Convolution</a><a href="#cuda-programming">CUDA Programming</a><a href="#cutlass-programming" class="sub">Cutlass Programming</a><a href="#cute">Cute</a><a href="#triton">Triton</a><a href="#内存层级" class="sub">内存层级</a><a href="#reference">Reference</a><a href="#textbook" class="sub">Textbook</a><a href="#nvidia-documentation" class="sub">NVIDIA documentation</a><a href="#other-resources" class="sub">Other resources</a><a href="#编程入门参考">编程入门参考</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><h2 id="fundamentals">Fundamentals</h2>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f1f1ee" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark"><title>CUDA · 林煜轩</title><meta name="description" content="从线程、内存与调度出发，理解 GPU 编程与性能优化。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/hpc/cuda/"><meta property="og:title" content="CUDA · 林煜轩"><meta property="og:description" content="从线程、内存与调度出发，理解 GPU 编程与性能优化。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/hpc/cuda/"><meta property="og:image" content="https://jerrylinyx.github.io/social-preview.png"><link rel="icon" type="image/svg+xml" href="/site-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","email":"mailto:yl6061@columbia.edu","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.CqwgCzFW.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/">林煜轩<span>Yuxuan Lin</span></a><nav class="nav" aria-label="主导航"><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a></nav><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"><span class="sr-only">打开导航</span><i aria-hidden="true"></i></button><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a><a class="mobile-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></nav></header><main id="main"><div class="progress" aria-hidden="true"><span></span></div><article class="wrap reader"><header class="reader-head"><a href="/writing/" class="back">写作</a><h1>CUDA</h1><p class="reader-meta"><span>笔记，HPC</span><span>11 分钟阅读</span><button type="button" class="link-button" data-copy-link>复制链接</button></p></header><div class="reader-layout has-toc"><aside class="toc"><details open><summary>目录</summary><nav aria-label="文章目录"><a href="#fundamentals">Fundamentals</a><a href="#cpu-vs-gpu" class="sub">CPU vs GPU</a><a href="#process-vs-thread" class="sub">Process vs Thread</a><a href="#cuda-kernel---grid-block-thread-single-program-multiple-data" class="sub">CUDA Kernel - Grid, Block, Thread (Single Program Multiple Data)</a><a href="#memory-api" class="sub">Memory API</a><a href="#cuda-function-declarations-函数声明" class="sub">CUDA Function Declarations 函数声明</a><a href="#compiling-a-cuda-program" class="sub">Compiling A CUDA Program</a><a href="#cuda-编程注意事项" class="sub">CUDA 编程注意事项</a><a href="#grid-block-thread-续" class="sub">Grid, Block, Thread 续</a><a href="#blockthreads-与-smwarp-关系" class="sub">Block/Threads 与 SM/Warp 关系</a><a href="#pitfall-controlbranch-divergence" class="sub">Pitfall: Control/Branch Divergence</a><a href="#memory" class="sub">Memory</a><a href="#mm---matrix-multiplication" class="sub">MM - Matrix Multiplication</a><a href="#global-memory---shared-memory" class="sub">Global Memory -&gt; Shared Memory</a><a href="#tiled-multiply" class="sub">Tiled Multiply</a><a href="#barrier-synchronization-syncthreads" class="sub">Barrier Synchronization __syncthreads()</a><a href="#device-query" class="sub">Device Query</a><a href="#tile-边界处理" class="sub">tile 边界处理</a><a href="#convolution" class="sub">Convolution</a><a href="#cache-locality" class="sub">Cache &amp; Locality</a><a href="#shared-memory-vs-cache" class="sub">Shared Memory vs. Cache</a><a href="#constant-cache-vs-l1-cache" class="sub">Constant Cache vs. L1 Cache</a><a href="#constant-memory" class="sub">Constant Memory</a><a href="#gpu-l2l1-caches" class="sub">GPU L2/L1 Caches</a><a href="#tiled-convolution" class="sub">Tiled Convolution</a><a href="#cuda-programming">CUDA Programming</a><a href="#cutlass-programming" class="sub">Cutlass Programming</a><a href="#cute">Cute</a><a href="#triton">Triton</a><a href="#内存层级" class="sub">内存层级</a><a href="#reference">Reference</a><a href="#textbook" class="sub">Textbook</a><a href="#nvidia-documentation" class="sub">NVIDIA documentation</a><a href="#other-resources" class="sub">Other resources</a><a href="#编程入门参考">编程入门参考</a></nav></details></aside><div class="prose"><h2 id="fundamentals">Fundamentals</h2>
 <h3 id="cpu-vs-gpu">CPU vs GPU</h3>
 <p>CPU 关注延迟，而 GPU 关注吞吐</p>
 
@@ -42,7 +42,7 @@
 
 
 <table><thead><tr><th>Aspect</th><th>CPU</th><th>GPU</th></tr></thead><tbody><tr><td>Clock frequency</td><td>High</td><td>Moderate</td></tr><tr><td>Caches</td><td>Large - convert long-latency memory accesses into short-latency cache accesses</td><td>Small - primarily to boost memory throughput</td></tr><tr><td>Control complexity</td><td>Sophisticated control; Branch prediction to reduce branch latency; Data forwarding to reduce data latency</td><td>Simple control; No branch prediction or data forwarding</td></tr><tr><td>ALU design</td><td>Powerful ALU — reduced operation latency</td><td>Energy-efficient ALUs — many units; long latency but heavily pipelined for high throughput</td></tr><tr><td>Latency tolerance strategy</td><td>Rely on caches + speculation + out-of-order/control logic to reduce exposed latency</td><td>Require a massive number of threads to tolerate (hide) latencies</td></tr><tr><td>Winning</td><td>For sequential parts where latency hurts</td><td>For parallel parts where throughput wins</td></tr></tbody></table>
-<p><img src="/content/docs/notes/_assets/5a9891182a5c.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/5a9891182a5c.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1612" height="796"></p>
 <h3 id="process-vs-thread">Process vs Thread</h3>
 <p>Process 是操作系统分配资源和调度执行的基本单位，</p>
 <ul>
@@ -62,10 +62,10 @@
 </ul>
 <p>Threads within a block cooperate via shared memory, atomic operations and barrier synchronization</p>
 <p>Threads in different blocks cooperate less</p>
-<p><img src="/content/docs/notes/_assets/c3961faea9ef.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/c3961faea9ef.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="618" height="878"></p>
 <p>Thread block and thread organization simplifies memory addressing when processing multidimensional data</p>
 <h3 id="memory-api">Memory API</h3>
-<p><img src="/content/docs/notes/_assets/3fd43cc44acd.webp" alt="CUDA 配图" loading="lazy" decoding="async">
+<p><img src="/content/docs/notes/_assets/3fd43cc44acd.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="818" height="788">
 <code>cudaMalloc()</code></p>
 <ul>
 <li>Allocates object in the device global memory</li>
@@ -134,7 +134,7 @@ HostCompiler -- "Host Assembly (e.g. x86, Power, ARM)" --&gt; CPU
 JIT -- "Device Assembly (e.g. SASS)" --&gt; GPU
 </code></pre>
 <h3 id="cuda-编程注意事项">CUDA 编程注意事项</h3>
-<p><img src="/content/docs/notes/_assets/eec85b35ba0a.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/eec85b35ba0a.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1378" height="810"></p>
 <ul>
 <li>Row-Major Layout of 2D Arrays in C/C++</li>
 <li>边界条件：Handling boundary conditions for pixels near the edges of the image （如卷积核）</li>
@@ -218,14 +218,14 @@ For colorToGreyscaleConversion, should one use 8×8, 16×16 or 32×32 blocks? As
 <p>结合 SM 的 threads/block 数上限</p>
 <h3 id="memory">Memory</h3>
 <p>The Von-Neumann Model
-<img src="/content/docs/notes/_assets/405958fdaffc.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<img src="/content/docs/notes/_assets/405958fdaffc.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1068" height="1032"></p>
 <p>Instruction processing: Fetch | Decode | Execute | Memory</p>
 <p>Each thread can:
 – read/write per-thread registers (~1 cycle)
 – read/write per-block shared memory (~5 cycles)
 – read/write per-grid global memory (~500 cycles)
 – read/only per-grid constant memory (~5 cycles with caching)</p>
-<p><img src="/content/docs/notes/_assets/1082e7cbab10.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/1082e7cbab10.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1004" height="882"></p>
 
 
 
@@ -427,7 +427,7 @@ same time needed to read/write any address</p>
 <li>connected via transistor to bit line for read/write</li>
 <li>bits disappear after a while (around 50 msec, due to tiny leakage currents through transistor), and must be rewritten (hence dynamic)</li>
 </ul>
-<p><img src="/content/docs/notes/_assets/7a3b4012dbe3.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/7a3b4012dbe3.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="670" height="1158"></p>
 <ul>
 <li>About 1,000 cells connect to each BIT LINE.</li>
 <li>Connection/disconnection depends on SELECT line.</li>
@@ -437,7 +437,7 @@ same time needed to read/write any address</p>
 <p>SELECT lines connect to about 1,000 bit lines.
 Core array has about O(1M) bits
 Use more address bits to choose bit line(s).</p>
-<p><img src="/content/docs/notes/_assets/1a21adbaf8bd.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/1a21adbaf8bd.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1318" height="1046"></p>
 <p>DRAM cells are not clocked (clocking requires transistors).
 <strong>DRAM interfaces are clocked.</strong></p>
 <ul>
@@ -448,7 +448,7 @@ Use more address bits to choose bit line(s).</p>
 </ul>
 <p>现代 DRAM 几乎总是按 burst mode 工作
 core array access delay 很大, 连续送多个相邻数据更划算</p>
-<p><img src="/content/docs/notes/_assets/ea4d3ffec492.webp" alt="CUDA 配图" loading="lazy" decoding="async">
+<p><img src="/content/docs/notes/_assets/ea4d3ffec492.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1894" height="990">
 multiple banks 把不同 bank 的访问交错起来 -&gt; 提升吞吐</p>
 <p>For naive matmul, N accesses are coalesced, M accesses are not coalesced.</p>
 <p>Tiled matmul use shared memory to enable coalescing.</p>
@@ -490,8 +490,8 @@ When cache is full, must make room for new line, usually by discarding least rec
 <li>For copying to device memory, use <code>cudaMemcpyToSymbol(dest, src, size, offset = 0, kind =cudaMemcpyHostToDevice)</code></li>
 </ul>
 <h3 id="gpu-l2l1-caches">GPU L2/L1 Caches</h3>
-<p><img src="/content/docs/notes/_assets/087b925e1acc.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
-<p><img src="/content/docs/notes/_assets/851b25bdc45f.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/087b925e1acc.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1022" height="1008"></p>
+<p><img src="/content/docs/notes/_assets/851b25bdc45f.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="1236" height="948"></p>
 <h3 id="tiled-convolution">Tiled Convolution</h3>
 <p>reuse data read from global memory -&gt; shared memory</p>
 <p>Halo Access
@@ -503,7 +503,7 @@ to Shared Memory?</li>
 <li>Coalesce global memory accesses; No branch divergence during computation</li>
 <li>Some threads must do &gt;1 load, so some branch divergence in reading; Slightly more shared memory needed</li>
 </ul>
-<p><img src="/content/docs/notes/_assets/0d6b5daa4ed0.webp" alt="CUDA 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/0d6b5daa4ed0.webp" alt="CUDA 配图" loading="lazy" decoding="async" width="2208" height="1412"></p>
 <h2 id="cuda-programming">CUDA Programming</h2>
 <ol>
 <li>Reduce, softmax, rms_norm, layer_norm, Transpose</li>
@@ -548,4 +548,4 @@ to Shared Memory?</li>
 <ul>
 <li><a href="https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese/tree/main">CUDA-Programming-Guide-in-Chinese</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/34587739">CUDA编程入门极简教程</a></li>
-</ul></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/hpc/compiler/"><span>Compiler</span><span aria-hidden="true">↗</span></a><a href="/writing/notes/hpc/nvidia-architecture/"><span>NVIDIA 架构</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>始于一个问题。<br><span>保持探索。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">LET’S TALK <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">AN INDEPENDENT OBSERVATORY / 2026</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>
+</ul></div></div><footer class="reader-end"><section aria-labelledby="related-title"><h2 id="related-title">同一主题</h2><ul><li><a href="/writing/notes/hpc/compiler/">Compiler</a></li><li><a href="/writing/notes/hpc/nvidia-architecture/">NVIDIA 架构</a></li></ul></section><a class="inline-more" href="/writing/">全部文字</a></footer></article></main><footer class="footer"><div class="footer-inner"><div class="footer-contact"><p>聊聊 AI、系统，或一个尚未成形的想法。</p><a class="footer-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></div><div class="footer-links"><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/feed.xml">RSS</a><a href="/archive/">旧日存档</a></div><p class="endcard" aria-hidden="true">林煜轩</p><p class="footer-meta"><span>© 2026 Yuxuan Lin</span><a href="#top" data-backtop>回到顶部</a></p></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.lrrpZqVD.js"></script></body></html>

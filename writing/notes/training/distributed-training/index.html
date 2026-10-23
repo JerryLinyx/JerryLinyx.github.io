@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#eeede7"><title>Distributed Training · 林煜轩</title><meta name="description" content="并行策略、FSDP 与通信：理解多 GPU 训练的系统成本。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/training/distributed-training/"><meta property="og:title" content="Distributed Training · 林煜轩"><meta property="og:description" content="并行策略、FSDP 与通信：理解多 GPU 训练的系统成本。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/training/distributed-training/"><meta property="og:image" content="https://jerrylinyx.github.io/social-preview.png"><link rel="icon" type="image/svg+xml" href="/site-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.xHZvBWmw.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"><link rel="stylesheet" href="/_astro/_..DdKuH37F.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/" aria-label="林煜轩，个人网站首页"><span class="wordmark-stamp" aria-hidden="true">∴</span><span>林煜轩<small>YUXUAN LIN</small></span></a><nav class="desktop-nav" aria-label="主导航"><a href="/work/"><small class="nav-no">01</small>作品<span>MAKE</span></a><a href="/research/"><small class="nav-no">02</small>研究<span>STUDY</span></a><a href="/writing/" aria-current="page"><small class="nav-no">03</small>写作<span>WRITE</span></a><a href="/life/"><small class="nav-no">04</small>生活<span>LIVE</span></a></nav><div class="header-end"><a class="about-link" href="/about/">关于我 <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/"><span class="mono">01</span>作品<span aria-hidden="true">↗</span></a><a href="/research/"><span class="mono">02</span>研究<span aria-hidden="true">↗</span></a><a href="/writing/"><span class="mono">03</span>写作<span aria-hidden="true">↗</span></a><a href="/life/"><span class="mono">04</span>生活<span aria-hidden="true">↗</span></a><a href="/about/"><span class="mono">05</span>关于我<span aria-hidden="true">↗</span></a></nav></header><noscript><nav class="no-script-nav" aria-label="无脚本主导航"><a href="/work/">作品 ↗</a><a href="/research/">研究 ↗</a><a href="/writing/">写作 ↗</a><a href="/life/">生活 ↗</a></nav></noscript><main id="main"><div class="reading-progress" aria-hidden="true"><span></span></div><article class="reader wrap"><header class="reader-heading"><a href="/writing/" class="back-link">← 回到写作</a><p class="eyebrow">学习手记 / FIELD NOTE · Training</p><h1>Distributed Training</h1><div class="reader-byline"><span>林煜轩 / Yuxuan Lin</span><span>18 分钟阅读</span><button type="button" data-copy-link>复制链接 ↗</button></div></header><div class="reading-layout"><aside class="toc"><details open><summary>这篇文字里的小径</summary><nav aria-label="文章目录"><a href="#scaling">Scaling</a><a href="#verbcal-scaling-up-in-a-single-node-垂直扩展-向上" class="sub">Verbcal scaling-up in a single node 垂直扩展 / 向上</a><a href="#horizontal-scaling-out-across-multiple-nodes-水平扩展-向外" class="sub">Horizontal scaling-out across multiple nodes 水平扩展 / 向外</a><a href="#high-performance-networking" class="sub">High Performance Networking</a><a href="#6d-并行是什么">6D 并行是什么？</a><a href="#model-parallelism">Model Parallelism</a><a href="#pipeline-parallelism">Pipeline Parallelism</a><a href="#gpipe-pipelining" class="sub">GPipe Pipelining</a><a href="#流水线气泡-pipeline-bubble" class="sub">流水线气泡 (Pipeline Bubble)</a><a href="#微批次-micro-batch" class="sub">微批次 Micro-batch</a><a href="#对内存不友好且在面对大批次时扩展性差" class="sub">对内存不友好，且在面对大批次时扩展性差</a><a href="#如何解决激活值显存占用" class="sub">如何解决激活值显存占用？</a><a href="#tensor-parallelism">Tensor Parallelism</a><a href="#data-parallelism">Data Parallelism</a><a href="#optimizer-state-sharding-优化器状态分片" class="sub">Optimizer state sharding 优化器状态分片</a><a href="#parameter-server-ps-based-synchronization-参数服务器同步">Parameter server (PS) based Synchronization 参数服务器同步</a><a href="#straggler-problem-木桶效应" class="sub">Straggler problem / 木桶效应</a><a href="#synchronous-sgd-variants" class="sub">Synchronous SGD Variants</a><a href="#asynchronous-sgd" class="sub">Asynchronous SGD</a><a href="#ring-all-reduce">Ring All-Reduce</a><a href="#scatter-reduce" class="sub">Scatter-Reduce</a><a href="#all-gather" class="sub">All-Gather</a><a href="#distributed-training-frameworks">Distributed Training Frameworks</a><a href="#deepspeed">DeepSpeed</a><a href="#apis" class="sub">APIs</a><a href="#runtime" class="sub">Runtime</a><a href="#ops" class="sub">Ops</a><a href="#显存占用分析" class="sub">显存占用分析</a><a href="#zero" class="sub">ZeRO</a><a href="#ddp">DDP</a><a href="#fsdp">FSDP</a><a href="#reference">Reference：</a></nav></details><a class="toc-back" href="/writing/">← 浏览所有文字</a></aside><div class="prose"><h2 id="scaling">Scaling</h2>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f1f1ee" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark"><title>Distributed Training · 林煜轩</title><meta name="description" content="并行策略、FSDP 与通信：理解多 GPU 训练的系统成本。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/notes/training/distributed-training/"><meta property="og:title" content="Distributed Training · 林煜轩"><meta property="og:description" content="并行策略、FSDP 与通信：理解多 GPU 训练的系统成本。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/notes/training/distributed-training/"><meta property="og:image" content="https://jerrylinyx.github.io/social-preview.png"><link rel="icon" type="image/svg+xml" href="/site-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","email":"mailto:yl6061@columbia.edu","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.CqwgCzFW.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/">林煜轩<span>Yuxuan Lin</span></a><nav class="nav" aria-label="主导航"><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a></nav><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"><span class="sr-only">打开导航</span><i aria-hidden="true"></i></button><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a><a class="mobile-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></nav></header><main id="main"><div class="progress" aria-hidden="true"><span></span></div><article class="wrap reader"><header class="reader-head"><a href="/writing/" class="back">写作</a><h1>Distributed Training</h1><p class="reader-meta"><span>笔记，Training</span><span>18 分钟阅读</span><button type="button" class="link-button" data-copy-link>复制链接</button></p></header><div class="reader-layout has-toc"><aside class="toc"><details open><summary>目录</summary><nav aria-label="文章目录"><a href="#scaling">Scaling</a><a href="#verbcal-scaling-up-in-a-single-node-垂直扩展-向上" class="sub">Verbcal scaling-up in a single node 垂直扩展 / 向上</a><a href="#horizontal-scaling-out-across-multiple-nodes-水平扩展-向外" class="sub">Horizontal scaling-out across multiple nodes 水平扩展 / 向外</a><a href="#high-performance-networking" class="sub">High Performance Networking</a><a href="#6d-并行是什么">6D 并行是什么？</a><a href="#model-parallelism">Model Parallelism</a><a href="#pipeline-parallelism">Pipeline Parallelism</a><a href="#gpipe-pipelining" class="sub">GPipe Pipelining</a><a href="#流水线气泡-pipeline-bubble" class="sub">流水线气泡 (Pipeline Bubble)</a><a href="#微批次-micro-batch" class="sub">微批次 Micro-batch</a><a href="#对内存不友好且在面对大批次时扩展性差" class="sub">对内存不友好，且在面对大批次时扩展性差</a><a href="#如何解决激活值显存占用" class="sub">如何解决激活值显存占用？</a><a href="#tensor-parallelism">Tensor Parallelism</a><a href="#data-parallelism">Data Parallelism</a><a href="#optimizer-state-sharding-优化器状态分片" class="sub">Optimizer state sharding 优化器状态分片</a><a href="#parameter-server-ps-based-synchronization-参数服务器同步">Parameter server (PS) based Synchronization 参数服务器同步</a><a href="#straggler-problem-木桶效应" class="sub">Straggler problem / 木桶效应</a><a href="#synchronous-sgd-variants" class="sub">Synchronous SGD Variants</a><a href="#asynchronous-sgd" class="sub">Asynchronous SGD</a><a href="#ring-all-reduce">Ring All-Reduce</a><a href="#scatter-reduce" class="sub">Scatter-Reduce</a><a href="#all-gather" class="sub">All-Gather</a><a href="#distributed-training-frameworks">Distributed Training Frameworks</a><a href="#deepspeed">DeepSpeed</a><a href="#apis" class="sub">APIs</a><a href="#runtime" class="sub">Runtime</a><a href="#ops" class="sub">Ops</a><a href="#显存占用分析" class="sub">显存占用分析</a><a href="#zero" class="sub">ZeRO</a><a href="#ddp">DDP</a><a href="#fsdp">FSDP</a><a href="#reference">Reference：</a></nav></details></aside><div class="prose"><h2 id="scaling">Scaling</h2>
 <p><a href="https://arxiv.org/pdf/1903.04611">Evaluating Modern GPU Interconnect: PCIe, NVLink, NV-SLI, NVSwitch and GPUDirect</a></p>
 <h3 id="verbcal-scaling-up-in-a-single-node-垂直扩展-向上">Verbcal scaling-up in a single node 垂直扩展 / 向上</h3>
 <ul>
@@ -6,8 +6,8 @@
 <li>单机内多卡的通信瓶颈通常在于主板总线。</li>
 <li>NVLink 技术提供了比传统 PCIe 高得多的带宽，使得单机内的几块 GPU 之间能够极快地共享数据和同步梯度。</li>
 <li><strong>X-Bus</strong> 是 IBM 的总线技术，专门用来在<strong>同一个主板上</strong>连接这两个 CPU, 类似 Intel 处理器之间的 <strong>QPI / UPI</strong> 总线，或者是 AMD 处理器之间的 Infinity Fabric
-<img src="/content/docs/notes/_assets/79c324c76964.webp" alt="Distributed Training 配图" loading="lazy" decoding="async">
-<img src="/content/docs/notes/_assets/77115893a888.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></li>
+<img src="/content/docs/notes/_assets/79c324c76964.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1118" height="562">
+<img src="/content/docs/notes/_assets/77115893a888.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1098" height="382"></li>
 </ul>
 <h3 id="horizontal-scaling-out-across-multiple-nodes-水平扩展-向外">Horizontal scaling-out across multiple nodes 水平扩展 / 向外</h3>
 <ul>
@@ -149,7 +149,7 @@
 </ul>
 <h2 id="model-parallelism">Model Parallelism</h2>
 <p>Splitting the model across multiple learners
-<img src="/content/docs/notes/_assets/4a579d178a51.webp" alt="500" loading="lazy" decoding="async">
+<img src="/content/docs/notes/_assets/4a579d178a51.webp" alt="500" loading="lazy" decoding="async" width="1024" height="856">
 性能很大程度取决于网络的连接结构和操作计算量需求，适合计算密集且局部连接性强的场景：</p>
 <ul>
 <li>Each machine handles a subset of computation</li>
@@ -163,7 +163,7 @@
 <a href="https://arxiv.org/pdf/1811.06965">GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism</a></p>
 </blockquote>
 <p>将全局批次（global batch）拆分为多个微批次 (micro-batches)，并将它们并发地注入到流水线中。</p>
-<p><img src="/content/docs/notes/_assets/2b929ebdde5a.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/2b929ebdde5a.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1510" height="690"></p>
 <h3 id="流水线气泡-pipeline-bubble">流水线气泡 (Pipeline Bubble)</h3>
 <p>在图 (b) 中，如果 Device 0 把第一批数据算完传给 Device 1 后，它自己就只能干等着，直到 Device 3 算完前向和反向，把误差传回来，Device 0 才能开始算反向梯度。中间大段的空白时间被称为 "Bubble"，这会导致 GPU 算力的极大浪费</p>
 <h3 id="微批次-micro-batch">微批次 Micro-batch</h3>
@@ -183,7 +183,7 @@
 <p>Offloading (卸载)：
 实在装不下的时候，趁 GPU 还在算别的，把一些暂时不用的数据存到 CPU 的内存里，需要时再搬回来。</p>
 <p><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-intro.html">https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-intro.html</a></p>
-<p><img src="/content/docs/notes/_assets/a8548a93fea8.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/a8548a93fea8.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1164" height="1444"></p>
 <p>如图，一个包含 4 个Layer的模型，在 8 张 GPU 上混合使用数据并行和流水线并行
 每个模型副本是一个 PP_GROUP (pipeline parallel group 流水线并行组)，并且被横跨划分在两张 GPU 上。例如图中红框的 GPU 0 和 GPU 1 共同持有一份完整的模型。
 模型的每个切分部分被分配给 4 张 GPU，这 4 个切分副本构成一个数据并行组，标记为 DP_GROUP。例如图中蓝框的 GPU 0, 2, 4, 6 都持有 L1 和 L2 层，它们之间做数据并行同步。</p>
@@ -191,7 +191,7 @@
 <blockquote>
 <p>Splits individual layers, or <code>nn.Modules</code>, across devices, to be run in parallel</p>
 </blockquote>
-<p><img src="/content/docs/notes/_assets/98211113ad3f.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/98211113ad3f.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1564" height="1086"></p>
 <p>和流水线并行按层的前后顺序切分不同，张量并行是把每一层内部的参数矩阵给切开了（即图中的水平虚线）。比如 GPU 0 拿到了 L1、L2、L3、L4 这四层的所有“上半部分”参数，而 GPU 1 拿到了它们的“下半部分”。</p>
 <p>图中的红框标出了 MP_GROUP = TP_GROUP。GPU 0 和 GPU 1 组成了一个团队。在做前向或反向传播时，它们必须极其频繁地交换数据（通常在算完半个矩阵后，立刻通过 All-Reduce 把结果加起来）。故而张量并行通常只在同一台拥有极高 NVLink 带宽的物理机内部进行。</p>
 <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Total&nbsp;GPUs</mtext><mo>=</mo><mtext>TP</mtext><mo>×</mo><mtext>PP</mtext><mo>×</mo><mtext>DP</mtext></mrow><annotation encoding="application/x-tex">\text{Total GPUs} = \text{TP} \times \text{PP} \times \text{DP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Total&nbsp;GPUs</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">TP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">PP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">DP</span></span></span></span></span>
@@ -209,7 +209,7 @@
 <h3 id="optimizer-state-sharding-优化器状态分片">Optimizer state sharding 优化器状态分片</h3>
 <blockquote>
 <p>a single replica of the optimizer state is sharded across data-parallel ranks, with no redundancy across devices
-<img src="/content/docs/notes/_assets/e79516725cd0.gif" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<img src="/content/docs/notes/_assets/e79516725cd0.gif" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1544" height="1306"></p>
 </blockquote>
 <p>ZeRO-1</p>
 <ul>
@@ -224,7 +224,7 @@
 <h3 id="straggler-problem-木桶效应">Straggler problem / 木桶效应</h3>
 <p>架构缺点是参数服务器 PS 需要等待所有学习器/节点传回更新的梯度后，才能计算并统一更新模型参数。差异来自于学习器底层计算时间的随机波动以及网络通信延迟的随机波动，训练速度永远受制于最慢的那张卡。</p>
 <h3 id="synchronous-sgd-variants">Synchronous SGD Variants</h3>
-<p><img src="/content/docs/notes/_assets/688a9e881491.webp" alt="Distributed Training 配图" loading="lazy" decoding="async">
+<p><img src="/content/docs/notes/_assets/688a9e881491.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1882" height="408">
 如图，为了解决 Straggler problem，演化出了不同的梯度下降策略，其中：</p>
 <ul>
 <li><strong>P:</strong> 学习器/节点 (Learners) 的总数</li>
@@ -243,8 +243,8 @@ PS 只看“批次数量”不看 learner。
 <p>既然同步机制总要等待，能不能干脆完全不等待？这就是异步 SGD (Async-SGD)：任何一个节点只要算完了梯度，随时提交给 PS，PS 立马用它来更新全局权重。</p>
 <p>这带来一个致命缺陷：陈旧梯度 (Stale Gradients)，即节点用来计算梯度的权重，可能是 PS 上很久以前的旧版本。
 当节点算完把梯度交回给 PS 时，PS 上的全局权重可能早就被其他跑得快的节点更新过好几轮了。使用这种“过期/陈旧”的梯度强行更新全局模型，会导致训练极度不稳定、收敛变慢，甚至收敛到一个非常差的局部最优解。
-<img src="/content/docs/notes/_assets/47c930177df5.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
-<p><img src="/content/docs/notes/_assets/daa21925af2a.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<img src="/content/docs/notes/_assets/47c930177df5.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1460" height="746"></p>
+<p><img src="/content/docs/notes/_assets/daa21925af2a.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1546" height="440"></p>
 <p>Async SGD (标准异步 SGD)
 参数服务器（PS）在收到任何一个学习器（Learner）的梯度后，立即进行全局参数更新，无需等待其他学习器。
 系统处于无锁（Lock-free）或细粒度锁状态，各节点完全独立并行。
@@ -257,8 +257,8 @@ PS 设定了一个阈值，只有在收集到来自 <span class="katex"><span cl
 进一步放宽了更新条件。PS 仅统计接收到的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span></span></span></span> 个 mini-batches 的梯度来触发更新，而不再区分这些梯度具体来自哪个学习器。
 无论哪个学习器率先完成计算，它都会将梯度推送到 PS，随即从 PS 抓取最新的参数，并立即基于该最新参数开始下一个 mini-batch 的梯度计算。同样，系统不会取消未完成的落后者。
 这种机制进一步减少了单次迭代的运行时间（Runtime per iteration），同时在误差收敛（Error convergence）特性上与 K-async 保持一致。</p>
-<p><img src="/content/docs/notes/_assets/170527866c25.webp" alt="300" loading="lazy" decoding="async">
-<img src="/content/docs/notes/_assets/15ba2b0bd2ec.webp" alt="300" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/170527866c25.webp" alt="300" loading="lazy" decoding="async" width="760" height="510">
+<img src="/content/docs/notes/_assets/15ba2b0bd2ec.webp" alt="300" loading="lazy" decoding="async" width="1290" height="894"></p>
 <p><a href="https://arxiv.org/abs/1803.01113">Slow and Stale Gradients Can Win the Race: Error-Runtime Trade-offs in Distributed SGD</a></p>
 <ul>
 <li>Error-runtime trade-off for Sync and Async-SGD with same learning rate.</li>
@@ -276,13 +276,13 @@ PS 设定了一个阈值，只有在收集到来自 <span class="katex"><span cl
 <p>GPUs exchange data such that every GPU ends up with a chunk of the final result</p>
 </blockquote>
 <p>GPU 之间在环形拓扑上不断交换数据块并进行局部求和。当这个阶段结束时，没有任何一张 GPU 拥有完整的结果，但是每一张 GPU 都持有了最终结果的其中一个完整数据块。
-<img src="/content/docs/notes/_assets/36ad31b9ad84.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<img src="/content/docs/notes/_assets/36ad31b9ad84.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1550" height="974"></p>
 <h3 id="all-gather">All-Gather</h3>
 <blockquote>
 <p>GPUs exchange chunks from scatter-reduce such that all GPUs end up with the complete final result.</p>
 </blockquote>
 <p>在环上把各自算好的最终数据块（chunks from scatter-reduce）传递一圈。所有 GPU 收集齐了别人发来的结果块，最终拼凑出完整的、全员一致的全局梯度数组。</p>
-<p><img src="/content/docs/notes/_assets/8811914cc79b.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/8811914cc79b.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="1676" height="1012"></p>
 <p>下面通过复杂度推导，给出为何现代大模型训练必须采用 Ring All-Reduce 的证明：</p>
 <p>P: number of processes
 N: total number of model parameters</p>
@@ -457,7 +457,7 @@ Parameters 2B + Gradients 2B + Master weights 4B +  Adam Momentum 4B + Adam Vari
 <li>ZeRO-Offload： Offload Strategy &amp;&amp; Offload Schedule</li>
 <li>ZeRO-Infinity： Breaking the GPU Memory Wall for Extreme Scale Deep Learning</li>
 </ul>
-<p><img src="/content/docs/notes/_assets/1189036d38e5.webp" alt="Distributed Training 配图" loading="lazy" decoding="async"></p>
+<p><img src="/content/docs/notes/_assets/1189036d38e5.webp" alt="Distributed Training 配图" loading="lazy" decoding="async" width="2902" height="1345"></p>
 <ul>
 <li>Optimizer state partitioning（ZeRO stage 1）：只对 optimizer 状态进行切分，占用内存原始1/4；
 <ul>
@@ -496,4 +496,4 @@ FSDP 的核心价值不是更快，而是让大模型“能训练”</p>
 <a href="https://arxiv.org/abs/1910.02054">ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</a>
 <a href="https://arxiv.org/abs/2304.11277">PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel</a>
 <a href="https://siboehm.com/articles/22/data-parallel-training">https://siboehm.com/articles/22/data-parallel-training</a>
-<a href="https://www.bilibili.com/video/BV1op421C7wp/">大模型是怎么训起来的？分布式并行框架介绍 #大模型 #分布式并行 #训练 - ZOMI酱</a></p></div></div><div class="reader-end"><span aria-hidden="true">✳</span><p>一个想法暂且落笔。<br>新的问题，留给下一次。</p><a href="/writing/" class="text-link">继续逛逛 ↗</a></div><section class="related"><h2>顺着读下去。</h2><a href="/writing/notes/training/deep-learning/"><span>Deep Learning</span><span aria-hidden="true">↗</span></a></section></article></main><footer class="footer"><div class="footer-top"><p>始于一个问题。<br><span>保持探索。</span></p><a class="contact" href="mailto:yl6061@columbia.edu">LET’S TALK <span aria-hidden="true">↗</span><small>yl6061@columbia.edu</small></a></div><div class="footer-bottom"><span class="mono">© 2026 YUXUAN LIN</span><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="/archive/">旧日存档</a><a href="/feed.xml">RSS</a><a href="#top" data-backtop>回到顶部 ↑</a></div><span class="footer-note">AN INDEPENDENT OBSERVATORY / 2026</span></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.hmIUlwxz.js"></script></body></html>
+<a href="https://www.bilibili.com/video/BV1op421C7wp/">大模型是怎么训起来的？分布式并行框架介绍 #大模型 #分布式并行 #训练 - ZOMI酱</a></p></div></div><footer class="reader-end"><section aria-labelledby="related-title"><h2 id="related-title">同一主题</h2><ul><li><a href="/writing/notes/training/deep-learning/">Deep Learning</a></li></ul></section><a class="inline-more" href="/writing/">全部文字</a></footer></article></main><footer class="footer"><div class="footer-inner"><div class="footer-contact"><p>聊聊 AI、系统，或一个尚未成形的想法。</p><a class="footer-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></div><div class="footer-links"><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/feed.xml">RSS</a><a href="/archive/">旧日存档</a></div><p class="endcard" aria-hidden="true">林煜轩</p><p class="footer-meta"><span>© 2026 Yuxuan Lin</span><a href="#top" data-backtop>回到顶部</a></p></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.lrrpZqVD.js"></script></body></html>
