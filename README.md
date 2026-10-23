@@ -6,7 +6,7 @@ A custom Astro static website with equal space for work, research, writing and l
 
 ## Start and verify
 
-Requires Node **22.23.4 or newer**. CI uses the latest Node 22 release.
+Requires Node **22.23.4 or newer**. CI uses Node 26, matching the major version used for local acceptance.
 
 ```sh
 npm ci

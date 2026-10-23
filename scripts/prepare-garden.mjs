@@ -1,6 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+async function exactSource(file) {
+  const names = await fs.readdir(path.dirname(file));
+  if (!names.includes(path.basename(file)))
+    throw new Error(`Source filename casing must match Git exactly: ${file}`);
+  return file;
+}
 async function copyAssets(dir) {
   for (const e of await fs.readdir(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
@@ -18,7 +24,7 @@ await copyAssets("blog");
 await fs.mkdir("static/media", { recursive: true });
 const { photos } = await import("../src/lib/content.mjs");
 for (const p of photos)
-  await sharp("plog/2025-07-10-Singapore/" + p.file)
+  await sharp(await exactSource("plog/2025-07-10-Singapore/" + p.file))
     .rotate()
     .resize({ width: 1600, withoutEnlargement: true })
     .webp({ quality: 86 })
@@ -28,10 +34,10 @@ for (const [source, name, width] of [
   ["infra.png", "fingoat", 1600],
   ["pacc.png", "pacc", 1600],
   ["PET.png", "imaging", 1600],
-  ["lenet.png", "cuda", 1000],
+  ["Lenet.png", "cuda", 1000],
   ["os.png", "os", 1000],
 ])
-  await sharp("static/index/" + source)
+  await sharp(await exactSource("static/index/" + source))
     .rotate()
     .resize({ width, withoutEnlargement: true })
     .webp({ quality: 90 })

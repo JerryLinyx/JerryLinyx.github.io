@@ -47,3 +47,7 @@ A complete replacement of Docusaurus/React with Astro 7 static output and native
 Local evidence: `output/playwright/garden/browser-results.json`, `a11y-results.json`, `responsive-extra.json`, and desktop/mobile screenshots. These outputs are intentionally ignored. Tests use real headless Chrome on macOS, not physical iOS/Safari. Automated accessibility results apply only to the named rules; no award certification or universal browser compliance is claimed.
 
 Deployment uses the existing normal Git publisher with a source/publish parent chain and no force push. Actual live checks are recorded separately in ignored release evidence after publication; this document reports the completed local acceptance.
+
+## CI portability correction
+
+The first source CI run exposed a case-sensitive Linux filename mismatch (`Lenet.png` versus `lenet.png`) that macOS had accepted. The source name now matches Git exactly, and the asset preparer explicitly checks filename case on every platform. CI uses Node 26, matching the tested local major version, rather than the runner’s cached Node 22 patch below Astro’s minimum. The Pages deployment and live site were unaffected; the corrected CI must pass before final handoff.
