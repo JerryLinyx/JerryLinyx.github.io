@@ -1,0 +1,109 @@
+{
+  "files": [
+    "algo/dpi.md",
+    "algo/flow-based-model.md",
+    "algo/flow-matching.md",
+    "algo/ideas.md",
+    "algo/text2image.md",
+    "algo/transformer.md",
+    "algo/vae.md",
+    "algo/video-generation.md",
+    "application/evaluation.md",
+    "application/rag.md",
+    "data/big-data.md",
+    "hpc/compiler.md",
+    "hpc/cuda.md",
+    "hpc/nvidia-architecture.md",
+    "inference/inference.md",
+    "leetcode/ACM模式.md",
+    "leetcode/C++语法.md",
+    "leetcode/C语言.md",
+    "leetcode/python-syntax.md",
+    "leetcode/回溯.md",
+    "leetcode/图论.md",
+    "leetcode/技巧.md",
+    "leetcode/递归.md",
+    "training/deep-learning.md",
+    "training/distributed-training.md",
+    "_assets/7f052350f7e1.webp",
+    "_assets/648e22e691d3.webp",
+    "_assets/3f3c48340771.webp",
+    "_assets/45b884bebed7.webp",
+    "_assets/1b779958a929.webp",
+    "_assets/56c59d1b3291.webp",
+    "_assets/373044eaadef.webp",
+    "_assets/c0f3e1afdc2c.webp",
+    "_assets/71040504de25.webp",
+    "_assets/5a9891182a5c.webp",
+    "_assets/c3961faea9ef.webp",
+    "_assets/3fd43cc44acd.webp",
+    "_assets/eec85b35ba0a.webp",
+    "_assets/405958fdaffc.webp",
+    "_assets/1082e7cbab10.webp",
+    "_assets/7a3b4012dbe3.webp",
+    "_assets/1a21adbaf8bd.webp",
+    "_assets/ea4d3ffec492.webp",
+    "_assets/087b925e1acc.webp",
+    "_assets/851b25bdc45f.webp",
+    "_assets/0d6b5daa4ed0.webp",
+    "_assets/47970120a4b4.webp",
+    "_assets/d7ff0768c1eb.webp",
+    "_assets/eac57115c644.webp",
+    "_assets/1f1d0c553760.webp",
+    "_assets/79c324c76964.webp",
+    "_assets/77115893a888.webp",
+    "_assets/4a579d178a51.webp",
+    "_assets/2b929ebdde5a.webp",
+    "_assets/a8548a93fea8.webp",
+    "_assets/98211113ad3f.webp",
+    "_assets/e79516725cd0.gif",
+    "_assets/688a9e881491.webp",
+    "_assets/47c930177df5.webp",
+    "_assets/daa21925af2a.webp",
+    "_assets/170527866c25.webp",
+    "_assets/15ba2b0bd2ec.webp",
+    "_assets/36ad31b9ad84.webp",
+    "_assets/8811914cc79b.webp",
+    "_assets/1189036d38e5.webp"
+  ],
+  "excluded": [
+    {
+      "file": "application/agent.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "leetcode/pytorch-syntax.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "leetcode/待完成.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "leetcode/教程.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "leetcode/数组.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "leetcode/数论.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "training/collective-communication.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    },
+    {
+      "file": "training/fine-tuning.md",
+      "reason": "Empty, short outline, or explicit unfinished draft"
+    }
+  ],
+  "notes": 25,
+  "assets": 40,
+  "imageOptimization": {
+    "originalBytes": 16368103,
+    "publishedBytes": 8238461
+  }
+}

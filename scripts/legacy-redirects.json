@@ -1,0 +1,214 @@
+[
+  {
+    "from": "/2024/04/18/Toefl/",
+    "to": "/blog/2024/04/18/toefl/"
+  },
+  {
+    "from": "/2024/04/19/Duolingo/",
+    "to": "/blog/2024/04/18/duolingo/"
+  },
+  {
+    "from": "/2024/04/19/hello-world/",
+    "to": "/blog/2024/05/15/hello-world/"
+  },
+  {
+    "from": "/2024/04/19/macos-hexo-github/",
+    "to": "/blog/2024/04/18/macos-hexo-github/"
+  },
+  {
+    "from": "/2024/04/19/words/",
+    "to": "/blog/legacy-words/"
+  },
+  {
+    "from": "/2024/04/21/CS-skillsets/",
+    "to": "/blog/2024/04/21/cs-skillsets/"
+  },
+  {
+    "from": "/2024/04/21/llm/",
+    "to": "/blog/2024/04/21/llm/"
+  },
+  {
+    "from": "/2024/04/22/leetcode/",
+    "to": "/blog/2024/04/21/leetcode/"
+  },
+  {
+    "from": "/2024/04/22/markdown/",
+    "to": "/blog/2024/04/21/markdown/"
+  },
+  {
+    "from": "/2024/04/23/391os/",
+    "to": "/blog/2024/04/23/391os/"
+  },
+  {
+    "from": "/2024/04/23/ACIDvsBASE/",
+    "to": "/blog/legacy-acidvsbase/"
+  },
+  {
+    "from": "/2024/04/24/mdp/",
+    "to": "/blog/2024/04/23/mdp/"
+  },
+  {
+    "from": "/2024/04/30/cs415/",
+    "to": "/blog/2024/04/29/cs415/"
+  },
+  {
+    "from": "/2024/05/01/RL/",
+    "to": "/blog/2024/04/30/rl/"
+  },
+  {
+    "from": "/2024/05/02/cs440/",
+    "to": "/blog/2024/05/02/cs440/"
+  },
+  {
+    "from": "/2024/05/09/cuda/",
+    "to": "/blog/2024/05/09/cuda/"
+  },
+  {
+    "from": "/2024/05/25/cpp/",
+    "to": "/blog/2024/05/25/cpp/"
+  },
+  {
+    "from": "/link/",
+    "to": "/archive/pages/link/"
+  },
+  {
+    "from": "/movie/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/movies/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/music/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/2024/04/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/2024/04/page/2/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/2024/05/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/2024/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/2024/page/2/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/archives/page/2/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/categories/MLE/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/categories/SDE/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/categories/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/page/2/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/AI/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/CG/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/CV/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/DL/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/Data-Structure/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/DataBases/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/EN/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/FrontEnd/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/Hexo/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/LLM/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/ML/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/Markdown/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/MySQL/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/NLP/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/OS/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/RL/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/Redis/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/tags/",
+    "to": "/archive/"
+  },
+  {
+    "from": "/posts/dpi/",
+    "to": "/docs/notes/algo/dpi/"
+  },
+  {
+    "from": "/search/",
+    "to": "/notes/"
+  },
+  {
+    "from": "/CV/",
+    "to": "/resume/"
+  }
+]

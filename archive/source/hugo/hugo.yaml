@@ -1,0 +1,60 @@
+baseURL: https://JerryLinyx.github.io/
+languageCode: en-us
+title: JOG
+theme: ["PaperMod"]
+
+menu:
+  main:
+    - identifier: categories
+      name: Categories
+      url: /categories/
+      weight: 10 # 重量越轻，就越往前面排，“1”则是置顶
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 20
+    - identifier: archives
+      name: Archives
+      url: /archives/
+      weight: 10
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 10
+
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON 
+
+
+params:
+  # defaultTheme: light
+  # defaultTheme: dark
+  defaultTheme: auto # to switch between dark or light according to browser theme
+
+  homeInfoParams:
+    Title: Welcome to Jerry's Blog
+    Content: M.S. in Computer Engineering at Columbia University
+
+  socialIcons: # optional
+    - name: Github
+      url: "https://github.com/JerryLinyx"
+    - name: LinkedIn
+      url: "https://www.linkedin.com/in/yuxuan0/"
+    - name: Email
+      url: "mailto:yl6061@columbia.edu"
+    - name: CV
+      url: "https://JerryLinyx.github.io/CV/"
+    - name: WeChat
+      url: " /assets/wechat.JPG"
+
+  ShowBreadCrumbs: true # 面包屑导航
+  ShowReadingTime: true # 阅读时间
+  ShowShareButtons: true # 分享按钮
+  ShowPostNavLinks: true # 文章前后页按钮
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  TocOpen: true

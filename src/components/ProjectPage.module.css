@@ -1,0 +1,177 @@
+.page {
+  padding: 50px var(--gutter) 85px;
+  max-width: 1440px;
+  margin: auto;
+}
+.back {
+  font: 9px var(--font-mono);
+  color: var(--muted);
+}
+.heading {
+  margin: 60px 0 40px;
+}
+.heading h1 {
+  font: 400 clamp(55px, 8vw, 110px)/1.05 var(--font-display);
+  letter-spacing: -0.05em;
+  margin: 25px 0;
+}
+.heading h1 > span {
+  font-size: 0.6em;
+  float: right;
+  margin-top: 15px;
+}
+.heading > p {
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+.meta {
+  border-top: 1px solid var(--line);
+  padding-top: 23px;
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  align-items: center;
+  font-size: 11px;
+}
+.meta > div > span {
+  display: block;
+  font: 8px var(--font-mono);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+.image {
+  margin: 0;
+  background: #e9ebe2;
+  padding: 40px;
+}
+.image img {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+}
+.image figcaption {
+  font: 10px/1.6 var(--font-mono);
+  margin-top: 25px;
+  color: var(--muted);
+}
+.content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 70px;
+  padding-top: 70px;
+}
+.content aside {
+  position: sticky;
+  top: 30px;
+  align-self: start;
+}
+.content aside > strong {
+  display: block;
+  font: 40px var(--font-display);
+  letter-spacing: -0.04em;
+  margin: 20px 0 10px;
+}
+.content aside > p {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 210px;
+  line-height: 1.9;
+}
+.content section {
+  padding-bottom: 45px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+.content h2 {
+  font: 500 30px var(--font-body);
+  letter-spacing: -0.04em;
+  margin: 20px 0;
+}
+.content p {
+  font-size: 14px;
+  line-height: 2;
+  color: var(--muted);
+}
+.content h3 {
+  font: 25px var(--font-display);
+  margin: 27px 0 10px;
+}
+.content .sourceNote {
+  font-size: 11px;
+}
+.next {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  gap: 20px;
+  background: var(--accent);
+  padding: 35px;
+  color: var(--ink);
+}
+.next:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+.next > .eyebrow {
+  grid-column: 1/-1;
+}
+.next strong {
+  font: 48px/1.1 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.next > span:last-child {
+  font-size: 40px;
+}
+@media (max-width: 760px) {
+  .page {
+    padding-top: 30px;
+  }
+  .heading {
+    margin-top: 40px;
+  }
+  .heading h1 {
+    font-size: 60px;
+    overflow-wrap: anywhere;
+  }
+  .heading h1 > span {
+    display: none;
+  }
+  .heading > p {
+    font-size: 15px;
+  }
+  .meta {
+    flex-wrap: wrap;
+    gap: 25px;
+    font-size: 10px;
+  }
+  .image {
+    padding: 18px;
+  }
+  .content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-top: 40px;
+  }
+  .content aside {
+    position: static;
+  }
+  .content aside > p {
+    max-width: none;
+  }
+  .content h2 {
+    font-size: 25px;
+  }
+  .content p {
+    font-size: 13px;
+  }
+  .next {
+    padding: 25px;
+  }
+  .next strong {
+    font-size: 36px;
+  }
+}

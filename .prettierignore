@@ -1,0 +1,7 @@
+build/
+.docusaurus/
+output/
+docs/notes/
+src/data/notes.json
+scripts/notes-manifest.json
+src/css/fonts/

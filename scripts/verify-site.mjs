@@ -1,0 +1,59 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+const root = path.resolve("build");
+const base = process.env.SITE_BASE_URL || "/";
+async function walk(dir) {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  return (
+    await Promise.all(
+      entries.map((e) =>
+        e.isDirectory() ? walk(path.join(dir, e.name)) : path.join(dir, e.name),
+      ),
+    )
+  ).flat();
+}
+const files = await walk(root);
+const htmlFiles = files.filter((f) => f.endsWith(".html"));
+const missing = new Set();
+let checked = 0;
+for (const file of htmlFiles) {
+  const html = await fs.readFile(file, "utf8");
+  for (const match of html.matchAll(/(?:href|src)="([^"#?]+)[^\"]*"/g)) {
+    const url = match[1].replaceAll("&amp;", "&");
+    if (!url.startsWith(base) || url.startsWith("//")) continue;
+    const relative = decodeURIComponent(url.slice(base.length));
+    const target = path.resolve(root, relative);
+    if (!target.startsWith(root + path.sep) && target !== root)
+      throw new Error("Path escaped build: " + url);
+    let exists = false;
+    for (const candidate of [
+      target,
+      path.join(target, "index.html"),
+      target + ".html",
+    ])
+      try {
+        if ((await fs.stat(candidate)).isFile()) {
+          exists = true;
+          break;
+        }
+      } catch {}
+    if (!exists) missing.add(`${path.relative(root, file)} → ${url}`);
+    checked++;
+  }
+}
+const home = await fs.readFile(path.join(root, "index.html"), "utf8");
+for (const expected of [
+  "Thinking in",
+  "FinGOAT",
+  "PACC",
+  "application/ld+json",
+]) {
+  if (!home.includes(expected)) missing.add("Home missing " + expected);
+}
+if (missing.size) {
+  console.error([...missing].join("\n"));
+  process.exit(1);
+}
+console.log(
+  `Verified ${checked} internal links/assets across ${htmlFiles.length} rendered pages.`,
+);

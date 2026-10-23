@@ -1,0 +1,140 @@
+---
+slug: singapore-through-my-lens
+title: Singapore · City Walk
+authors: [jerry]
+tags: [photo, travel]
+image: ./jewelImage.jpeg
+description: Rain suspended mid-air, river lights refusing to sleep, and glass gardens humming after dark.
+---
+
+import styles from './styles.module.css';
+import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
+
+import jewelImage from './jewelImage.jpeg';
+import clarkeQuayImage from './clarkeQuayImage.jpeg';
+import cityHallImage from './cityHallImage.jpeg';
+import nationalGalleryImage from './nationalGalleryImage.jpeg';
+import cliffordPierImage from './cliffordPierImage.jpeg';
+import merlionImage from './merlionImage.jpeg';
+import chinatownImage from './chinatownImage.jpeg';
+import floralFantasyImage from './floralFantasyImage.jpeg';
+import gardensByBayImage from './gardensByBayImage.jpg';
+
+export const photos = [
+  {
+    image: jewelImage,
+    alt: 'Rain vortex inside Jewel Changi Airport',
+    title: '樟宜机场 · Jewel Changi Airport',
+    description: '雨漩涡宛若悬自天穹的水晶沙漏，时差与旅途都在此延缓。',
+  },
+  {
+    image: clarkeQuayImage,
+    alt: 'Boats passing under Clarke Quay bridge at night',
+    title: '克拉码头 · Clarke Quay',
+  },
+  {
+    image: cityHallImage,
+    alt: 'Parliament House facade glowing after dusk',
+    title: '新加坡国会大厦 · Parliament House',
+  },
+  {
+    image: nationalGalleryImage,
+    alt: 'Victoria Concert Hall clock tower glowing after dusk',
+    title: '维多利亚音乐厅 · Victoria Concert Hall',
+  },
+  {
+    image: cliffordPierImage,
+    alt: 'Clifford Pier illuminated columns at night',
+    title: '克利福德码头 · Clifford Pier',
+  },
+  {
+    image: merlionImage,
+    alt: 'Merlion statue spraying water toward Marina Bay',
+    title: '鱼尾狮 · Merlion',
+  },
+  {
+    image: chinatownImage,
+    alt: 'Chinatown shophouse corridor with hanging lanterns',
+    title: '牛车水 · Chinatown',
+  },
+  {
+    image: floralFantasyImage,
+    alt: 'Marina Bay Sands skyline reflecting on Marina Bay',
+    title: '滨海湾金沙酒店 · Marina Bay Sands',
+  },
+  {
+    image: gardensByBayImage,
+    alt: 'Supertree Grove lit up at Gardens by the Bay',
+    title: '滨海湾花园 · Gardens by the Bay',
+    description: '超级树在夜里拔地而起，紫蓝色的光谱为旅程落下帷幕。',
+  },
+];
+
+export const leftColumn = photos.filter((_, index) => index % 2 === 0);
+export const rightColumn = photos.filter((_, index) => index % 2 === 1);
+
+export function PreviewCard() {
+  const {isBlogPostPage} = useBlogPost();
+
+  if (isBlogPostPage) {
+    return null;
+  }
+
+  return (
+    <div className={styles.heroPreview}>
+      <img
+        src={jewelImage}
+        alt="Rain vortex inside Jewel Changi Airport"
+      />
+    </div>
+  );
+}
+
+<section className={styles.hero}>
+  <div className={styles.heroText}>
+    <h2>Singapore · Water & Light</h2>
+    <p>
+    雨幕自穹顶倾泻，河水裹挟霓虹缓缓回旋。
+    我循着湿润而鲜明的线索，徐行在这座城市。<br/>
+    每一帧都维持原初的呼吸节奏，只轻轻调校色彩，
+    将南洋的水汽同盛夏一并封存。
+    </p>
+    <p className={styles.meta}>
+      Shot on Apple iPhone 16 Pro · 24&nbsp;mm f/1.78 & 120&nbsp;mm f/2.8<br/>
+      July&nbsp;8-10,&nbsp;2025 · Singapore, SG 
+    </p>
+  </div>
+  <PreviewCard />
+</section>
+
+<!-- truncate -->
+
+<section className={styles.gallery}>
+  <div className={styles.column}>
+    {leftColumn.map((photo) => (
+      <figure key={photo.title}>
+        <img src={photo.image} alt={photo.alt} />
+        <figcaption>
+          <strong>{photo.title}</strong> · {photo.description}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <div className={styles.column}>
+    {rightColumn.map((photo) => (
+      <figure key={photo.title}>
+        <img src={photo.image} alt={photo.alt} />
+        <figcaption>
+          <strong>{photo.title}</strong> · {photo.description}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<section className={styles.footerNote}>
+  <h2>Behind the Frame</h2>
+  <p>
+  若你也想感受狮城的脉搏，可以从午后的克拉码头启程，沿着新加坡河走到滨海湾——流水和光影会替你规划好每一幕。
+  </p>
+</section>
