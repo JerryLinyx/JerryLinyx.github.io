@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="plugin-pages plugin-id-default" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">Game Development UIUC-CS415 &lt;游戏开发&gt; — Archive | Yuxuan Lin</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" property="og:url" content="https://jerrylinyx.github.io/archive/hexo/2024/04/30/cs415/"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" name="author" content="Yuxuan Lin"><meta data-rh="true" name="theme-color" content="#f6f5ef"><meta data-rh="true" property="og:title" content="Game Development UIUC-CS415 &lt;游戏开发&gt; — Archive | Yuxuan Lin"><meta data-rh="true" name="description" content="完整保留的历史内容，整合于 Yuxuan Lin 的个人网站。"><meta data-rh="true" property="og:description" content="完整保留的历史内容，整合于 Yuxuan Lin 的个人网站。"><link data-rh="true" rel="icon" href="/img/monogram.svg"><link data-rh="true" rel="canonical" href="https://jerrylinyx.github.io/archive/hexo/2024/04/30/cs415/"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/archive/hexo/2024/04/30/cs415/" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/archive/hexo/2024/04/30/cs415/" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Yuxuan Lin Atom Feed">
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/plog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/plog/atom.xml" title="Yuxuan Lin Atom Feed"><link rel="stylesheet" href="/assets/css/styles.78b5c50b.css">
+<script src="/assets/js/runtime~main.51e111cf.js" defer="defer"></script>
+<script src="/assets/js/main.3676d334.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><header id="top" class="navbar site-header"><a class="wordmark" aria-label="Yuxuan Lin 首页" href="/"><span class="monogram">yl<span>.</span></span><span>YUXUAN LIN<span class="wordmark-sub">ENGINEER &amp; EXPLORER</span></span></a><button class="menu-toggle" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">Menu +</button><nav id="site-nav" aria-label="主导航" class="site-nav"><a href="/#work">Work<span>01</span></a><a href="/notes/">Notes<span>02</span></a><a href="/#about">About<span>03</span></a><a href="mailto:yl6061@columbia.edu" class="nav-contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><main class="legacy-page" id="main-content"><a class="eyebrow" href="/archive/">← ALL ARCHIVES</a><header><span class="eyebrow">HISTORICAL EDITION / <!-- -->2024-04-30</span><h1>Game Development UIUC-CS415 &lt;游戏开发&gt;</h1><p>这是原站的历史版本，正文与配图已整理保留。<!-- -->更新后的内容请见正式文章。</p><a class="text-link" href="/blog/2024/04/29/cs415/">Read current edition<!-- --> ↗</a></header><div class="markdown legacy-content"><h2 id="Animation"><a href="#Animation" class="headerlink" title="Animation"></a>Animation</h2><h3 id="Geometric-Transformations"><a href="#Geometric-Transformations" class="headerlink" title="Geometric Transformations"></a>Geometric Transformations</h3><p>The geometry of a mesh is defined by the vertex set<br>Applying a transformation to a mesh means transforming each vertex location<br>Simple transformations can be accomplished by multiplying a matrix times the vertex location</p>
+<ul>
+<li>Rotation</li>
+<li>Scale</li>
+<li>Translation</li>
+</ul>
+<p>3 dimensional transformations are implemented as a 4x4 matrix</p>
+<ul>
+<li>We express the 3D position of a point using homogeneous coordinates…add a fourth w coordinate</li>
+<li>Each 3D position (x,y,z) corresponds to a homogeneous point (x,y,z,1)</li>
+</ul>
+<h4 id="3-D-Affine-Transformations"><a href="#3-D-Affine-Transformations" class="headerlink" title="3-D Affine Transformations"></a>3-D Affine Transformations</h4><p>General Form (with homogeneous coordinates)</p>
+<h4 id="Translation"><a href="#Translation" class="headerlink" title="Translation"></a>Translation</h4><p><img src="/legacy-assets/7f065d2dbe831c.png" alt="历史文章配图" loading="lazy"><br>The inverse of a translation matrix is $T^{−1}(t) = T(−t)$, that is, the vector t is negated.</p>
+<h4 id="Scale"><a href="#Scale" class="headerlink" title="Scale"></a>Scale</h4><p><img src="/legacy-assets/35db12bf7c9627.png" alt="历史文章配图" loading="lazy"></p>
+<h4 id="2-D-Rotations-It’s-Not-Magic"><a href="#2-D-Rotations-It’s-Not-Magic" class="headerlink" title="2-D Rotations: It’s Not Magic"></a>2-D Rotations: It’s Not Magic</h4><p><img src="/legacy-assets/feb82d6055dc28.png" alt="历史文章配图" loading="lazy">Real-Time Rendering, Fourth Edition (Page 60).</p>
+<h4 id="3-D-Rotations"><a href="#3-D-Rotations" class="headerlink" title="3-D Rotations"></a>3-D Rotations</h4><p>About x-axis</p>
+<ul>
+<li>rotates y to z</li>
+</ul>
+<p>About y-axis</p>
+<ul>
+<li>rotates z to x</li>
+</ul>
+<p>About z-axis</p>
+<ul>
+<li>rotates x to y</li>
+</ul>
+<p>Rotations do not commute!</p>
+<ul>
+<li>Rotation is around the origin</li>
+<li>To rotate around a point p we have to: translate p to origin, rotate, translate back to p</li>
+<li>Example:<img src="/legacy-assets/1950675dae3178.png" alt="历史文章配图" loading="lazy"></li>
+</ul>
+<h4 id="Concatenating-Transformations"><a href="#Concatenating-Transformations" class="headerlink" title="Concatenating Transformations"></a>Concatenating Transformations</h4><p>You can execute a sequence of transformations using a single matrix </p>
+<p>Just compute the product of the transformation matrices<br>Important $M_1$ is applied first then $M_2$ and so on</p>
+<ul>
+<li><strong>Modeling transformation</strong>: model is sized, placed and oriented in the virtual world </li>
+</ul>
+<h4 id="Non-Commutativity-Example"><a href="#Non-Commutativity-Example" class="headerlink" title="Non-Commutativity Example"></a>Non-Commutativity Example</h4><p><img src="/legacy-assets/e728180e67866c.png" alt="历史文章配图" loading="lazy"><br>It generally holds that $MN != NM$, for arbitrary matrices $M$ and $N$.</p>
+<h4 id="Use-in-Rigging"><a href="#Use-in-Rigging" class="headerlink" title="Use in Rigging"></a>Use in Rigging</h4><blockquote>
+<p>3D rigging is the process of creating a skeleton for a 3D model so it can move. Most commonly, characters are rigged before they are animated because if a character model doesn’t have a rig, they can’t be deformed and moved around.</p>
+</blockquote>
+<p>Each joint has a transformation associated with it<br>The rigging skeleton generates a tree of transformations<br>So, fingers are transformed a concatenated transform<br>Product of matrices from the chest to shoulder to elbow to wrist, etc.</p>
+<h3 id="Orientation-Euler-Angles"><a href="#Orientation-Euler-Angles" class="headerlink" title="Orientation: Euler Angles"></a>Orientation: Euler Angles</h3><h4 id="Instancing"><a href="#Instancing" class="headerlink" title="Instancing"></a>Instancing</h4><p>Vegetation instancing.<br>All objects the same color in the lower image are rendered in a single draw call.<br>You render the same number of triangles as non-instancing…<br>So why is instancing more performant than using more meshes?</p>
+<h4 id="Animation-and-Orientation"><a href="#Animation-and-Orientation" class="headerlink" title="Animation and Orientation"></a>Animation and Orientation</h4><p>Interpolation is used to generate in-between frames from keyframes<br>At a minimum this means interpolating position and orientation of a model<br>So…how can we represent orientation?</p>
+<h4 id="Orientation"><a href="#Orientation" class="headerlink" title="Orientation"></a>Orientation</h4><p>A model has an initial geometry (from the artist)<br>Changing that orientation requires rotation<br>How about just using a single rotation matrix?</p>
+<p>Consider a 2D example</p>
+<ul>
+<li>Starting rotation is 90 degree clockwise</li>
+<li>Ending rotation is 90 degree counter-clockwise</li>
+<li><p>Doing element-by-element linear interpolation to get intermediate rotation</p>
+</li>
+<li><p>Does this make sense? Should we have expected something different?</p>
+</li>
+</ul>
+<h5 id="Euler-Angles"><a href="#Euler-Angles" class="headerlink" title="Euler Angles"></a>Euler Angles</h5><p>We can record an orientation as</p>
+<ul>
+<li>Three rotations</li>
+<li>Each rotation is around a principal axis</li>
+<li><p>Example: </p>
+</li>
+<li><p>This not only option</p>
+<ul>
+<li>24 different possible orders one could use</li>
+</ul>
+</li>
+<li>Also, people use different terminology<ul>
+<li>e.g. “yaw” instead of “head”</li>
+<li>Also which axis corresponds to a name is not standardized</li>
+</ul>
+</li>
+</ul>
+<p><img src="/legacy-assets/dabc601eafd3fe.png" alt="历史文章配图" loading="lazy"></p>
+<p><strong>The Good Part:</strong></p>
+<ul>
+<li>Three Euler angles can be used to specify arbitrary object orientation<ul>
+<li>i.e. any orientation we want can be achieved with these 3 rotations</li>
+</ul>
+</li>
+<li>Euler angles are used in a lot of applications…they are believed to be intuitive</li>
+<li>They are compact…requiring only 3 numbers </li>
+<li>Easily converted into a single rotation matrix</li>
+</ul>
+<p><strong>The Problematic Parts:</strong><br>Are they really intuitive?<br><img src="/legacy-assets/96f7471cc4ecd8.png" alt="历史文章配图" loading="lazy"><br>Each rotation is given in a new coordinate system<br>Plus, different triples can be used to generate the same orientation</p>
+<h5 id="Gimbal-Lock"><a href="#Gimbal-Lock" class="headerlink" title="Gimbal Lock"></a>Gimbal Lock</h5><p>环架锁定（Gimbal lock），也称为万向锁，是使用动态欧拉角表示三维物体的旋转时会出现的问题。<br>Airplane orientation</p>
+<ul>
+<li></li>
+<li>Two axes have collapsed onto each other</li>
+<li>Think about this from a user-interface perspective</li>
+</ul>
+<p>Imagine you have 3 dials…one for each angle<br>What action caused the orientation you see?<br>What happens when z dial is moved now?<br>What problem could this cause for someone playing a game with this interface? <img src="/legacy-assets/86ace9eef0ad3d.png" alt="历史文章配图" loading="lazy"></p>
+<p>When the <code>middle</code> rotation is a 90 or -90 rotation, we generate gimbal lock<br>In this example, gimbal lock occurs when a 90 degree turn around axis Z is made<br>Both X and Y rotations are now performed around the same axis<br><img src="/legacy-assets/79432a9766c635.png" alt="历史文章配图" loading="lazy"></p>
+<p>Is Gimbal Lock that Important?</p>
+<blockquote>
+<p>“In the video game industry there has been some back-and-forth battles about whether this problem is crucial. In an FPS game, the avatar is usually not allowed to pitch his head all the way to ±π/2, thereby avoiding this problem. In VR, it happens all the time that a user could pitch her head straight up or down. The kinematic singularity often causes the viewpoint to spin uncontrollably…”<br>— Virtual Reality by Lavalle Section 3.3</p>
+</blockquote>
+<h5 id="Interpolation"><a href="#Interpolation" class="headerlink" title="Interpolation"></a>Interpolation</h5><p>Could linearly interpolate between each angle in a start pose and end pose to generate intermediate poses</p>
+<ul>
+<li>This doesn’t work well</li>
+</ul>
+<p>It treats rotations as if they were independent of each other and completely ignores the effect they have on each other</p>
+<ul>
+<li>Can result in jerky, unnatural movement</li>
+</ul>
+<h3 id="Orientation-Quaternions-四元数"><a href="#Orientation-Quaternions-四元数" class="headerlink" title="Orientation: Quaternions 四元数"></a>Orientation: Quaternions 四元数</h3><ul>
+<li>Alternative way of encoding orientation</li>
+<li>Game industry standard</li>
+<li>Both Unity and Unreal use them</li>
+<li><p>User interface may still use Euler Angles</p>
+<ul>
+<li>Converted to quaternions under the hood</li>
+</ul>
+</li>
+<li><p>Developed by Sir William Rowan Hamilton [1843]</p>
+</li>
+<li><p>Quaternions are 4-D complex numbers with one real axis and three imaginary axes: $i,j,k$</p>
+</li>
+<li><p>Introduced to Computer Graphics by Shoemake [1985]</p>
+</li>
+<li>Given an angle and axis, easy to convert to and from quaternion<ul>
+<li>Euler angle conversion to and from arbitrary axis and angle difficult</li>
+</ul>
+</li>
+<li>Quaternions allow stable and constant interpolation of orientations<ul>
+<li>Cannot be done easily with Euler angles</li>
+</ul>
+</li>
+</ul>
+<h4 id="Unit-Quaternions"><a href="#Unit-Quaternions" class="headerlink" title="Unit Quaternions"></a>Unit Quaternions</h4><p>For convenience, we will use only unit length quaternions</p>
+<ul>
+<li>These correspond to the set of 4D vectors </li>
+<li>They form the ‘surface’ of a 4D hypersphere of radius 1</li>
+</ul>
+<h4 id="Quaternions-as-Rotations"><a href="#Quaternions-as-Rotations" class="headerlink" title="Quaternions as Rotations"></a>Quaternions as Rotations</h4><p>A quaternion can represent a rotation by angle θ around a unit vector a:</p>
+<p>or</p>
+<p>If $\pmb{a}$ is unit length, then $\pmb{q}$ will be also</p>
+<h4 id="Rotation-using-Quaternions"><a href="#Rotation-using-Quaternions" class="headerlink" title="Rotation using Quaternions"></a>Rotation using Quaternions</h4><ul>
+<li>Let $q = \cos\left(\frac{\theta}{2}\right) + \sin\left(\frac{\theta}{2}\right) \mathbf{u}$ be a unit quaternion: $|q| = |\mathbf{u}| = 1$</li>
+<li>Let point $\mathbf{p} = (x,y,z) = xi + yj + zk$</li>
+<li>Then the product $q \mathbf{p} q^{-1}$ rotates the point $\mathbf{p}$ about axis $\mathbf{u}$ by angle $\theta$</li>
+<li>Inverse of a unit quaternion is its <em>conjugate</em><ul>
+<li>…just negate the imaginary part</li>
+</ul>
+</li>
+<li>$q^{-1} = \left(\cos\left(\frac{\theta}{2}\right) + \sin\left(\frac{\theta}{2}\right) \mathbf{u}\right)^{-1} = \cos\left(-\frac{\theta}{2}\right) + \sin\left(-\frac{\theta}{2}\right) \mathbf{u} = \cos\left(\frac{\theta}{2}\right) - \sin\left(\frac{\theta}{2}\right) \mathbf{u}$</li>
+<li>Composition of rotations $q_{12} = q_1 q_2 \neq q_2 q_1$</li>
+</ul>
+<h4 id="Quaternion-to-Matrix"><a href="#Quaternion-to-Matrix" class="headerlink" title="Quaternion to Matrix"></a>Quaternion to Matrix</h4><p>To convert a quaternion to a rotation matrix:</p>
+<h4 id="Matrix-to-Quaternion"><a href="#Matrix-to-Quaternion" class="headerlink" title="Matrix to Quaternion"></a>Matrix to Quaternion</h4><p>Matrix to quaternion is not hard</p>
+<ul>
+<li>it involves a few ‘if’ statements,</li>
+<li>a square root,</li>
+<li>three divisions,</li>
+<li>and some other stuff</li>
+</ul>
+<p><code>tr(M)</code> is the trace</p>
+<ul>
+<li>sum of the diagonal elements</li>
+</ul>
+<blockquote>
+<p>This assumes $ M $ is a 4x4 homogeneous rotation matrix…so the diagonal ends with a 1</p>
+</blockquote>
+<h4 id="Quaternion-Dot-Products"><a href="#Quaternion-Dot-Products" class="headerlink" title="Quaternion Dot Products"></a>Quaternion Dot Products</h4><p>The dot product of two quaternions:</p>
+<p>The angle between two quaternions in 4D space is <code>half</code> the angle one would need to rotate from one orientation to the other in 3D space.</p>
+<h4 id="Quaternion-Multiplication"><a href="#Quaternion-Multiplication" class="headerlink" title="Quaternion Multiplication"></a>Quaternion Multiplication</h4><p>We can perform multiplication on quaternions</p>
+<ul>
+<li>we expand them into their complex number form</li>
+</ul>
+<p>If $ \mathbf{q}=(s,\mathbf{v}) $ represents a rotation and $\mathbf{q’=}(s’,\mathbf{v}’) $represents a rotation,<br>$\mathbf{qq’}$ represents $\mathbf{q}$ rotated by $\mathbf{q’}$</p>
+<p>This follows very similar rules as matrix multiplication (i.e., non-commutative)</p>
+<blockquote>
+<p>It’s just like multiplying 2 rotation matrices together…</p>
+</blockquote>
+<p>Two unit quaternions multiplied together results in another unit quaternion<br>This corresponds to the same property of complex numbers<br>Remember(?) multiplication by complex numbers is like a rotation in the complex plane<br>Quaternions extend the planar rotations of complex numbers to 3D rotations in space</p>
+<h4 id="Linear-Interpolation"><a href="#Linear-Interpolation" class="headerlink" title="Linear Interpolation"></a>Linear Interpolation</h4><ul>
+<li>If we want to do a linear interpolation between two points <strong>a</strong> and <strong>b</strong> in normal space:</li>
+</ul>
+<p>where $t$ ranges from 0 to 1.</p>
+<ul>
+<li><p>Note that the Lerp operation can be thought of as a weighted average (convex).</p>
+</li>
+<li><p>We could also write it in its additive blend form:</p>
+</li>
+</ul>
+<h4 id="Spherical-Linear-Interpolation"><a href="#Spherical-Linear-Interpolation" class="headerlink" title="Spherical Linear Interpolation"></a>Spherical Linear Interpolation</h4><ul>
+<li>If we want to interpolate between two points on a sphere (or hypersphere), we do not just want to Lerp between them</li>
+<li>Instead, we will travel across the surface of the sphere by following a ‘great arc’<br><img src="/legacy-assets/e4aa3967652af2.png" alt="历史文章配图" loading="lazy"></li>
+</ul>
+<ul>
+<li>The spherical linear interpolation of two unit quaternions <strong>a</strong> and <strong>b</strong> is:</li>
+</ul>
+<p>where:</p>
+<ul>
+<li>$\theta = \cos^{-1}(\mathbf{a} \cdot \mathbf{b})$</li>
+</ul>
+<h4 id="Quaternion-Interpolation"><a href="#Quaternion-Interpolation" class="headerlink" title="Quaternion Interpolation"></a>Quaternion Interpolation</h4><p><img src="/legacy-assets/8639bf10cfb715.png" alt="历史文章配图" loading="lazy"></p>
+<ul>
+<li>Useful for animating objects between two poses</li>
+<li>Not useful for all camera orientations<ul>
+<li>up vector can become tilted and annoy viewers</li>
+<li>depends on application</li>
+</ul>
+</li>
+<li>Interpolated path through SLERP rotates<ul>
+<li>around a fixed axis</li>
+<li>at a constant speed</li>
+<li>so, no acceleration</li>
+</ul>
+</li>
+</ul>
+<p>If we want to interpolate through a series of orientations $\mathbf{q_1}, \mathbf{q_2}, \ldots, \mathbf{q_n}$, is SLERP a good choice?</p>
+<h4 id="Chained-Quaternion-Interpolation"><a href="#Chained-Quaternion-Interpolation" class="headerlink" title="Chained Quaternion Interpolation"></a>Chained Quaternion Interpolation</h4><blockquote>
+<p>When more than two orientations, say , are available, and we want to interpolate from  to  to , and so on until , SLERP can be used in a straightforward fashion. However, using  and  as arguments to SLERP, and then  and  as subsequent arguments, can cause sudden jerks to appear in the orientation.</p>
+</blockquote>
+<ul>
+<li><strong>Can smooth the path by using a spherical curve instead of a straight line</strong></li>
+</ul>
+<blockquote>
+<p>A better way to interpolate is to use some sort of spline. We introduce quaternions  and  between  and . Spherical cubic interpolation can be defined within the set of quaternions  and . Surprisingly, these extra quaternions are computed as shown below:</p>
+</blockquote>
+<p>The interpolation function, <strong>SQUAD</strong> (Spherical Quadrangle Interpolation), is defined as:</p>
+<p>This approach allows for a smooth transition between quaternions, minimizing abrupt changes in orientation.</p>
+<h4 id="Interpolating-Quaternions-The-Hack"><a href="#Interpolating-Quaternions-The-Hack" class="headerlink" title="Interpolating Quaternions: The Hack"></a>Interpolating Quaternions: The Hack</h4><p>Interpolating quaternions should be done on the surface of a 3D unit sphere embedded in 4D space.<br>However, much simpler interpolation along a 4D straight line (open circles) followed by reprojection of the results onto the sphere (black circles) is often sufficient.<br><img src="/legacy-assets/b6b7c359c5f6aa.png" alt="历史文章配图" loading="lazy"></p>
+<h4 id="T-F"><a href="#T-F" class="headerlink" title="T/F"></a>T/F</h4><ul>
+<li>(T) Any orientation expressed as a quaternion can be expressed using Euler angles.</li>
+<li>(T) An Euler angle representation of an orientation uses less data than a quaternion representation.</li>
+<li>(F) The three axes used for the Euler angle representation must be unique. For example, using the X axis, then the Y axis and then the X axis would not work.</li>
+<li>(T) Changing the order of rotation can affect the result. For example, switching from an XYZ order to a YXZ order may change the orientation even if the three angles remain the same.</li>
+</ul>
+<h2 id="Game-Physics"><a href="#Game-Physics" class="headerlink" title="Game Physics"></a>Game Physics</h2><h3 id="Simple-Physics-Engine"><a href="#Simple-Physics-Engine" class="headerlink" title="Simple Physics Engine"></a>Simple Physics Engine</h3><h4 id="The-Timestep"><a href="#The-Timestep" class="headerlink" title="The Timestep"></a>The Timestep</h4><p>How does the timestep effect the accuracy of the engine?<br>How would you see that error in a game?<br>Timestep in games uses wall-clock time (sometimes a scaled version)</p>
+<ul>
+<li>Also related to framerate</li>
+</ul>
+<p>If the physics timestep is tied to the framerate, what can happen?</p>
+<h4 id="UE-Substepping"><a href="#UE-Substepping" class="headerlink" title="UE Substepping"></a>UE Substepping</h4><p>In UE look at Project Settings &gt; Engine &gt; Physics</p>
+<ul>
+<li>Substepping creates a degree of framerate independence for physics</li>
+<li>When framerate drops, Unreal will add extra physics iterations</li>
+<li>Physics timestep will not exceed the max delta time</li>
+</ul>
+<h3 id="Collision-Detection"><a href="#Collision-Detection" class="headerlink" title="Collision Detection"></a>Collision Detection</h3><h4 id="Bounding-Volumes"><a href="#Bounding-Volumes" class="headerlink" title="Bounding Volumes"></a>Bounding Volumes</h4><p>AABB=Axis Aligned Bounding Box<br>OOBB = Object-Oriented Bounding Box<br>BVH = Bounding Volume Hierarchy</p>
+<h4 id="BVH-Construction"><a href="#BVH-Construction" class="headerlink" title="BVH Construction"></a>BVH Construction</h4><p>Can be constructed top down:</p>
+<ol>
+<li>Compute bounding volume enclosing all of the geometry</li>
+<li>Split the geometry into two or more groups</li>
+<li>Compute bounding volume for each group</li>
+<li>Recurse</li>
+<li>Leaf nodes will enclose only one geometric primitive</li>
+</ol>
+<h5 id="BVH-Howto-Split"><a href="#BVH-Howto-Split" class="headerlink" title="BVH: Howto Split"></a>BVH: Howto Split</h5><ul>
+<li>Can compute a centroid for each geometric primitive<ul>
+<li>Split on median centroid, along longest axis</li>
+<li>Split on average centroid, along longest axis</li>
+</ul>
+</li>
+<li>More sophisticated splitting criteria can be used<ul>
+<li>E.g. Surface Area Heuristic used on BVHs for ray-tracing</li>
+</ul>
+</li>
+</ul>
+<h5 id="BVH-Howto-Collide"><a href="#BVH-Howto-Collide" class="headerlink" title="BVH: Howto Collide"></a>BVH: Howto Collide</h5><ul>
+<li><p>In a single BVH for scene</p>
+<ul>
+<li>Two geometric primitives can overlap only if their volumes overlap</li>
+</ul>
+</li>
+<li><p>Or, BVHs can be used for each composite object (e.g. mesh)</p>
+<ul>
+<li>A search tree is constructed that records descent into each BVH</li>
+<li>Determines if any cells overlap</li>
+</ul>
+</li>
+</ul>
+<h2 id="Introduction-to-Ray-Tracing"><a href="#Introduction-to-Ray-Tracing" class="headerlink" title="Introduction to Ray Tracing"></a>Introduction to Ray Tracing</h2><h2 id="Rendering"><a href="#Rendering" class="headerlink" title="Rendering"></a>Rendering</h2><h3 id="UE-5-Lumen"><a href="#UE-5-Lumen" class="headerlink" title="UE 5 Lumen"></a>UE 5 Lumen</h3><h4 id="Global-Illumination"><a href="#Global-Illumination" class="headerlink" title="Global Illumination"></a>Global Illumination</h4><blockquote>
+<p>“Global illumination…is a group of algorithms used in 3D computer graphics that are meant to add more realistic lighting to 3D scenes. Such algorithms take into account not only the light that comes directly from a light source (direct illumination), but also subsequent cases in which light rays from the same source are reflected by other surfaces in the scene, whether reflective or not (indirect illumination).<br>Theoretically, reflections, refractions, and shadows are all examples of global illumination, because when simulating them, one object affects the rendering of another (as opposed to an object being affected only by a direct source of light). In practice, however, only the simulation of diffuse inter-reflection or caustics is called global illumination.*” — Wikipedia</p>
+</blockquote>
+<h4 id="Lumen"><a href="#Lumen" class="headerlink" title="Lumen"></a>Lumen</h4><p>Lumen is Unreal Engine 5’s fully dynamic global illumination and reflections system</p>
+<ul>
+<li>Enabled out of the box. </li>
+<li>Designed for next-generation consoles</li>
+<li>Supports high-end visualizations like architectural visualization<blockquote>
+<p>“Lumen uses multiple ray-tracing methods to solve Global Illumination and Reflections.<br>Screen Traces are done first, followed by a more reliable method. Lumen uses Software Ray Tracing through Signed Distance Fields by default, but can achieve higher quality on supporting video cards when Hardware Ray Tracing is enabled.”</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Game-AI"><a href="#Game-AI" class="headerlink" title="Game AI"></a>Game AI</h2><h3 id="Tactical-Waypoints"><a href="#Tactical-Waypoints" class="headerlink" title="Tactical Waypoints"></a>Tactical Waypoints</h3><h4 id="Tactical-and-Strategic-AI"><a href="#Tactical-and-Strategic-AI" class="headerlink" title="Tactical and Strategic AI"></a>Tactical and Strategic AI</h4><p>Previously discuss pathfinding and decision making </p>
+<ul>
+<li>A*</li>
+<li>Decision trees</li>
+</ul>
+<p>Limitations</p>
+<ul>
+<li>Intended for use by a single character (no intelligent coordination between characters)</li>
+<li>Lack ability predict strategic or “big picture” outcomes</li>
+<li>Poor utilization of environment to tactical advantage</li>
+</ul>
+<p>Tactical and strategic AI try to overcome these limitations</p>
+<ul>
+<li>Not needed in some game genres e.g. platformers or simple shooters</li>
+</ul>
+<h4 id="Tactical-Waypoints-1"><a href="#Tactical-Waypoints-1" class="headerlink" title="Tactical Waypoints"></a>Tactical Waypoints</h4><ul>
+<li>Waypoint is a position in a game level used in pathfinding at intermediate nodes along a route</li>
+<li>Can use waypoints for other kind of decision making<ul>
+<li>Can add data indicating special tactical features</li>
+<li>Sometimes called “rally points”</li>
+<li>Examples…<ul>
+<li>Safe spot designated for troops to retreat to…</li>
+<li>Cover points or sniper positions</li>
+<li>Heavily shadowed areas</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Game-Design"><a href="#Game-Design" class="headerlink" title="Game Design"></a>Game Design</h2><h3 id="High-Level-Design-Process"><a href="#High-Level-Design-Process" class="headerlink" title="High-Level Design Process"></a>High-Level Design Process</h3><ul>
+<li><p>Designing from a high-level vision</p>
+</li>
+<li><p>Analogous to other industries</p>
+<ul>
+<li>User types</li>
+<li>User experiences</li>
+<li>Systems first then features</li>
+</ul>
+</li>
+<li><p>Getting better at the process</p>
+<ul>
+<li>We are a young industry<ul>
+<li>Rockstar</li>
+<li>Ubisoft</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Principles-of-Design"><a href="#Principles-of-Design" class="headerlink" title="Principles of Design:"></a>Principles of Design:</h3><h4 id="Starting-Points"><a href="#Starting-Points" class="headerlink" title="Starting Points"></a>Starting Points</h4><p>Design is an exercise in constraints</p>
+<ul>
+<li>Technical</li>
+<li>Narrative/World</li>
+<li>Time/Resources/Scope</li>
+</ul>
+<p>Player Choice as a key constraint </p>
+<ul>
+<li>Some games offer little choice (the designer experience)</li>
+<li>Others are more-wide open</li>
+</ul>
+<p>Make sure you understand the project requirements</p>
+<ul>
+<li>Saints Row 3 and the over-developed missions/Co-op</li>
+<li>Processes can be constraints<ul>
+<li>“Fail Fast”</li>
+</ul>
+</li>
+</ul>
+<p>All apps/games start with an IDEA<br>There is so much more to what you want to build<br>The primary role of a designer is to clearly communicate how that IDEA fits into an App/Game (the bigger picture, the Vision)<br>What happens without that clarity? </p>
+<ul>
+<li>Confusion</li>
+<li>Delay</li>
+<li>People building to their own vs. the required standards </li>
+</ul>
+<p>The question is: what focuses the design, what drives the definition of the Vision?</p>
+<p>Once you have an idea, set a genre and then build a world around it</p>
+<ul>
+<li><p>Provides Context</p>
+</li>
+<li><p>Provides Consistency</p>
+</li>
+<li><p>Expand upon the idea to provide depth</p>
+<ul>
+<li>An idea is a feature in most cases, a feature is not a game</li>
+<li>Why is the world the way it is? Leads to new complementary ideas</li>
+<li>Examples: Renegade and Red Faction Guerrilla</li>
+</ul>
+</li>
+<li><p>Improve Immersion/Presence</p>
+<ul>
+<li>Most games are Skill Challenges</li>
+<li>Skill develops over time, the world encourages retention</li>
+<li>Interactivity can add another layer</li>
+</ul>
+</li>
+</ul>
+<p>Player Types: These define the core interests of the user we are targeting with our features.<br>Example: Minecraft</p>
+<ul>
+<li>The Collector: <ul>
+<li>This user requires the opportunity to gather items and build a large stockpile of items. </li>
+<li>The Builder:This user type enjoys creating different imaginative items from the resources available.</li>
+</ul>
+</li>
+</ul>
+<p>Define your User Experience(s): </p>
+<ul>
+<li>The different emotional responses we are trying to elicit with our app/game features </li>
+<li>Example: We want the gamer to be in awe when they face the challenges of our world.</li>
+</ul>
+<h3 id="MDA"><a href="#MDA" class="headerlink" title="MDA"></a>MDA</h3><p>Mechanics: The rules and concepts that formally specify the game-as-system.<br>Dynamics: The run-time behavior of the game-as-system.<br>Aesthetics: The desirable emotional responses evoked by the game dynamics.</p>
+<h4 id="8-Kinds-of-Fun"><a href="#8-Kinds-of-Fun" class="headerlink" title="8 Kinds of Fun"></a>8 Kinds of Fun</h4><ol>
+<li>Sensation: Game as sense-pleasure<br>Games that evoke emotion in the player through sound, visuals, controller rumble or physical effort.</li>
+<li>Fantasy: Game as make-believe<br>Game as a mean to take the player to another world, some call it escapism. </li>
+<li>Narrative: Game as drama<br>Game as a mean to tell a story or narrative to the player.</li>
+<li>Challenge: Game as obstacle course<br>Games that provide the player(s) with highly competitive value or with increasingly difficult challenges.</li>
+<li>Fellowship: Game as social framework<br>Games that have social interactions as its core or as a big feature.</li>
+<li>Discovery: Game as uncharted territory<br>Games in which the player explores the world he/she finds himself/herself in.</li>
+<li>Expression: Game as self-discovery<br>Games that allow for self-expression from the player through gameplay.</li>
+<li>Masochism: Game as submission<br>Games that have “farming” or “grinding” as a core element5. Fellowship: Game as social framework</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><p><a rel="noopener" href="https://illinois-cs415.github.io">https://illinois-cs415.github.io</a></p>
+</div><div class="legacy-bottom"><a class="text-link" href="/archive/">Back to the archive ↗</a></div></main></div><footer class="site-footer"><a class="footer-name" href="/">Yuxuan Lin <span>林煜轩</span></a><p>Always learning. Always building.</p><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/blog/">Journal ↗</a><a href="/plog/">Photo log ↗</a><a href="/archive/">Archive ↗</a><a href="#top" aria-label="回到顶部">↑ Top</a></div><small>© <!-- -->2026<!-- --> Yuxuan Lin</small></footer></div>
+</body>
+</html>

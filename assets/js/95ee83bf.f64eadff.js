@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_web=self.webpackChunkmy_web||[]).push([[1900],{17968:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/plog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"\u5728\u4ee3\u7801\u4e4b\u5916\uff0c\u8bb0\u5f55\u751f\u6d3b\u3002","blogTitle":"Photo log"}}')}}]);

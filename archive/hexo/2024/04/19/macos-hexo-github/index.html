@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="plugin-pages plugin-id-default" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">快速搭建个人博客 &lt;MacOS环境下通过Github部署Hexo&gt; — Archive | Yuxuan Lin</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" property="og:url" content="https://jerrylinyx.github.io/archive/hexo/2024/04/19/macos-hexo-github/"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" name="author" content="Yuxuan Lin"><meta data-rh="true" name="theme-color" content="#f6f5ef"><meta data-rh="true" property="og:title" content="快速搭建个人博客 &lt;MacOS环境下通过Github部署Hexo&gt; — Archive | Yuxuan Lin"><meta data-rh="true" name="description" content="完整保留的历史内容，整合于 Yuxuan Lin 的个人网站。"><meta data-rh="true" property="og:description" content="完整保留的历史内容，整合于 Yuxuan Lin 的个人网站。"><link data-rh="true" rel="icon" href="/img/monogram.svg"><link data-rh="true" rel="canonical" href="https://jerrylinyx.github.io/archive/hexo/2024/04/19/macos-hexo-github/"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/archive/hexo/2024/04/19/macos-hexo-github/" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/archive/hexo/2024/04/19/macos-hexo-github/" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Yuxuan Lin Atom Feed">
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/plog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/plog/atom.xml" title="Yuxuan Lin Atom Feed"><link rel="stylesheet" href="/assets/css/styles.78b5c50b.css">
+<script src="/assets/js/runtime~main.51e111cf.js" defer="defer"></script>
+<script src="/assets/js/main.3676d334.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><header id="top" class="navbar site-header"><a class="wordmark" aria-label="Yuxuan Lin 首页" href="/"><span class="monogram">yl<span>.</span></span><span>YUXUAN LIN<span class="wordmark-sub">ENGINEER &amp; EXPLORER</span></span></a><button class="menu-toggle" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">Menu +</button><nav id="site-nav" aria-label="主导航" class="site-nav"><a href="/#work">Work<span>01</span></a><a href="/notes/">Notes<span>02</span></a><a href="/#about">About<span>03</span></a><a href="mailto:yl6061@columbia.edu" class="nav-contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><main class="legacy-page" id="main-content"><a class="eyebrow" href="/archive/">← ALL ARCHIVES</a><header><span class="eyebrow">HISTORICAL EDITION / <!-- -->2024-04-18</span><h1>快速搭建个人博客 &lt;MacOS环境下通过Github部署Hexo&gt;</h1><p>这是原站的历史版本，正文与配图已整理保留。<!-- -->更新后的内容请见正式文章。</p><a class="text-link" href="/blog/2024/04/18/macos-hexo-github/">Read current edition<!-- --> ↗</a></header><div class="markdown legacy-content"><h3 id="安装-Brew"><a href="#安装-Brew" class="headerlink" title="安装 Brew"></a>安装 Brew</h3><p><a rel="noopener" href="https://brew.sh">brew</a><br></p><pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre><p></p>
+<h3 id="安装-Git-Node-js"><a href="#安装-Git-Node-js" class="headerlink" title="安装 Git, Node.js"></a>安装 Git, Node.js</h3><pre><code>brew install git
+brew install node</code></pre>
+<h3 id="查看安装情况"><a href="#查看安装情况" class="headerlink" title="查看安装情况"></a>查看安装情况</h3><pre><code>npm -v
+node -v
+git --version</code></pre>
+<h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><pre><code>npm install -g hexo-cli
+hexo init blog
+cd blog
+hexo g
+hexo s</code></pre>
+<h3 id="部署到GitHub"><a href="#部署到GitHub" class="headerlink" title="部署到GitHub"></a>部署到GitHub</h3><pre><code>git config --global user.name "username"
+git config --global user.email "example@example.com"
+ssh-keygen -t rsa -C "example@example.com"</code></pre>
+<p>最后一行在 ~/.ssh/id_rsa.pub 目录下，生成需要使用的公钥<br>进入账户主文件夹，按 Command+Shift+. 显示隐藏文件，找到.ssh文件夹，打开id_rsa.pub，复制全部<br>打开 <a rel="noopener" href="https://github.com/settings/keys">GitHub-&gt;Settings-&gt;SSH keys</a>，新建 New SSH Key，使用我们复制的公钥，点击 Add SSH key</p>
+<p>在Github上新建一个仓库，Repository Name 为 用户名.github.io，仓库状态设为 Public，点击 Create Repository 创建新的网站仓库。</p>
+<h4 id="在blog文件夹下"><a href="#在blog文件夹下" class="headerlink" title="在blog文件夹下"></a>在blog文件夹下</h4><pre><code>npm install hexo-deployer-git --save</code></pre>
+<p>编辑blog文件夹下的_config.yml文件，在底部修改deploy部分为：<br></p><pre><code>deploy:
+  type: git
+  repo: git@github.com:你的用户名/你的用户名.github.io.git
+  branch: master</code></pre><br>完成后：<br><pre><code>#生成blog
+hexo g
+#将blog推送到指定位置，即Github
+hexo d</code></pre><p></p>
+<h4 id="打开-Repository-的-Pages-功能"><a href="#打开-Repository-的-Pages-功能" class="headerlink" title="打开 Repository 的 Pages 功能"></a>打开 Repository 的 Pages 功能</h4><p>打开repository的Settings -&gt; Pages -&gt; Branch 选择 master，点击 Save<br>此时blog已经成功部署在 用户名.github.io，通常需要等待几分钟</p>
+<h3 id="Hexo常用命令"><a href="#Hexo常用命令" class="headerlink" title="Hexo常用命令"></a>Hexo常用命令</h3><pre><code># 生成一篇名为title的新文章
+hexo new title
+
+# 在blog文件夹下执行
+hexo n "文章名称"  =&gt; hexo new "文章名称"  #这两个都是创建新文章，前者是简写模式，下同，new后面加一个draft可以生成草稿
+hexo p  =&gt; hexo publish  #发布草稿
+hexo g  =&gt; hexo generate  #生成
+hexo s  =&gt; hexo server  #启动服务预览
+hexo d  =&gt; hexo deploy  #部署
+
+hexo server   #Hexo 会监视文件变动并自动更新，无须重启服务器。
+hexo server -s   #静态模式
+hexo server -p 5000   #更改端口
+hexo server -i 192.168.1.1   #自定义IP
+hexo clean   #清除缓存，网页正常情况下可以忽略此条命令</code></pre>
+<h3 id="Reference："><a href="#Reference：" class="headerlink" title="Reference："></a>Reference：</h3><p><a rel="noopener" href="https://blog.l3zc.com/2022/05/mac环境下使用hexo搭建个人博客/">Mac OS环境下使用Hexo搭建个人博客</a><br><a rel="noopener" href="https://zhuanlan.zhihu.com/p/114195340">GitHub Pages + Hexo免费搭建个人博客_Mac</a><br><a rel="noopener" href="https://mp.weixin.qq.com/s/jVEv9jHV3WS5nAkVOmAcng">听说创客们都有这样一个自己的博客听说创客们都有这样一个自己的博客</a><br><a rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/#安裝">Butterfly 安裝文檔(一) 快速開始</a></p>
+</div><div class="legacy-bottom"><a class="text-link" href="/archive/">Back to the archive ↗</a></div></main></div><footer class="site-footer"><a class="footer-name" href="/">Yuxuan Lin <span>林煜轩</span></a><p>Always learning. Always building.</p><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/blog/">Journal ↗</a><a href="/plog/">Photo log ↗</a><a href="/archive/">Archive ↗</a><a href="#top" aria-label="回到顶部">↑ Top</a></div><small>© <!-- -->2026<!-- --> Yuxuan Lin</small></footer></div>
+</body>
+</html>

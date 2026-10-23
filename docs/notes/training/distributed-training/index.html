@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-notes/training/distributed-training" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">Distributed Training | Yuxuan Lin</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" property="og:url" content="https://jerrylinyx.github.io/docs/notes/training/distributed-training/"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="author" content="Yuxuan Lin"><meta data-rh="true" name="theme-color" content="#f6f5ef"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Distributed Training | Yuxuan Lin"><meta data-rh="true" name="description" content="Scaling"><meta data-rh="true" property="og:description" content="Scaling"><link data-rh="true" rel="icon" href="/img/monogram.svg"><link data-rh="true" rel="canonical" href="https://jerrylinyx.github.io/docs/notes/training/distributed-training/"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/docs/notes/training/distributed-training/" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/docs/notes/training/distributed-training/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Distributed Training","item":"https://jerrylinyx.github.io/docs/notes/training/distributed-training"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Yuxuan Lin Atom Feed">
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/plog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/plog/atom.xml" title="Yuxuan Lin Atom Feed"><link rel="stylesheet" href="/assets/css/styles.78b5c50b.css">
+<script src="/assets/js/runtime~main.51e111cf.js" defer="defer"></script>
+<script src="/assets/js/main.3676d334.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><header id="top" class="navbar site-header"><a class="wordmark" aria-label="Yuxuan Lin 首页" href="/"><span class="monogram">yl<span>.</span></span><span>YUXUAN LIN<span class="wordmark-sub">ENGINEER &amp; EXPLORER</span></span></a><button class="menu-toggle" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">Menu +</button><nav id="site-nav" aria-label="主导航" class="site-nav"><a href="/#work">Work<span>01</span></a><a aria-current="page" href="/notes/">Notes<span>02</span></a><a href="/#about">About<span>03</span></a><a href="mailto:yl6061@columbia.edu" class="nav-contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="site-doc-wrapper"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="site-doc-layout"><aside class="notebook-sidebar-container"><nav aria-label="笔记章节导航" class="notebook-sidebar-desktop menu"><a class="notebook-search-link" href="/notes/">⌕ Search the notebook ↗</a><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro/">Notebook · 阅读地图</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/notes/algo/dpi/">AI &amp; Systems</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/algo/dpi/">Generative models</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/application/evaluation/">Applications</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/data/big-data/">Data</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/hpc/compiler/">HPC</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/inference/inference/">Inference</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/leetcode/ACM模式/">Programming</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/notes/training/deep-learning/">Training</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/training/deep-learning/">Deep Learning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/notes/training/distributed-training/">Distributed Training</a></li></ul></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/WebDev/DB/">Engineering archive</a></div></li></ul></nav><details class="notebook-sidebar-mobile"><summary>Contents / 笔记目录 <span aria-hidden="true">+</span></summary><nav aria-label="手机端笔记章节导航" class="menu"><a class="notebook-search-link" href="/notes/">⌕ 搜索笔记 ↗</a><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro/">Notebook · 阅读地图</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/notes/algo/dpi/">AI &amp; Systems</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/algo/dpi/">Generative models</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/application/evaluation/">Applications</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/data/big-data/">Data</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/hpc/compiler/">HPC</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/inference/inference/">Inference</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/leetcode/ACM模式/">Programming</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/notes/training/deep-learning/">Training</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/training/deep-learning/">Deep Learning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/notes/training/distributed-training/">Distributed Training</a></li></ul></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/WebDev/DB/">Engineering archive</a></div></li></ul></nav></details></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">AI &amp; Systems</span></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Training</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Distributed Training</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>Distributed Training</h1></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="scaling">Scaling<a href="#scaling" class="hash-link" aria-label="Scaling的直接链接" title="Scaling的直接链接">​</a></h2>
+<p><a href="https://arxiv.org/pdf/1903.04611" target="_blank" rel="noopener noreferrer">Evaluating Modern GPU Interconnect: PCIe, NVLink, NV-SLI, NVSwitch and GPUDirect</a></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="verbcal-scaling-up-in-a-single-node-垂直扩展--向上">Verbcal scaling-up in a single node 垂直扩展 / 向上<a href="#verbcal-scaling-up-in-a-single-node-垂直扩展--向上" class="hash-link" aria-label="Verbcal scaling-up in a single node 垂直扩展 / 向上的直接链接" title="Verbcal scaling-up in a single node 垂直扩展 / 向上的直接链接">​</a></h3>
+<ul>
+<li>在单台物理机（Node）内增加 GPU 的数量。</li>
+<li>单机内多卡的通信瓶颈通常在于主板总线。</li>
+<li>NVLink 技术提供了比传统 PCIe 高得多的带宽，使得单机内的几块 GPU 之间能够极快地共享数据和同步梯度。</li>
+<li><strong>X-Bus</strong> 是 IBM 的总线技术，专门用来在<strong>同一个主板上</strong>连接这两个 CPU, 类似 Intel 处理器之间的 <strong>QPI / UPI</strong> 总线，或者是 AMD 处理器之间的 Infinity Fabric
+<img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/79c324c76964-16a2a4010f85df4a41e44a296b45f29f.webp" width="1118" height="562" class="img_ev3q">
+<img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/77115893a888-3c6abd01af191388d084eb3c8b9689b6.webp" width="1098" height="382" class="img_ev3q"></li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="horizontal-scaling-out-across-multiple-nodes-水平扩展--向外">Horizontal scaling-out across multiple nodes 水平扩展 / 向外<a href="#horizontal-scaling-out-across-multiple-nodes-水平扩展--向外" class="hash-link" aria-label="Horizontal scaling-out across multiple nodes 水平扩展 / 向外的直接链接" title="Horizontal scaling-out across multiple nodes 水平扩展 / 向外的直接链接">​</a></h3>
+<ul>
+<li>当单台机器（即使装了 8 张或 16 张卡）的算力或显存依然不够时，就需要通过高速网络（如 InfiniBand）把成百上千台机器连接成一个集群。</li>
+<li>e.g. GPU accelerated supercomputers like Summit and Sierra from US Department of Energy</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="high-performance-networking">High Performance Networking<a href="#high-performance-networking" class="hash-link" aria-label="High Performance Networking的直接链接" title="High Performance Networking的直接链接">​</a></h3>
+<p>SMP: symmetric multiprocessing</p>
+<ul>
+<li>主板上的所有 CPU 核心地位平等。它们共享同一片物理内存（RAM）、同一个操作系统以及所有的 I/O 总线。</li>
+<li>QPI: Quick-path interconnect (早期 25.6 GB/s)
+<ul>
+<li>CPU 内部或 CPU 之间的高速点对点总线</li>
+</ul>
+</li>
+</ul>
+<p>PCIe: Peripheral Component Interconnect express</p>
+<ul>
+<li>连接 CPU 与外部硬件设备（显卡 GPU、高速固态硬盘 NVMe SSD、万兆网卡甚至 InfiniBand 网卡）的高速串行扩展总线标准</li>
+</ul>
+<p>Large Scale Parallel and Deep Learning applications needs:</p>
+<ul>
+<li>High Bandwidth (高带宽)</li>
+<li>Low Latency (低延迟)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th><strong>Network technology</strong></th><th><strong>Bandwidth [Gb/s]</strong></th><th><strong>Latency [us]</strong></th></tr></thead><tbody><tr><td><strong>10GigE</strong></td><td>10</td><td>4</td></tr><tr><td><strong>40GigE</strong></td><td>40</td><td>4</td></tr><tr><td><strong>IB EDR</strong></td><td>100</td><td>1</td></tr><tr><td><strong>NVLink</strong></td><td>&gt; 400</td><td>0.1-0.2</td></tr></tbody></table>
+<p>Ethernet is not enough</p>
+<ul>
+<li>虽然万兆（10GigE）或四万兆（40GigE）以太网在日常服务器中已经很快了，但它的**延迟（Latency）**通常在 4 微秒左右，而且依赖 CPU 处理庞大的 TCP/IP 协议栈，这会消耗极大的计算资源并带来不可预测的延迟抖动</li>
+</ul>
+<p>Infiniband (IB) is widely adopted</p>
+<ul>
+<li>相比以太网，IB 网络（如表中的 EDR 版本）不仅带宽更高，更关键的是它的延迟极低（约 1 微秒），并且支持 <strong>RDMA（远程直接内存访问）</strong> 技术。这意味着一台机器的网卡可以直接读写另一台机器的内存（或显存），完全绕过 CPU 和操作系统的内核，极大地提升了跨节点（Scale-out）通信的效率</li>
+</ul>
+<p>Custom Networks are the best</p>
+<ul>
+<li>NVLink 的带宽远超普通的 IB 网络，且延迟极低（0.1-0.2 微秒）。这就是为什么在单台物理机内部（Scale-up），NVIDIA 坚持要用自家的 NVLink 将 GPU 互联，而不是走传统的 PCIe 或普通网络</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th><strong>代数 / 世代</strong></th><th><strong>PCIe (x16 双向总带宽)</strong></th><th><strong>对应的 NVIDIA 架构</strong></th><th><strong>NVLink (单卡双向总带宽)</strong></th><th><strong>性能差距倍数</strong></th></tr></thead><tbody><tr><td><strong>第 1 代</strong> (2016)</td><td>PCIe 3.0: 32 GB/s</td><td><strong>Pascal (P100)</strong></td><td>160 GB/s</td><td>5 倍</td></tr><tr><td><strong>第 2 代</strong> (2017)</td><td>PCIe 3.0: 32 GB/s</td><td><strong>Volta (V100)</strong></td><td>300 GB/s</td><td>9.3 倍</td></tr><tr><td><strong>第 3 代</strong> (2020)</td><td>PCIe 4.0: 64 GB/s</td><td><strong>Ampere (A100)</strong></td><td>600 GB/s</td><td>9.3 倍</td></tr><tr><td><strong>第 4 代</strong> (2022)</td><td>PCIe 5.0: 128 GB/s</td><td><strong>Hopper (H100)</strong></td><td>900 GB/s</td><td>7 倍</td></tr><tr><td><strong>第 5 代</strong> (2024)</td><td>PCIe 6.0: 256 GB/s</td><td><strong>Blackwell (B200)</strong></td><td>1.8 TB/s (1800 GB/s)</td><td>7 倍</td></tr><tr><td><strong>第 6 代</strong> (2026)*</td><td>PCIe 7.0: 512 GB/s</td><td><strong>Rubin</strong></td><td>3.6 TB/s (3600 GB/s)</td><td>7 倍</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="6d-并行是什么">6D 并行是什么？<a href="#6d-并行是什么" class="hash-link" aria-label="6D 并行是什么？的直接链接" title="6D 并行是什么？的直接链接">​</a></h2>
+<ul>
+<li>Data Parallel（DP）</li>
+<li>Tensor Parallel（TP）</li>
+<li>Pipeline Parallel（PP）</li>
+<li>Sequence Parallel（SP）</li>
+<li>Expert Parallel（EP）</li>
+<li>Optimizer Parallelism （ZeRO-style 状态分片）</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="model-parallelism">Model Parallelism<a href="#model-parallelism" class="hash-link" aria-label="Model Parallelism的直接链接" title="Model Parallelism的直接链接">​</a></h2>
+<p>Splitting the model across multiple learners
+<img decoding="async" loading="lazy" alt="500" src="/assets/images/4a579d178a51-6595a0dba5eeb6925c8b445894f1b39e.webp" width="1024" height="856" class="img_ev3q">
+性能很大程度取决于网络的连接结构和操作计算量需求，适合计算密集且局部连接性强的场景：</p>
+<ul>
+<li>Each machine handles a subset of computation</li>
+<li>Low network traffic</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="pipeline-parallelism">Pipeline Parallelism<a href="#pipeline-parallelism" class="hash-link" aria-label="Pipeline Parallelism的直接链接" title="Pipeline Parallelism的直接链接">​</a></h2>
+<p><a href="https://medium.com/nerd-for-tech/an-overview-of-pipeline-parallelism-and-its-research-progress-7934e5e6d5b8" target="_blank" rel="noopener noreferrer">https://medium.com/nerd-for-tech/an-overview-of-pipeline-parallelism-and-its-research-progress-7934e5e6d5b8</a></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="gpipe-pipelining">GPipe Pipelining<a href="#gpipe-pipelining" class="hash-link" aria-label="GPipe Pipelining的直接链接" title="GPipe Pipelining的直接链接">​</a></h3>
+<blockquote>
+<p>A pipeline parallelism open-source library that allows scaling any network that can be expressed as a sequence of layers.
+<a href="https://arxiv.org/pdf/1811.06965" target="_blank" rel="noopener noreferrer">GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism</a></p>
+</blockquote>
+<p>将全局批次（global batch）拆分为多个微批次 (micro-batches)，并将它们并发地注入到流水线中。</p>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/2b929ebdde5a-649e66ee34637b571a28c1a0e66e7ec8.webp" width="1510" height="690" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="流水线气泡-pipeline-bubble">流水线气泡 (Pipeline Bubble)<a href="#流水线气泡-pipeline-bubble" class="hash-link" aria-label="流水线气泡 (Pipeline Bubble)的直接链接" title="流水线气泡 (Pipeline Bubble)的直接链接">​</a></h3>
+<p>在图 (b) 中，如果 Device 0 把第一批数据算完传给 Device 1 后，它自己就只能干等着，直到 Device 3 算完前向和反向，把误差传回来，Device 0 才能开始算反向梯度。中间大段的空白时间被称为 &quot;Bubble&quot;，这会导致 GPU 算力的极大浪费</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="微批次-micro-batch">微批次 Micro-batch<a href="#微批次-micro-batch" class="hash-link" aria-label="微批次 Micro-batch的直接链接" title="微批次 Micro-batch的直接链接">​</a></h3>
+<p>为了填补这些气泡，图 (c) 将原本一个大的 Batch 切成了 4 个极其微小的块 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mn>0</mn><mo separator="true">,</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">F_{0,0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mpunct mtight">,</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em"><span></span></span></span></span></span></span></span></span></span> 到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mn>0</mn><mo separator="true">,</mo><mn>3</mn></mrow></msub></mrow><annotation encoding="application/x-tex">F_{0,3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mpunct mtight">,</span><span class="mord mtight">3</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em"><span></span></span></span></span></span></span></span></span></span>)。Device 0 算完第一小块，传给 Device 1 的同时，自己立马开始算第二小块。这样大家就“流水”般地忙碌了起来，大大提高了 GPU 的利用率。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="对内存不友好且在面对大批次时扩展性差">对内存不友好，且在面对大批次时扩展性差<a href="#对内存不友好且在面对大批次时扩展性差" class="hash-link" aria-label="对内存不友好，且在面对大批次时扩展性差的直接链接" title="对内存不友好，且在面对大批次时扩展性差的直接链接">​</a></h3>
+<p>为了计算反向传播（求导），GPU 必须把前向传播时的中间结果（激活值）存在显存里。由于微批次导致反向计算被严重推迟，设备不得不缓存大量微批次的激活值。这导致内存需求与并发调度的微批次数量 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.109em">M</span></span></span></span>) 成正比，时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(M)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord mathnormal" style="margin-right:0.0278em">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em">M</span><span class="mclose">)</span></span></span></span>。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="如何解决激活值显存占用">如何解决激活值显存占用？<a href="#如何解决激活值显存占用" class="hash-link" aria-label="如何解决激活值显存占用？的直接链接" title="如何解决激活值显存占用？的直接链接">​</a></h3>
+<p>以 Amazon Sagemaker 为例，</p>
+<ul>
+<li>Pipeline &amp; Tensor Parallelism（流水线切分层，张量切分矩阵）</li>
+<li>Optimizer state sharding（优化器状态分片 ZeRO）</li>
+<li>Activation offloading &amp; checkpointing</li>
+</ul>
+<p>这正是解决 GPipe 显存爆炸问题的方案。</p>
+<p>Checkpointing (激活重计算)：
+只在每隔几层的地方存一个“存档点（Checkpoint）”，把中间的激活值全抛弃以节省显存。等反向传播算到时再从存档点出发，临时重新计算（Recompute）一遍被扔掉的值。这本质上是用时间（额外的计算量）换空间（显存）。</p>
+<p>Offloading (卸载)：
+实在装不下的时候，趁 GPU 还在算别的，把一些暂时不用的数据存到 CPU 的内存里，需要时再搬回来。</p>
+<p><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-intro.html" target="_blank" rel="noopener noreferrer">https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-intro.html</a></p>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/a8548a93fea8-b4fb548771d82fdf46460fed78a72adb.webp" width="1164" height="1444" class="img_ev3q"></p>
+<p>如图，一个包含 4 个Layer的模型，在 8 张 GPU 上混合使用数据并行和流水线并行
+每个模型副本是一个 PP_GROUP (pipeline parallel group 流水线并行组)，并且被横跨划分在两张 GPU 上。例如图中红框的 GPU 0 和 GPU 1 共同持有一份完整的模型。
+模型的每个切分部分被分配给 4 张 GPU，这 4 个切分副本构成一个数据并行组，标记为 DP_GROUP。例如图中蓝框的 GPU 0, 2, 4, 6 都持有 L1 和 L2 层，它们之间做数据并行同步。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="tensor-parallelism">Tensor Parallelism<a href="#tensor-parallelism" class="hash-link" aria-label="Tensor Parallelism的直接链接" title="Tensor Parallelism的直接链接">​</a></h2>
+<blockquote>
+<p>Splits individual layers, or <code>nn.Modules</code>, across devices, to be run in parallel</p>
+</blockquote>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/98211113ad3f-1addca1547d1cd30eede6412f0318c37.webp" width="1564" height="1086" class="img_ev3q"></p>
+<p>和流水线并行按层的前后顺序切分不同，张量并行是把每一层内部的参数矩阵给切开了（即图中的水平虚线）。比如 GPU 0 拿到了 L1、L2、L3、L4 这四层的所有“上半部分”参数，而 GPU 1 拿到了它们的“下半部分”。</p>
+<p>图中的红框标出了 MP_GROUP = TP_GROUP。GPU 0 和 GPU 1 组成了一个团队。在做前向或反向传播时，它们必须极其频繁地交换数据（通常在算完半个矩阵后，立刻通过 All-Reduce 把结果加起来）。故而张量并行通常只在同一台拥有极高 NVLink 带宽的物理机内部进行。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Total GPUs</mtext><mo>=</mo><mtext>TP</mtext><mo>×</mo><mtext>PP</mtext><mo>×</mo><mtext>DP</mtext></mrow><annotation encoding="application/x-tex">\text{Total GPUs} = \text{TP} \times \text{PP} \times \text{DP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em"></span><span class="mord text"><span class="mord">Total GPUs</span></span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em"></span><span class="mord text"><span class="mord">TP</span></span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em"></span><span class="mord text"><span class="mord">PP</span></span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord text"><span class="mord">DP</span></span></span></span></span>
+个人理解：Batch1 和 Batch2 数据相同，图中数据并行度为4</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="data-parallelism">Data Parallelism<a href="#data-parallelism" class="hash-link" aria-label="Data Parallelism的直接链接" title="Data Parallelism的直接链接">​</a></h2>
+<ul>
+<li>Model is replicated on diﬀerent learners</li>
+<li>Data is sharded and each learner work on a diﬀerent pariion</li>
+<li>Helps in eﬃcient training with large amount of data</li>
+<li>Parameters (weights, biases, gradients) from diﬀerent replicas need to be synchronized
+在每一次反向传播（Backward）结束、准备更新权重之前，所有的卡必须停下来互相通信。通过 <strong>All-Reduce</strong> 算法（通常基于 NCCL 库），把所有卡上的梯度加起来求一个平均值，统一用这个平均梯度去更新权重。
+梯度的“同步”过程，对机器之间的网络带宽要求极高。
+如果模型稍微大一点，导致每张卡的显存都被“优化器状态”占满了，就会引入 <strong>ZeRO (优化器状态分片)</strong> 来改造标准的数据并行</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="optimizer-state-sharding-优化器状态分片">Optimizer state sharding 优化器状态分片<a href="#optimizer-state-sharding-优化器状态分片" class="hash-link" aria-label="Optimizer state sharding 优化器状态分片的直接链接" title="Optimizer state sharding 优化器状态分片的直接链接">​</a></h3>
+<blockquote>
+<p>a single replica of the optimizer state is sharded across data-parallel ranks, with no redundancy across devices
+<img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/e79516725cd0-bf657f3b3b2fe68bd234c07af997f97a.gif" width="1544" height="1306" class="img_ev3q"></p>
+</blockquote>
+<p>ZeRO-1</p>
+<ul>
+<li><strong>前向与反向传播 (Compute)：</strong> 所有 4 张 GPU 拿着不同的数据（Batch），各自算出了完整的模型梯度（Gradients）。</li>
+<li><strong>Reduce (规约集合通信)：</strong> 因为 GPU 0 只负责保管 L1 的优化器状态，所以其他三张卡（GPU 1, 2, 3）会把它们算出来的 L1 层的梯度全部通过网络发送给 GPU 0（求和取平均）。同理，GPU 0 也会把自己算出的 L2 梯度发给 GPU 1。</li>
+<li><strong>参数更新 (Update)：</strong> 现在，GPU 0 凑齐了 L1 的完整梯度，它掏出自己专属保管的 L1 优化器状态，计算出 L1 层的最新权重。</li>
+<li><strong>All-gather (全收集通信)：</strong> 最后，GPU 0 把更新好的 L1 最新权重广播发给所有其他卡。大家拼装一下，所有卡又都拥有了最新且完整的模型权重，准备进入下一个 Batch。</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="parameter-server-ps-based-synchronization-参数服务器同步">Parameter server (PS) based Synchronization 参数服务器同步<a href="#parameter-server-ps-based-synchronization-参数服务器同步" class="hash-link" aria-label="Parameter server (PS) based Synchronization 参数服务器同步的直接链接" title="Parameter server (PS) based Synchronization 参数服务器同步的直接链接">​</a></h2>
+<p><strong>Parameter Server (PS) 架构</strong> 是早期深度学习（特别是像 TensorFlow 1.x 时代）最主流的同步方案，中心化的模式。
+每个学习器/工作节点都会执行完整的模型前向和反向传播，在处理完每个 mini-batch 后，学习器计算出梯度，并将它发送给参数服务器，参数服务器计算出权重的最新值，并将它们发送回各个模型副本。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="straggler-problem--木桶效应">Straggler problem / 木桶效应<a href="#straggler-problem--木桶效应" class="hash-link" aria-label="Straggler problem / 木桶效应的直接链接" title="Straggler problem / 木桶效应的直接链接">​</a></h3>
+<p>架构缺点是参数服务器 PS 需要等待所有学习器/节点传回更新的梯度后，才能计算并统一更新模型参数。差异来自于学习器底层计算时间的随机波动以及网络通信延迟的随机波动，训练速度永远受制于最慢的那张卡。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="synchronous-sgd-variants">Synchronous SGD Variants<a href="#synchronous-sgd-variants" class="hash-link" aria-label="Synchronous SGD Variants的直接链接" title="Synchronous SGD Variants的直接链接">​</a></h3>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/688a9e881491-1110f39e8a82f0a8e2546404e213ab47.webp" width="1882" height="408" class="img_ev3q">
+如图，为了解决 Straggler problem，演化出了不同的梯度下降策略，其中：</p>
+<ul>
+<li><strong>P:</strong> 学习器/节点 (Learners) 的总数</li>
+<li><strong>K:</strong> 参数服务器 (PS) 在更新参数前需要等待的学习器或 mini-batch 的数量</li>
+</ul>
+<p>Fully Sync-SGD (完全同步):
+必须集齐所有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.1389em">P</span></span></span></span> 个节点的梯度才更新。最慢，但绝对准确。</p>
+<p>K-sync SGD (K-同步):
+PS 只等待跑得最快的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span></span></span></span> 个节点传回梯度，一旦凑齐 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span></span></span></span> 个，立马更新参数。剩下跑得慢的节点（落后者）的本次计算结果会被直接丢弃（Canceled）。
+注：当 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mi>P</mi></mrow><annotation encoding="application/x-tex">K = P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.1389em">P</span></span></span></span> 时，它就退化成了完全同步。</p>
+<p>K-batch-sync SGD (K-批次同步):
+PS 只看“批次数量”不看 learner。
+只要收到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span></span></span></span> 个 mini-batch 的梯度就更新参数，不管这些梯度是来自于哪些节点。跑得快的节点可以连续提交多个 batch 的梯度。每次更新后，所有节点都会去 PS 拉取最新参数，未完成的旧计算会被取消。
+优势：相比 K-sync 进一步减少了单次迭代的等待时间，且误差收敛表现一致。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="asynchronous-sgd">Asynchronous SGD<a href="#asynchronous-sgd" class="hash-link" aria-label="Asynchronous SGD的直接链接" title="Asynchronous SGD的直接链接">​</a></h3>
+<p>既然同步机制总要等待，能不能干脆完全不等待？这就是异步 SGD (Async-SGD)：任何一个节点只要算完了梯度，随时提交给 PS，PS 立马用它来更新全局权重。</p>
+<p>这带来一个致命缺陷：陈旧梯度 (Stale Gradients)，即节点用来计算梯度的权重，可能是 PS 上很久以前的旧版本。
+当节点算完把梯度交回给 PS 时，PS 上的全局权重可能早就被其他跑得快的节点更新过好几轮了。使用这种“过期/陈旧”的梯度强行更新全局模型，会导致训练极度不稳定、收敛变慢，甚至收敛到一个非常差的局部最优解。
+<img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/47c930177df5-7e4eef4224273136fdbaa70e496a66c9.webp" width="1460" height="746" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/daa21925af2a-8a2d96d41bba31744436638de3101960.webp" width="1546" height="440" class="img_ev3q"></p>
+<p>Async SGD (标准异步 SGD)
+参数服务器（PS）在收到任何一个学习器（Learner）的梯度后，立即进行全局参数更新，无需等待其他学习器。
+系统处于无锁（Lock-free）或细粒度锁状态，各节点完全独立并行。
+由于缺乏同步屏障，学习器极易基于旧版本的参数（Stale parameters）计算梯度，这从根本上破坏了标准 SGD 的数学收敛保证，引入了极大的更新噪声。</p>
+<p>K-async SGD (K-异步)
+PS 设定了一个阈值，只有在收集到来自 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span></span></span></span> 个不同的学习器的梯度后，才执行一次参数更新。
+当参数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">K = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:0.6444em"></span><span class="mord">1</span></span></span></span> 时，该策略在数学与执行逻辑上完全等价于上述的 Async SGD。
+与同步版本（K-sync）会直接取消未完成节点不同，K-async 不会取消（not canceled） 剩余的落后节点。这意味着每个学习器最终都会提交作业，导致必然有部分学习器提交基于陈旧参数版本计算出的无效或有害梯度。</p>
+<p>K-batch-async SGD (K-批次异步)
+进一步放宽了更新条件。PS 仅统计接收到的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0715em">K</span></span></span></span> 个 mini-batches 的梯度来触发更新，而不再区分这些梯度具体来自哪个学习器。
+无论哪个学习器率先完成计算，它都会将梯度推送到 PS，随即从 PS 抓取最新的参数，并立即基于该最新参数开始下一个 mini-batch 的梯度计算。同样，系统不会取消未完成的落后者。
+这种机制进一步减少了单次迭代的运行时间（Runtime per iteration），同时在误差收敛（Error convergence）特性上与 K-async 保持一致。</p>
+<p><img decoding="async" loading="lazy" alt="300" src="/assets/images/170527866c25-9bb1d4c9e2ee52dab8373fa4c5aaa67d.webp" width="760" height="510" class="img_ev3q">
+<img decoding="async" loading="lazy" alt="300" src="/assets/images/15ba2b0bd2ec-385da723a39fa55f3bf50dbf8a487759.webp" width="1290" height="894" class="img_ev3q"></p>
+<p><a href="https://arxiv.org/abs/1803.01113" target="_blank" rel="noopener noreferrer">Slow and Stale Gradients Can Win the Race: Error-Runtime Trade-offs in Distributed SGD</a></p>
+<ul>
+<li>Error-runtime trade-off for Sync and Async-SGD with same learning rate.</li>
+<li>Async-SGD has faster decay with time but a higher error floor. (Stale parameters)</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="ring-all-reduce">Ring All-Reduce<a href="#ring-all-reduce" class="hash-link" aria-label="Ring All-Reduce的直接链接" title="Ring All-Reduce的直接链接">​</a></h2>
+<blockquote>
+<p>先分摊计算，再广播结果</p>
+</blockquote>
+<p>在现代多卡集群中，同步操作脱离了中心化的 Parameter Server，通过 <strong>Ring All-Reduce (环形全规约)</strong> 算法被分担到不同节点上</p>
+<p>对于中心化拓扑，GPU 0 的网卡和带宽承受了极大的压力。如果有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.109em">N</span></span></span></span> 个节点，中心节点在同一时刻需要接收 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em"></span><span class="mord mathnormal" style="margin-right:0.109em">N</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:0.6444em"></span><span class="mord">1</span></span></span></span> 份庞大的模型数据。系统规模越大，中心节点的网络拥堵就越严重。
+通过环形拓扑，通信规则被极度简化和去中心化。每个节点拥有一个左邻居和一个右邻居。每个节点只向其右邻居发送数据，并且只从其左邻居接收数据。网络流量被完美且均匀地平摊到了环上的每一条连接线中。系统消除了单点拥堵，使得集群通信带宽的利用率达到了理论上的最大值。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="scatter-reduce">Scatter-Reduce<a href="#scatter-reduce" class="hash-link" aria-label="Scatter-Reduce的直接链接" title="Scatter-Reduce的直接链接">​</a></h3>
+<blockquote>
+<p>GPUs exchange data such that every GPU ends up with a chunk of the final result</p>
+</blockquote>
+<p>GPU 之间在环形拓扑上不断交换数据块并进行局部求和。当这个阶段结束时，没有任何一张 GPU 拥有完整的结果，但是每一张 GPU 都持有了最终结果的其中一个完整数据块。
+<img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/36ad31b9ad84-eb27f732e0cdb65ea2a1c25ae92e4fdd.webp" width="1550" height="974" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="all-gather">All-Gather<a href="#all-gather" class="hash-link" aria-label="All-Gather的直接链接" title="All-Gather的直接链接">​</a></h3>
+<blockquote>
+<p>GPUs exchange chunks from scatter-reduce such that all GPUs end up with the complete final result.</p>
+</blockquote>
+<p>在环上把各自算好的最终数据块（chunks from scatter-reduce）传递一圈。所有 GPU 收集齐了别人发来的结果块，最终拼凑出完整的、全员一致的全局梯度数组。</p>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/8811914cc79b-676fa9eafa5c0c8643fb5330ecefc36f.webp" width="1676" height="1012" class="img_ev3q"></p>
+<p>下面通过复杂度推导，给出为何现代大模型训练必须采用 Ring All-Reduce 的证明：</p>
+<p>P: number of processes
+N: total number of model parameters</p>
+<p>PS (centralized reduce)：</p>
+<ul>
+<li>Amount of data sent to PS by (P-1) learner processes: N(P-1)</li>
+<li>After reduce, PS sends back updated parameters to each learner</li>
+<li>Amount of data sent by PS to learners: N(P-1)</li>
+<li>Total communication cost at PS process is proportional to 2N(P-1)</li>
+</ul>
+<p>Ring All-Reduce (decentralized reduce)：</p>
+<ul>
+<li>Scatter-reduce: Each process sends N/P amount of data to (P-1) learners</li>
+<li>Total amount sent (per process): N(P-1)/P</li>
+<li>AllGather: Each process again sends N/P amount of data to (P-1) learners</li>
+<li>Total communication cost per process is 2N(P-1)/P</li>
+</ul>
+<p>PS communication cost is proportional to P whereas ring all-reduce cost is practically independent of P for large P (ratio (P-1)/P tends to 1 for large P)
+对于 Ring All-Reduce 而言，当集群规模 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.1389em">P</span></span></span></span> 变得非常大时，系数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>P</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">(P-1)/P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1389em">P</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.1389em">P</span></span></span></span> 在数学上极其趋近于1。无论用多少张卡训练，Ring All-Reduce 中每张卡的单次同步通信量都被限制在大约 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.109em">N</span></span></span></span> 左右，在物理层面上实现了与进程数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.1389em">P</span></span></span></span> 无关的高扩展性。</p>
+<p>Note: 尽管拓扑结构完全不同，但这两种方案在算法语义上都属于<strong>同步参数更新（synchronous parameter updates）</strong></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="distributed-training-frameworks">Distributed Training Frameworks<a href="#distributed-training-frameworks" class="hash-link" aria-label="Distributed Training Frameworks的直接链接" title="Distributed Training Frameworks的直接链接">​</a></h2>
+<p>训练数据规模，单步计算量和计算速率基本决定了训练耗时，其中的可变因素是计算速率，也是我们优化的目标。
+• 深度学习训练耗时：</p>
+<span class="katex-display" tabindex="0"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>训练耗时</mtext><mo>=</mo><munder><munder><mrow><mtext>训练数据规模</mtext><mo>×</mo><mtext>单步计算量</mtext></mrow><mo stretchy="true">⏟</mo></munder><mtext>模型相关，相对固定</mtext></munder><mi mathvariant="normal">/</mi><munder><munder><mtext>计算速率</mtext><mo stretchy="true">⏟</mo></munder><mtext>可变因素</mtext></munder></mrow><annotation encoding="application/x-tex">\text{训练耗时}
+=
+
+\underbrace{\text{训练数据规模} \times \text{单步计算量}}_{\text{模型相关，相对固定}}
+/
+\underbrace{\text{计算速率}}_{\text{可变因素}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord text"><span class="mord cjk_fallback">训练耗时</span></span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:2.1597em;vertical-align:-1.4097em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span style="top:-1.5903em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">模型相关，相对固定</span></span></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span class="svg-align" style="top:-2.2687em"><span class="pstrut" style="height:3em"></span><span class="stretchy" style="height:0.548em;min-width:1.6em"><span class="brace-left" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"></path></svg></span><span class="brace-center" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"></path></svg></span><span class="brace-right" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"></path></svg></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord text"><span class="mord cjk_fallback">训练数据规模</span></span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mord text"><span class="mord cjk_fallback">单步计算量</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7313em"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.4097em"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span style="top:-1.6737em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">可变因素</span></span></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span class="svg-align" style="top:-2.352em"><span class="pstrut" style="height:3em"></span><span class="stretchy" style="height:0.548em;min-width:1.6em"><span class="brace-left" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"></path></svg></span><span class="brace-center" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"></path></svg></span><span class="brace-right" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"></path></svg></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord text"><span class="mord cjk_fallback">计算速率</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3263em"><span></span></span></span></span></span></span></span></span></span>
+<p>计算速率又由三个因素决定：单设备计算速率，设备数，以及多设备并行效率。
+• 计算速率：</p>
+<span class="katex-display" tabindex="0"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>计算速率</mtext><mo>=</mo><munder><munder><mtext>单设备计算速率</mtext><mo stretchy="true">⏟</mo></munder><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>混合精度</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>算子融合</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>梯度累加</mtext></mstyle></mtd></mtr></mtable></munder><mo>×</mo><munder><munder><mtext>设备数</mtext><mo stretchy="true">⏟</mo></munder><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>服务器架构</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>通信拓扑优化</mtext></mstyle></mtd></mtr></mtable></munder><mo>×</mo><munder><munder><mtext>多设备并行效率（加速比）</mtext><mo stretchy="true">⏟</mo></munder><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>数据并行</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>模型并行</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>流水并行</mtext></mstyle></mtd></mtr></mtable></munder></mrow><annotation encoding="application/x-tex">\text{计算速率}
+=
+\underbrace{\text{单设备计算速率}}_{
+\begin{array}{c}
+\text{混合精度} \\
+\text{算子融合} \\
+\text{梯度累加}
+\end{array}}
+\times
+\underbrace{\text{设备数}}_{
+\begin{array}{c}
+\text{服务器架构} \\
+\text{通信拓扑优化}
+\end{array}}
+\times
+\underbrace{\text{多设备并行效率（加速比）}}_{
+\begin{array}{c}
+\text{数据并行} \\
+\text{模型并行} \\
+\text{流水并行}
+\end{array}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord text"><span class="mord cjk_fallback">计算速率</span></span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:4.3373em;vertical-align:-3.654em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span style="top:-1.152em"><span class="pstrut" style="height:3.578em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mtable"><span class="arraycolsep" style="width:0.5em"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.2543em"><span style="top:-4.2781em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">混合精度</span></span></span></span><span style="top:-2.9419em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">算子融合</span></span></span></span><span style="top:-1.6057em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">梯度累加</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.7543em"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em"></span></span></span></span></span></span><span style="top:-3.578em"><span class="pstrut" style="height:3.578em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span class="svg-align" style="top:-2.352em"><span class="pstrut" style="height:3em"></span><span class="stretchy" style="height:0.548em;min-width:1.6em"><span class="brace-left" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"></path></svg></span><span class="brace-center" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"></path></svg></span><span class="brace-right" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"></path></svg></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord text"><span class="mord cjk_fallback">单设备计算速率</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.654em"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:3.402em;vertical-align:-2.7187em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span style="top:-1.152em"><span class="pstrut" style="height:3.1103em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mtable"><span class="arraycolsep" style="width:0.5em"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.5862em"><span style="top:-3.61em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">服务器架构</span></span></span></span><span style="top:-2.2738em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">通信拓扑优化</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.0862em"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em"></span></span></span></span></span></span><span style="top:-3.1103em"><span class="pstrut" style="height:3.1103em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span class="svg-align" style="top:-2.352em"><span class="pstrut" style="height:3em"></span><span class="stretchy" style="height:0.548em;min-width:1.6em"><span class="brace-left" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"></path></svg></span><span class="brace-center" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"></path></svg></span><span class="brace-right" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"></path></svg></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord text"><span class="mord cjk_fallback">设备数</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.7187em"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:4.3373em;vertical-align:-3.654em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span style="top:-1.152em"><span class="pstrut" style="height:3.578em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mtable"><span class="arraycolsep" style="width:0.5em"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.2543em"><span style="top:-4.2781em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">数据并行</span></span></span></span><span style="top:-2.9419em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">模型并行</span></span></span></span><span style="top:-1.6057em"><span class="pstrut" style="height:3em"></span><span class="mord sizing reset-size3 size6"><span class="mord text"><span class="mord cjk_fallback">流水并行</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.7543em"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em"></span></span></span></span></span></span><span style="top:-3.578em"><span class="pstrut" style="height:3.578em"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em"><span class="svg-align" style="top:-2.352em"><span class="pstrut" style="height:3em"></span><span class="stretchy" style="height:0.548em;min-width:1.6em"><span class="brace-left" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"></path></svg></span><span class="brace-center" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"></path></svg></span><span class="brace-right" style="height:0.548em"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"></path></svg></span></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord text"><span class="mord cjk_fallback">多设备并行效率（加速比）</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.654em"><span></span></span></span></span></span></span></span></span></span>
+<p>为此，在现有的AI框架（如PyTorch、TensorFlow、Caffe、JAX、MindSpore ...）之上，我们还需要一层大模型的使能层，特别是大模型的训练和推理框架。常见的分布式训练框架有 DeepSpeed、Megatron-LM、Colossal-AI 以及 HuggingFace 的 Accelerate 库。</p>
+<p>分布式训练的核心功能：</p>
+<ol>
+<li>部署和训练以Transformer为核心的大模型</li>
+<li>提供数据/模型/流水并行 - 多维并行</li>
+<li>以集合通信和参数服务器（Parameter Server）方式进行资源整合</li>
+</ol>
+<p>首先来看 DeepSpeed，这是由微软开源的一个深度学习优化库，旨在提高大模型训练效率和扩展性。DeepSpeed 主要使用了数据并行（Data Parallelism, 通过 ZeRO）、模型并行（PP）、梯度累积、动态缩放、混合精度等训练加速手段。此外，该框架还支持分布式训练管理，内存优化和模型压缩等，协助管理和优化大模型训练任务。</p>
+<p>再看 Megatron-LM ，这是 NVIDIA 开发的一个深度学习框架，专门用于大模型的分布式训练。它通过极致的算子融合，以及 3D 并行 —— 数据并行、张量并行（Tensor Parallelism）和流水线并行（Pipeline Parallelism）的组合，将单卡的计算效率（MFU/TFLOPs）推向极限。Megatron-LM 提供了强大的tokenizer以及数据预处理与管理工具。</p>
+<p>DeepSpeed更多被用于中等规模集群（数十到数百卡）预训练以及下游任务微调环节，超大规模集群（千卡、万卡级）更多采用 NVIDIA 的 Megatron-LM，并随后取长补短，发展为 Megatron-DeepSpeed，既保证了超大规模下的并行效率，又利用了 ZeRO 来降低显存占用。</p>
+<p>值得关注的是，随着分布式技术的进一步发展，格局也在发生细微变化。NVIDIA 通过推出的模块化版本的 Megatron Core，试图拿回被 DeepSpeed 占领的中小规模市场；而 Meta 推出的 PyTorch 原生的 FSDP 也正成为 DeepSpeed 的强力竞争对手，尤其是在追求与原生 PyTorch 兼容的科研场景中。</p>
+<p>除此之外，潞晨科技（HPC-AI Tech，由新加坡国立大学校级教授尤洋创建）的 Colossal-AI 框架提供了丰富的张量并行策略与配置案例；由 <strong>OpenBMB</strong> 开源社区（由清华大学NLP实验室和面壁智能发起）开发的 BMTrain 框架深度优化了DeepSpeed的并行策略，支持北京智源研究院的 Aquila 系列模型；华为也推出了在大模型领域对标 NVIDIA 生态的昇腾（Ascend）原生大模型加速库 MindSpeed。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="deepspeed">DeepSpeed<a href="#deepspeed" class="hash-link" aria-label="DeepSpeed的直接链接" title="DeepSpeed的直接链接">​</a></h2>
+<p><a href="https://github.com/deepspeedai/DeepSpeed" target="_blank" rel="noopener noreferrer">https://github.com/deepspeedai/DeepSpeed</a></p>
+<p>训练方面为大模型提供ZeRO、3D-Parallelism、DeepSpeed-MoE、ZeRO-Infinity等特性。在推理，压缩以及 AI4Science 也有相应功能。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="apis">APIs<a href="#apis" class="hash-link" aria-label="APIs的直接链接" title="APIs的直接链接">​</a></h3>
+<p>配置参数在 ds_config.json 中，通过API接口可以调用 DeepSpeed 训练/推理模型</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="runtime">Runtime<a href="#runtime" class="hash-link" aria-label="Runtime的直接链接" title="Runtime的直接链接">​</a></h3>
+<p>Runtime 是指模型执行时的软件环境和调度系统。它负责把训练好的模型文件（如 .onnx 或 .pt）加载起来，并管理硬件资源（GPU/CPU/NPU）来执行计算。它主要负责：</p>
+<ul>
+<li>资源调度：决定把哪个计算任务分配给哪个 GPU</li>
+<li>内存管理：vLLM、DeepSpeed这类训推框架，核心价值就在于 Runtime 阶段的显存优化</li>
+<li>图优化：在不改变模型结果的前提下，把一些计算步骤合并（如算子融合）</li>
+<li>以及故障检测，CheckPoint 保存和加载</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="ops">Ops<a href="#ops" class="hash-link" aria-label="Ops的直接链接" title="Ops的直接链接">​</a></h3>
+<p><strong>Ops</strong>（Operators 的缩写），即算子，是模型中最小的计算单元，负责优化计算和通信，提供底层操作。大模型本质上是一个由成千上万个 Ops 组成的有向无环图（DAG）。它主要支持：</p>
+<ul>
+<li><strong>数学运算</strong>：每个 Ops 完成一个具体的数学动作，比如矩阵乘法（MatMul）、激活函数（ReLU）、层归一化（LayerNorm）。</li>
+<li><strong>输入输出</strong>：每个 Ops 接收一个或多个 Tensor（张量），处理后输出一个新的 Tensor。
+不过，Ops 有时也指 Operations（运维/工程化），如<strong>LLMOps</strong>，是指大模型从数据准备、训练、部署到监控的整个<strong>生命周期管理</strong>流程。这属于工程管理范畴，不属于底层计算定义的 Ops，注意结合上下文区分。</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="显存占用分析">显存占用分析<a href="#显存占用分析" class="hash-link" aria-label="显存占用分析的直接链接" title="显存占用分析的直接链接">​</a></h3>
+<blockquote>
+<p>The memory consumption when training a deep learning model can be divided into two parts:</p>
+<ol>
+<li><strong>Model States</strong>. For large models, most of the memory consumption is occupied by the model state, which mainly includes three parts: Optimizer States, Gradients, and Parameters. The three parts are abbreviated as <strong>OPG</strong>.</li>
+<li><strong>Residual States</strong>. It includes activation functions, temporary buffers, and unusable memory fragments.</li>
+</ol>
+</blockquote>
+<p>Model States 模型本身相关且必须存储的参数：</p>
+<ul>
+<li>Parameters：模型参数 FP32 (4 Bytes) -(if 混合精度)-&gt; FP16 (2 Bytes)</li>
+<li>Gradients：模型梯度 FP32 (4 Bytes) -(if 混合精度)-&gt; FP16 (2 Bytes)</li>
+<li>Optimizer States：if Adam
+<ul>
+<li>Master weight (fp32): 4 Bytes</li>
+<li>Adam momentum (fp32)：4 bytes</li>
+<li>Adam Variance (fp32)： 4 bytes</li>
+</ul>
+</li>
+</ul>
+<p>各种并行主要优化的是 model states</p>
+<p>Residual States 非模型必须，训练过程中产生的参数：</p>
+<ul>
+<li>Activation：激活值</li>
+<li>Temporary Buffers：临时存储，如算子的中间变量</li>
+<li>Unusable Fragmented Memory：碎片化存储空间
+激活值加临时存储约 8 Bytes</li>
+</ul>
+<p>分析一下，在全精度训练（FP32 + Adam）的基线下
+Parameters 4B + Gradients 4B + Adam Momentum 4B + Adam Variance 4B = 16 B
+AMP 混合精度训练下，
+Parameters 2B + Gradients 2B + Master weights 4B +  Adam Momentum 4B + Adam Variance 4B = 16 B
+在这种理想配置下，看似对 optimizer + parameter 的显存节省有限，实际上activation 是节省显存的关键，同时低精度导致 Tensor Core 吞吐暴涨，提高了 GPU 利用率</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="zero">ZeRO<a href="#zero" class="hash-link" aria-label="ZeRO的直接链接" title="ZeRO的直接链接">​</a></h3>
+<p>ZeRO Zero Redundancy Optimizer，一系列显存优化方法的统称：</p>
+<ul>
+<li>ZeRO-DP（Data Parallel）：ZeRO1/2/3</li>
+<li>ZeRO-R（Reduce）： Activation Checkpointing、 Memory Defragmentation
+<ul>
+<li>把显存占用多的部分offload到CPU上，瓶颈在通讯（一般是PCIE）</li>
+</ul>
+</li>
+<li>ZeRO-Offload： Offload Strategy &amp;&amp; Offload Schedule</li>
+<li>ZeRO-Infinity： Breaking the GPU Memory Wall for Extreme Scale Deep Learning</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="Distributed Training 配图" src="/assets/images/1189036d38e5-c3df80637618bc41441d3d2d4517132a.webp" width="2902" height="1345" class="img_ev3q"></p>
+<ul>
+<li>Optimizer state partitioning（ZeRO stage 1）：只对 optimizer 状态进行切分，占用内存原始1/4；
+<ul>
+<li>把每个GPU计算的完整梯度矩阵直接all-reduce，然后根据每个GPU得到的完整梯度矩阵和部分优化器得到部分的参数矩阵再all-gather每个GPU得到</li>
+</ul>
+</li>
+<li>Gradient partitioning（ZeRO stage 2）：对 optimizer  和 grad 进行切分，占用内存原始1/8；</li>
+<li>Parameter partitioning（ZeRO stage 3）：对 optimizer、grad 和模型参数进行切分，内存减少与数据并行度和复杂度成线性关系，同时通信容量是数据并行性的 1.5 倍；
+<ul>
+<li>通过前向和反向传播中加入all-gather的方式来减少内存占用</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="ddp">DDP<a href="#ddp" class="hash-link" aria-label="DDP的直接链接" title="DDP的直接链接">​</a></h2>
+<p>Distributed Data Parallel
+One full copy of model and training parameters on each GPU
+做法： 每一张显卡都拷贝一份完整的模型参数。
+通信： 训练时，每张卡处理不同的 Batch。计算完梯度后，调用 All-Reduce 同步所有卡的梯度，然后各自更新参数。
+缺点是显存占用极大。如果模型本身有 10GB，你有 8 张卡，那么 80GB 的显存里有 70GB 都在存重复的参数。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="fsdp">FSDP<a href="#fsdp" class="hash-link" aria-label="FSDP的直接链接" title="FSDP的直接链接">​</a></h2>
+<p>Motivated by the “ZeRO” paper – zero data overlap between GPUs
+做法是把模型参数、梯度、优化器状态全部切碎（Shard），分给所有的显卡。每张卡只存 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">1/N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord">1/</span><span class="mord mathnormal" style="margin-right:0.109em">N</span></span></span></span> 的模型。
+通信：</p>
+<ul>
+<li>前向传播： 用 All-Gather 临时找回参数，算完立即扔掉。</li>
+<li>后向传播： 用 Reduce-Scatter 同步梯度，只保留属于自己那份。
+理论上FSDP可以训练无限大的模型，只要增加显卡数量即可。</li>
+</ul>
+<p>• Helps to reduce overall GPU memory utilization
+• Supports offloading to CPU if needed
+• Configure level of sharding via sharding factor
+FSDP 的核心价值不是更快，而是让大模型“能训练”</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="reference">Reference：<a href="#reference" class="hash-link" aria-label="Reference：的直接链接" title="Reference：的直接链接">​</a></h2>
+<p><a href="https://github.com/bitsandbytes-foundation/bitsandbytes" target="_blank" rel="noopener noreferrer">https://github.com/bitsandbytes-foundation/bitsandbytes</a>
+<a href="https://huggingface.co/docs/transformers/v4.20.1/en/perf_train_gpu_one#anatomy-of-models-memory" target="_blank" rel="noopener noreferrer">https://huggingface.co/docs/transformers/v4.20.1/en/perf_train_gpu_one#anatomy-of-models-memory</a>
+<a href="https://arxiv.org/abs/1910.02054" target="_blank" rel="noopener noreferrer">ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</a>
+<a href="https://arxiv.org/abs/2304.11277" target="_blank" rel="noopener noreferrer">PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel</a>
+<a href="https://siboehm.com/articles/22/data-parallel-training" target="_blank" rel="noopener noreferrer">https://siboehm.com/articles/22/data-parallel-training</a>
+<a href="https://www.bilibili.com/video/BV1op421C7wp/" target="_blank" rel="noopener noreferrer">大模型是怎么训起来的？分布式并行框架介绍 #大模型 #分布式并行 #训练 - ZOMI酱</a></p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/JerryLinyx/JerryLinyx.github.io/edit/codex/root-site/docs/notes/training/distributed-training.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/notes/training/deep-learning/"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">Deep Learning</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/WebDev/DB/"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">PostgreSQL</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#scaling" class="table-of-contents__link toc-highlight">Scaling</a><ul><li><a href="#verbcal-scaling-up-in-a-single-node-垂直扩展--向上" class="table-of-contents__link toc-highlight">Verbcal scaling-up in a single node 垂直扩展 / 向上</a></li><li><a href="#horizontal-scaling-out-across-multiple-nodes-水平扩展--向外" class="table-of-contents__link toc-highlight">Horizontal scaling-out across multiple nodes 水平扩展 / 向外</a></li><li><a href="#high-performance-networking" class="table-of-contents__link toc-highlight">High Performance Networking</a></li></ul></li><li><a href="#6d-并行是什么" class="table-of-contents__link toc-highlight">6D 并行是什么？</a></li><li><a href="#model-parallelism" class="table-of-contents__link toc-highlight">Model Parallelism</a></li><li><a href="#pipeline-parallelism" class="table-of-contents__link toc-highlight">Pipeline Parallelism</a><ul><li><a href="#gpipe-pipelining" class="table-of-contents__link toc-highlight">GPipe Pipelining</a></li><li><a href="#流水线气泡-pipeline-bubble" class="table-of-contents__link toc-highlight">流水线气泡 (Pipeline Bubble)</a></li><li><a href="#微批次-micro-batch" class="table-of-contents__link toc-highlight">微批次 Micro-batch</a></li><li><a href="#对内存不友好且在面对大批次时扩展性差" class="table-of-contents__link toc-highlight">对内存不友好，且在面对大批次时扩展性差</a></li><li><a href="#如何解决激活值显存占用" class="table-of-contents__link toc-highlight">如何解决激活值显存占用？</a></li></ul></li><li><a href="#tensor-parallelism" class="table-of-contents__link toc-highlight">Tensor Parallelism</a></li><li><a href="#data-parallelism" class="table-of-contents__link toc-highlight">Data Parallelism</a><ul><li><a href="#optimizer-state-sharding-优化器状态分片" class="table-of-contents__link toc-highlight">Optimizer state sharding 优化器状态分片</a></li></ul></li><li><a href="#parameter-server-ps-based-synchronization-参数服务器同步" class="table-of-contents__link toc-highlight">Parameter server (PS) based Synchronization 参数服务器同步</a><ul><li><a href="#straggler-problem--木桶效应" class="table-of-contents__link toc-highlight">Straggler problem / 木桶效应</a></li><li><a href="#synchronous-sgd-variants" class="table-of-contents__link toc-highlight">Synchronous SGD Variants</a></li><li><a href="#asynchronous-sgd" class="table-of-contents__link toc-highlight">Asynchronous SGD</a></li></ul></li><li><a href="#ring-all-reduce" class="table-of-contents__link toc-highlight">Ring All-Reduce</a><ul><li><a href="#scatter-reduce" class="table-of-contents__link toc-highlight">Scatter-Reduce</a></li><li><a href="#all-gather" class="table-of-contents__link toc-highlight">All-Gather</a></li></ul></li><li><a href="#distributed-training-frameworks" class="table-of-contents__link toc-highlight">Distributed Training Frameworks</a></li><li><a href="#deepspeed" class="table-of-contents__link toc-highlight">DeepSpeed</a><ul><li><a href="#apis" class="table-of-contents__link toc-highlight">APIs</a></li><li><a href="#runtime" class="table-of-contents__link toc-highlight">Runtime</a></li><li><a href="#ops" class="table-of-contents__link toc-highlight">Ops</a></li><li><a href="#显存占用分析" class="table-of-contents__link toc-highlight">显存占用分析</a></li><li><a href="#zero" class="table-of-contents__link toc-highlight">ZeRO</a></li></ul></li><li><a href="#ddp" class="table-of-contents__link toc-highlight">DDP</a></li><li><a href="#fsdp" class="table-of-contents__link toc-highlight">FSDP</a></li><li><a href="#reference" class="table-of-contents__link toc-highlight">Reference：</a></li></ul></div></div></div></div></main></div></div></div><footer class="site-footer"><a class="footer-name" href="/">Yuxuan Lin <span>林煜轩</span></a><p>Always learning. Always building.</p><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/blog/">Journal ↗</a><a href="/plog/">Photo log ↗</a><a href="/archive/">Archive ↗</a><a href="#top" aria-label="回到顶部">↑ Top</a></div><small>© <!-- -->2026<!-- --> Yuxuan Lin</small></footer></div>
+</body>
+</html>

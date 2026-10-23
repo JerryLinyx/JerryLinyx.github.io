@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-notes/application/rag" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">RAG | Yuxuan Lin</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://jerrylinyx.github.io/img/social-card.png"><meta data-rh="true" property="og:url" content="https://jerrylinyx.github.io/docs/notes/application/rag/"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="author" content="Yuxuan Lin"><meta data-rh="true" name="theme-color" content="#f6f5ef"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="RAG | Yuxuan Lin"><meta data-rh="true" name="description" content="RAG 之前的知识库检索关键技术"><meta data-rh="true" property="og:description" content="RAG 之前的知识库检索关键技术"><link data-rh="true" rel="icon" href="/img/monogram.svg"><link data-rh="true" rel="canonical" href="https://jerrylinyx.github.io/docs/notes/application/rag/"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/docs/notes/application/rag/" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jerrylinyx.github.io/docs/notes/application/rag/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"RAG","item":"https://jerrylinyx.github.io/docs/notes/application/rag"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Yuxuan Lin Atom Feed">
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/plog/rss.xml" title="Yuxuan Lin RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/plog/atom.xml" title="Yuxuan Lin Atom Feed"><link rel="stylesheet" href="/assets/css/styles.78b5c50b.css">
+<script src="/assets/js/runtime~main.51e111cf.js" defer="defer"></script>
+<script src="/assets/js/main.3676d334.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><header id="top" class="navbar site-header"><a class="wordmark" aria-label="Yuxuan Lin 首页" href="/"><span class="monogram">yl<span>.</span></span><span>YUXUAN LIN<span class="wordmark-sub">ENGINEER &amp; EXPLORER</span></span></a><button class="menu-toggle" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">Menu +</button><nav id="site-nav" aria-label="主导航" class="site-nav"><a href="/#work">Work<span>01</span></a><a aria-current="page" href="/notes/">Notes<span>02</span></a><a href="/#about">About<span>03</span></a><a href="mailto:yl6061@columbia.edu" class="nav-contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="site-doc-wrapper"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="site-doc-layout"><aside class="notebook-sidebar-container"><nav aria-label="笔记章节导航" class="notebook-sidebar-desktop menu"><a class="notebook-search-link" href="/notes/">⌕ Search the notebook ↗</a><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro/">Notebook · 阅读地图</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/notes/algo/dpi/">AI &amp; Systems</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/algo/dpi/">Generative models</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/notes/application/evaluation/">Applications</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/application/evaluation/">LLM Evaluation</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/notes/application/rag/">RAG</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/data/big-data/">Data</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/hpc/compiler/">HPC</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/inference/inference/">Inference</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/leetcode/ACM模式/">Programming</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/training/deep-learning/">Training</a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/WebDev/DB/">Engineering archive</a></div></li></ul></nav><details class="notebook-sidebar-mobile"><summary>Contents / 笔记目录 <span aria-hidden="true">+</span></summary><nav aria-label="手机端笔记章节导航" class="menu"><a class="notebook-search-link" href="/notes/">⌕ 搜索笔记 ↗</a><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro/">Notebook · 阅读地图</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/notes/algo/dpi/">AI &amp; Systems</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/algo/dpi/">Generative models</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/notes/application/evaluation/">Applications</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/application/evaluation/">LLM Evaluation</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/notes/application/rag/">RAG</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/data/big-data/">Data</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/hpc/compiler/">HPC</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/notes/inference/inference/">Inference</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/leetcode/ACM模式/">Programming</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/notes/training/deep-learning/">Training</a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/WebDev/DB/">Engineering archive</a></div></li></ul></nav></details></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">AI &amp; Systems</span></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Applications</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">RAG</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>RAG</h1></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="rag-之前的知识库检索关键技术">RAG 之前的知识库检索关键技术<a href="#rag-之前的知识库检索关键技术" class="hash-link" aria-label="RAG 之前的知识库检索关键技术的直接链接" title="RAG 之前的知识库检索关键技术的直接链接">​</a></h2>
+<p>在 RAG 兴起之前，信息检索（Information Retrieval）领域已经积累了几十年的技术。理解这些基础对于设计好的 RAG 系统至关重要。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="一稀疏检索sparse-retrieval">一、稀疏检索（Sparse Retrieval）<a href="#一稀疏检索sparse-retrieval" class="hash-link" aria-label="一、稀疏检索（Sparse Retrieval）的直接链接" title="一、稀疏检索（Sparse Retrieval）的直接链接">​</a></h3>
+<p>核心思想：用<strong>词频统计</strong>来表示文档和查询，生成高维稀疏向量（大部分维度为 0）。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="1-tf-idfterm-frequency---inverse-document-frequency">1. TF-IDF（Term Frequency - Inverse Document Frequency）<a href="#1-tf-idfterm-frequency---inverse-document-frequency" class="hash-link" aria-label="1. TF-IDF（Term Frequency - Inverse Document Frequency）的直接链接" title="1. TF-IDF（Term Frequency - Inverse Document Frequency）的直接链接">​</a></h4>
+<p><strong>最早的经典方法</strong>，两个因子相乘：</p>
+<ul>
+<li>
+<p><strong>TF（词频）</strong>：一个词在当前文档中出现的频率越高，越可能与该文档相关。常用 sublinear 处理：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>F</mi><mo>=</mo><mn>1</mn><mo>+</mo><mi>log</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mi>f</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>d</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">TF = 1 + \log(f_{t,d})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.1389em">T</span><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em"></span><span class="mop">lo<span style="margin-right:0.0139em">g</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1076em">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，防止高频词权重爆炸。</p>
+</li>
+<li>
+<p><strong>IDF（逆文档频率）</strong>：一个词在越少的文档中出现，区分度越高。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>D</mi><mi>F</mi><mo>=</mo><mi>log</mi><mo>⁡</mo><mfrac><mi>N</mi><mrow><mi>d</mi><msub><mi>f</mi><mi>t</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">IDF = \log\frac{N}{df_t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0785em">I</span><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1.3534em;vertical-align:-0.4811em"></span><span class="mop">lo<span style="margin-right:0.0139em">g</span></span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em"><span style="top:-2.655em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2963em"><span style="top:-2.357em;margin-left:-0.1076em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em"><span class="pstrut" style="height:3em"></span><span class="frac-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3.394em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.109em">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4811em"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>，其中 N 是总文档数，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><msub><mi>f</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">df_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em"></span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1076em">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em"><span></span></span></span></span></span></span></span></span></span> 是包含该词的文档数。&quot;the&quot; 这种词 IDF 接近 0，&quot;vLLM&quot; 这种词 IDF 很高。</p>
+</li>
+<li>
+<p><strong>最终权重</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mi>T</mi><mi>F</mi><mo>×</mo><mi>I</mi><mi>D</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">w = TF \times IDF</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em"></span><span class="mord mathnormal" style="margin-right:0.0269em">w</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em"></span><span class="mord mathnormal" style="margin-right:0.1389em">T</span><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.0785em">I</span><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="mord mathnormal" style="margin-right:0.1389em">F</span></span></span></span>，查询和文档都表示成这样的向量后，用 cosine similarity 算相关性。</p>
+</li>
+</ul>
+<p><strong>局限</strong>：纯粹基于词面匹配，&quot;automobile&quot; 和 &quot;car&quot; 被视为完全不同的词。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="2-bm25best-matching-25">2. BM25（Best Matching 25）<a href="#2-bm25best-matching-25" class="hash-link" aria-label="2. BM25（Best Matching 25）的直接链接" title="2. BM25（Best Matching 25）的直接链接">​</a></h4>
+<p><strong>TF-IDF 的改进版，目前仍是稀疏检索的事实标准。</strong></p>
+<p>核心公式：</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>M</mi><mn>25</mn><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><mi>d</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mo>∑</mo><mrow><mi>t</mi><mo>∈</mo><mi>q</mi></mrow></msub><mi>I</mi><mi>D</mi><mi>F</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>⋅</mo><mfrac><mrow><msub><mi>f</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>d</mi></mrow></msub><mo>⋅</mo><mo stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mrow><msub><mi>f</mi><mrow><mi>t</mi><mo separator="true">,</mo><mi>d</mi></mrow></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mo>⋅</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>b</mi><mo>+</mo><mi>b</mi><mo>⋅</mo><mfrac><mrow><mi mathvariant="normal">∣</mi><mi>d</mi><mi mathvariant="normal">∣</mi></mrow><mrow><mi>a</mi><mi>v</mi><mi>g</mi><mi>d</mi><mi>l</mi></mrow></mfrac><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">BM25(q, d) = \sum_{t \in q} IDF(t) \cdot \frac{f_{t,d} \cdot (k_1 + 1)}{f_{t,d} + k_1 \cdot (1 - b + b \cdot \frac{|d|}{avgdl})}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord mathnormal" style="margin-right:0.0502em">B</span><span class="mord mathnormal" style="margin-right:0.109em">M</span><span class="mord">25</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1.1858em;vertical-align:-0.4358em"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1308em"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mrel mtight">∈</span><span class="mord mathnormal mtight" style="margin-right:0.0359em">q</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4358em"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord mathnormal" style="margin-right:0.0785em">I</span><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:1.9125em;vertical-align:-0.8745em"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0381em"><span style="top:-2.4636em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em"><span style="top:-2.3488em;margin-left:-0.1076em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2901em"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em"><span style="top:-2.357em;margin-left:-0.0315em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em"><span></span></span></span></span></span></span><span class="mbin mtight">⋅</span><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">b</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">b</span><span class="mbin mtight">⋅</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0378em"><span style="top:-2.656em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em">v</span><span class="mord mathnormal mtight" style="margin-right:0.0359em">g</span><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.0197em">l</span></span></span></span><span style="top:-3.2255em"><span class="pstrut" style="height:3em"></span><span class="frac-line mtight" style="border-bottom-width:0.049em"></span></span><span style="top:-3.5021em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">∣</span><span class="mord mathnormal mtight">d</span><span class="mord mtight">∣</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4829em"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em"><span class="pstrut" style="height:3em"></span><span class="frac-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3.5131em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.1076em">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em"><span style="top:-2.3488em;margin-left:-0.1076em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2901em"><span></span></span></span></span></span></span><span class="mbin mtight">⋅</span><span class="mopen mtight">(</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em"><span style="top:-2.357em;margin-left:-0.0315em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8745em"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>相比 TF-IDF 的<strong>三个关键改进</strong>：</p>
+<ol>
+<li>
+<p><strong>TF 饱和</strong>：引入参数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">k_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em"><span></span></span></span></span></span></span></span></span></span>（通常 1.2-2.0），使 TF 的增长有上限。一个词出现 100 次不会比出现 10 次得分高很多，避免了长文档中高频词的过度主导。</p>
+</li>
+<li>
+<p><strong>文档长度归一化</strong>：参数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em"></span><span class="mord mathnormal">b</span></span></span></span>（通常 0.75）控制长度惩罚的程度。长文档天然包含更多词汇，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em"></span><span class="mord mathnormal">b</span></span></span></span> 防止长文档不公平地获得高分。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>v</mi><mi>g</mi><mi>d</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">avgdl</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em"></span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0359em">v</span><span class="mord mathnormal" style="margin-right:0.0359em">g</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.0197em">l</span></span></span></span> 是平均文档长度。</p>
+</li>
+<li>
+<p><strong>IDF 平滑</strong>：使用改进的 IDF 公式，处理极端情况更稳健。</p>
+</li>
+</ol>
+<p><strong>为什么至今仍在用</strong>：</p>
+<ul>
+<li>不需要训练，开箱即用</li>
+<li>精确的关键词匹配能力强（专有名词、型号、ID 等）</li>
+<li>计算资源消耗低</li>
+<li>用 inverted index 可以做到毫秒级检索</li>
+<li>Elasticsearch、Lucene 等成熟工业系统都基于 BM25</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="二倒排索引inverted-index">二、倒排索引（Inverted Index）<a href="#二倒排索引inverted-index" class="hash-link" aria-label="二、倒排索引（Inverted Index）的直接链接" title="二、倒排索引（Inverted Index）的直接链接">​</a></h3>
+<p>BM25/TF-IDF 之所以能在海量文档中快速检索，靠的就是倒排索引这个数据结构。</p>
+<p><strong>原理</strong>：正排索引是&quot;文档 → 包含哪些词&quot;，倒排索引反过来——&quot;词 → 出现在哪些文档中&quot;。</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">正排：doc1 → [&quot;cat&quot;, &quot;sat&quot;, &quot;mat&quot;]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      doc2 → [&quot;dog&quot;, &quot;sat&quot;, &quot;sofa&quot;]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">倒排：cat  → [doc1]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      sat  → [doc1, doc2]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      mat  → [doc1]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      dog  → [doc2]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      sofa → [doc2]</span><br></span></code></pre></div></div>
+<ul>
+<li>每个词对应一个 <strong>posting list</strong>，记录包含该词的文档 ID、词频、位置等</li>
+<li>查询时只需找到查询词的 posting list，取交集/并集，再用 BM25 打分排序</li>
+<li>时间复杂度和查询词涉及的文档数成正比，而不是和全部文档数成正比</li>
+</ul>
+<p><strong>工业实现</strong>：Elasticsearch 和 Apache Solr 底层都是 Lucene 的倒排索引。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="三稀疏检索的局限--引出稠密检索">三、稀疏检索的局限 → 引出稠密检索<a href="#三稀疏检索的局限--引出稠密检索" class="hash-link" aria-label="三、稀疏检索的局限 → 引出稠密检索的直接链接" title="三、稀疏检索的局限 → 引出稠密检索的直接链接">​</a></h3>
+<p>稀疏检索的根本问题是 <strong>vocabulary mismatch</strong>：</p>
+<ul>
+<li>用户搜 &quot;如何缓解头疼&quot; ，文档写的是 &quot;偏头痛的治疗方法&quot;——关键词不匹配，BM25 检索不到</li>
+<li>同义词、上下位词、隐含关系都无法捕捉</li>
+</ul>
+<p>早期的缓解方案包括 query expansion（自动扩展同义词）和 LSA/LDA（降维捕捉主题），但效果有限。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="四稠密检索dense-retrieval">四、稠密检索（Dense Retrieval）<a href="#四稠密检索dense-retrieval" class="hash-link" aria-label="四、稠密检索（Dense Retrieval）的直接链接" title="四、稠密检索（Dense Retrieval）的直接链接">​</a></h3>
+<p>核心思想：用神经网络把文本编码成<strong>低维稠密向量</strong>（如 768 维），在语义空间中用向量距离衡量相关性。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="embedding-模型">Embedding 模型<a href="#embedding-模型" class="hash-link" aria-label="Embedding 模型的直接链接" title="Embedding 模型的直接链接">​</a></h4>
+<ul>
+<li><strong>Sentence-BERT（2019）</strong>：用 Siamese BERT 架构，把句子编码为固定长度向量，训练目标是语义相似的句子距离近</li>
+<li><strong>后续发展</strong>：E5、BGE、GTE、OpenAI Embedding、Cohere Embed 等，效果不断提升</li>
+<li><strong>训练方式</strong>：对比学习（contrastive learning），用 (query, positive_doc, negative_doc) 三元组训练</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="距离度量">距离度量<a href="#距离度量" class="hash-link" aria-label="距离度量的直接链接" title="距离度量的直接链接">​</a></h4>
+<ul>
+<li><strong>Cosine Similarity</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>cos</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>a</mi><mo>⋅</mo><mi>b</mi></mrow><mrow><mi mathvariant="normal">∣</mi><mi>a</mi><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mi>b</mi><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\cos(\theta) = \frac{a \cdot b}{|a||b|}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0278em">θ</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1.4001em;vertical-align:-0.52em"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801em"><span style="top:-2.655em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣</span><span class="mord mathnormal mtight">a</span><span class="mord mtight">∣∣</span><span class="mord mathnormal mtight">b</span><span class="mord mtight">∣</span></span></span></span><span style="top:-3.23em"><span class="pstrut" style="height:3em"></span><span class="frac-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3.394em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span><span class="mbin mtight">⋅</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>，最常用，对向量模长不敏感</li>
+<li><strong>点积（Dot Product）</strong>：在向量已归一化时等价于 cosine</li>
+<li><strong>L2 / 欧氏距离</strong>：适合某些特定场景</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="优势">优势<a href="#优势" class="hash-link" aria-label="优势的直接链接" title="优势的直接链接">​</a></h4>
+<ul>
+<li>语义匹配：&quot;automobile&quot; 和 &quot;car&quot; 的 embedding 会很接近</li>
+<li>跨语言能力：多语言 embedding 模型可以用英文 query 检索中文文档</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="局限">局限<a href="#局限" class="hash-link" aria-label="局限的直接链接" title="局限的直接链接">​</a></h4>
+<ul>
+<li>精确匹配反而不擅长：搜型号 &quot;RTX-4090&quot;，稠密检索可能返回 &quot;RTX-3080&quot; 的文档</li>
+<li>需要训练数据和 GPU 资源</li>
+<li>向量需要预先计算和存储</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="五annapproximate-nearest-neighbor">五、ANN（Approximate Nearest Neighbor）<a href="#五annapproximate-nearest-neighbor" class="hash-link" aria-label="五、ANN（Approximate Nearest Neighbor）的直接链接" title="五、ANN（Approximate Nearest Neighbor）的直接链接">​</a></h3>
+<p>稠密检索面临一个工程问题：文档库有百万甚至上亿条向量，逐条算距离（暴力搜索）太慢。ANN 用近似算法在可接受的精度损失下大幅提速。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="主流算法">主流算法<a href="#主流算法" class="hash-link" aria-label="主流算法的直接链接" title="主流算法的直接链接">​</a></h4>
+<p><strong>1. HNSW（Hierarchical Navigable Small World）</strong></p>
+<ul>
+<li>构建多层图结构，上层稀疏用于快速定位大致区域，下层稠密用于精确搜索</li>
+<li>类比：先看全国地图定位到哪个省，再看省地图定位到哪个市，最后街道级精确查找</li>
+<li><strong>性能</strong>：查询速度极快，recall 高（通常 &gt;95%）</li>
+<li><strong>代价</strong>：内存占用大，需要把整个图放内存；构建索引较慢</li>
+<li><strong>适用</strong>：中等规模（百万到千万级），对延迟要求高</li>
+</ul>
+<p><strong>2. IVF（Inverted File Index）</strong></p>
+<ul>
+<li>先用 k-means 把所有向量聚成若干类（如 1024 个 cluster）</li>
+<li>查询时先找最近的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mi>r</mi><mi>o</mi><mi>b</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">nprobe</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">p</span><span class="mord mathnormal" style="margin-right:0.0278em">r</span><span class="mord mathnormal">o</span><span class="mord mathnormal">b</span><span class="mord mathnormal">e</span></span></span></span> 个 cluster，只在这些 cluster 内做精确搜索</li>
+<li><strong>性能</strong>：通过控制 nprobe 调节速度-精度权衡</li>
+<li><strong>代价</strong>：需要训练聚类中心</li>
+<li><strong>适用</strong>：大规模数据集</li>
+</ul>
+<p><strong>3. PQ（Product Quantization）</strong></p>
+<ul>
+<li>把高维向量切成若干子段，每段独立做聚类量化，用聚类 ID 替代原始值</li>
+<li>768 维 float32 向量（3072 bytes）→ 压缩到几十个 bytes</li>
+<li><strong>核心价值</strong>：大幅降低内存和存储开销</li>
+<li><strong>常与 IVF 组合使用</strong>：IVFPQ 是大规模场景的标配</li>
+</ul>
+<p><strong>4. LSH（Locality-Sensitive Hashing）</strong></p>
+<ul>
+<li>设计哈希函数使得相似向量大概率落入同一个 bucket</li>
+<li>理论上优美，但实际性能通常不如 HNSW 和 IVF</li>
+<li>在高维场景下 recall 下降较快</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="性能权衡">性能权衡<a href="#性能权衡" class="hash-link" aria-label="性能权衡的直接链接" title="性能权衡的直接链接">​</a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th>算法</th><th>查询速度</th><th>内存占用</th><th>Recall</th><th>适用规模</th></tr></thead><tbody><tr><td>HNSW</td><td>极快</td><td>高</td><td>极高</td><td>百万~千万</td></tr><tr><td>IVF</td><td>快（可调）</td><td>中</td><td>高（可调）</td><td>千万~亿</td></tr><tr><td>PQ</td><td>快</td><td>极低</td><td>中等</td><td>亿级（内存受限）</td></tr><tr><td>LSH</td><td>中等</td><td>中</td><td>中等</td><td>通用</td></tr></tbody></table>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="主流向量数据库">主流向量数据库<a href="#主流向量数据库" class="hash-link" aria-label="主流向量数据库的直接链接" title="主流向量数据库的直接链接">​</a></h4>
+<ul>
+<li><strong>Faiss（Meta）</strong>：底层库，支持上述所有算法，C++ 实现 + Python 接口</li>
+<li><strong>Milvus</strong>：分布式向量数据库，生产级</li>
+<li><strong>Pinecone</strong>：托管服务，开箱即用</li>
+<li><strong>Weaviate / Qdrant / Chroma</strong>：各有侧重</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="六hybrid-search混合检索">六、Hybrid Search（混合检索）<a href="#六hybrid-search混合检索" class="hash-link" aria-label="六、Hybrid Search（混合检索）的直接链接" title="六、Hybrid Search（混合检索）的直接链接">​</a></h3>
+<p>现代 RAG 系统通常<strong>不会只用一种</strong>，而是结合稀疏和稠密：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">最终分数 = α × BM25_score + (1-α) × Dense_score</span><br></span></code></pre></div></div>
+<ul>
+<li>BM25 负责精确关键词匹配（型号、人名、专有术语）</li>
+<li>Dense 负责语义理解（同义词、隐含关系）</li>
+<li>两者互补，效果通常优于任何单一方法</li>
+</ul>
+<p>实现方式：Elasticsearch 8.x 原生支持 kNN + BM25 混合；也可以分别检索后做 <strong>Reciprocal Rank Fusion (RRF)</strong> 合并排序。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="七知识图谱knowledge-graph">七、知识图谱（Knowledge Graph）<a href="#七知识图谱knowledge-graph" class="hash-link" aria-label="七、知识图谱（Knowledge Graph）的直接链接" title="七、知识图谱（Knowledge Graph）的直接链接">​</a></h3>
+<p>在向量检索之外，知识图谱是另一种知识组织方式：</p>
+<ul>
+<li>用<strong>三元组 (entity, relation, entity)</strong> 结构化存储知识</li>
+<li>支持多跳推理：&quot;A 的导师是 B → B 所在学校是 C → C 在哪个城市&quot;</li>
+<li>适合需要精确关系查询和逻辑推理的场景</li>
+<li>局限：构建和维护成本高，覆盖范围有限</li>
+</ul>
+<p><strong>GraphRAG</strong> 是近期的趋势，把知识图谱和 RAG 结合，用图结构增强检索的结构化推理能力。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="八技术演进脉络">八、技术演进脉络<a href="#八技术演进脉络" class="hash-link" aria-label="八、技术演进脉络的直接链接" title="八、技术演进脉络的直接链接">​</a></h3>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">TF-IDF → BM25 → 稀疏检索成熟</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">              ↘</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">               Embedding 模型 → Dense Retrieval → ANN 加速</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">              ↘</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">               Hybrid Search（BM25 + Dense）→ 现代 RAG 的检索层</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="知识库系统建设与-rag-全面解析">知识库系统建设与 RAG 全面解析<a href="#知识库系统建设与-rag-全面解析" class="hash-link" aria-label="知识库系统建设与 RAG 全面解析的直接链接" title="知识库系统建设与 RAG 全面解析的直接链接">​</a></h2>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="一rag-是什么">一、RAG 是什么<a href="#一rag-是什么" class="hash-link" aria-label="一、RAG 是什么的直接链接" title="一、RAG 是什么的直接链接">​</a></h3>
+<p><strong>Retrieval-Augmented Generation</strong>：在 LLM 生成回答之前，先从外部知识库中检索相关信息，把检索结果作为上下文注入 prompt，让模型基于这些&quot;证据&quot;来生成回答。</p>
+<p><strong>解决的核心问题</strong>：</p>
+<ul>
+<li>LLM 的知识有<strong>截止日期</strong>，无法回答训练数据之后的问题</li>
+<li>LLM 会<strong>幻觉</strong>，编造看似合理但错误的信息</li>
+<li>企业<strong>私有知识</strong>不在 LLM 训练数据中</li>
+<li>相比微调，RAG <strong>成本低、可实时更新</strong></li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="二rag-完整流程">二、RAG 完整流程<a href="#二rag-完整流程" class="hash-link" aria-label="二、RAG 完整流程的直接链接" title="二、RAG 完整流程的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="离线阶段indexing-pipeline">离线阶段（Indexing Pipeline）<a href="#离线阶段indexing-pipeline" class="hash-link" aria-label="离线阶段（Indexing Pipeline）的直接链接" title="离线阶段（Indexing Pipeline）的直接链接">​</a></h4>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">原始文档 → 文档解析 → 分片(Chunking) → Embedding → 存入向量数据库</span><br></span></code></pre></div></div>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="在线阶段query-pipeline">在线阶段（Query Pipeline）<a href="#在线阶段query-pipeline" class="hash-link" aria-label="在线阶段（Query Pipeline）的直接链接" title="在线阶段（Query Pipeline）的直接链接">​</a></h4>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">用户问题 → Query 处理 → 检索(Retrieval) → Rerank → 构造 Prompt → LLM 生成 → 后处理</span><br></span></code></pre></div></div>
+<p>下面逐个环节展开：</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="三文档解析document-parsing">三、文档解析（Document Parsing）<a href="#三文档解析document-parsing" class="hash-link" aria-label="三、文档解析（Document Parsing）的直接链接" title="三、文档解析（Document Parsing）的直接链接">​</a></h3>
+<p>不同格式的文档需要不同的解析策略：</p>
+<ul>
+<li><strong>PDF</strong>：最复杂，可能包含文字、表格、图片、扫描件。工具如 PyMuPDF、pdfplumber 处理文字型 PDF；OCR（Tesseract、PaddleOCR）处理扫描件；多模态模型直接理解版面布局是新趋势</li>
+<li><strong>Word/HTML/Markdown</strong>：相对结构化，保留标题层级信息很重要</li>
+<li><strong>表格</strong>：需要特殊处理，直接拍平成文本会丢失结构信息，可以转成 Markdown 表格或单独存储</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="四分片策略chunking面试高频考点">四、分片策略（Chunking）——面试高频考点<a href="#四分片策略chunking面试高频考点" class="hash-link" aria-label="四、分片策略（Chunking）——面试高频考点的直接链接" title="四、分片策略（Chunking）——面试高频考点的直接链接">​</a></h3>
+<p>分片质量<strong>直接决定</strong>检索质量。分片太大，噪声多、embedding 被稀释；分片太小，语义不完整、缺乏上下文。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="常见策略">常见策略<a href="#常见策略" class="hash-link" aria-label="常见策略的直接链接" title="常见策略的直接链接">​</a></h4>
+<p><strong>1. 固定长度分片（Fixed-size Chunking）</strong></p>
+<ul>
+<li>按 token 数切割（如 512 tokens），加 overlap（如 50-100 tokens）防止语义被截断</li>
+<li>优点：实现简单</li>
+<li>缺点：会从语义中间截断，比如把一个完整的论点切成两半</li>
+</ul>
+<p><strong>2. 基于结构的分片（Structure-aware）</strong></p>
+<ul>
+<li>按文档的自然结构切：段落、章节、标题层级</li>
+<li>Markdown 按 <code>##</code> 分，HTML 按 <code>&lt;section&gt;</code> 分</li>
+<li>优点：保留了作者的逻辑组织</li>
+<li>缺点：段落长度不一，有的章节可能特别长</li>
+</ul>
+<p><strong>3. 语义分片（Semantic Chunking）</strong></p>
+<ul>
+<li>用 embedding 计算相邻句子的语义相似度，在相似度<strong>骤降处</strong>切割</li>
+<li>直觉：相似度骤降说明话题转换了，这就是自然的分片边界</li>
+<li>优点：语义完整性最好</li>
+<li>缺点：计算成本高，需要额外调参</li>
+</ul>
+<p><strong>4. 递归分片（Recursive Splitting）</strong></p>
+<ul>
+<li>LangChain 的默认策略：先尝试按大结构分（<code>\n\n</code>），超长则按小结构（<code>\n</code>），再超长则按句子，最后按字符</li>
+<li>是一种<strong>逐级降级</strong>的实用方案</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="分片的工程细节">分片的工程细节<a href="#分片的工程细节" class="hash-link" aria-label="分片的工程细节的直接链接" title="分片的工程细节的直接链接">​</a></h4>
+<ul>
+<li><strong>Chunk size</strong>：通常 256-1024 tokens，需要和 embedding 模型的上下文窗口匹配</li>
+<li><strong>Overlap</strong>：通常 10%-20% 的重叠，确保边界处的语义不丢失</li>
+<li><strong>元数据保留</strong>：每个 chunk 附带来源文档、页码、标题层级等 metadata，检索时可以用来过滤和溯源</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="面试加分点parent-child-chunking">面试加分点：Parent-Child Chunking<a href="#面试加分点parent-child-chunking" class="hash-link" aria-label="面试加分点：Parent-Child Chunking的直接链接" title="面试加分点：Parent-Child Chunking的直接链接">​</a></h4>
+<ul>
+<li><strong>小 chunk 用于检索</strong>（细粒度匹配更精准），<strong>大 chunk 用于生成</strong>（上下文更完整）</li>
+<li>检索命中一个小 chunk 后，把它的 parent chunk（或周围的 sibling chunks）一起送进 LLM</li>
+<li>兼顾了检索精度和生成质量</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="五embedding-模型原理与应用">五、Embedding 模型原理与应用<a href="#五embedding-模型原理与应用" class="hash-link" aria-label="五、Embedding 模型原理与应用的直接链接" title="五、Embedding 模型原理与应用的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="原理">原理<a href="#原理" class="hash-link" aria-label="原理的直接链接" title="原理的直接链接">​</a></h4>
+<p>Embedding 模型把文本映射到高维向量空间，使得<strong>语义相似的文本在空间中距离更近</strong>。</p>
+<p><strong>训练方式——对比学习（Contrastive Learning）</strong>：</p>
+<ul>
+<li>构造训练三元组：(query, positive_doc, negative_doc)</li>
+<li>训练目标：拉近 query 和 positive 的距离，推远 query 和 negative 的距离</li>
+<li>损失函数通常用 InfoNCE：</li>
+</ul>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi><mo>=</mo><mo>−</mo><mi>log</mi><mo>⁡</mo><mfrac><msup><mi>e</mi><mrow><mi>s</mi><mi>i</mi><mi>m</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><msup><mi>d</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>τ</mi></mrow></msup><mrow><msup><mi>e</mi><mrow><mi>s</mi><mi>i</mi><mi>m</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><msup><mi>d</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>τ</mi></mrow></msup><mo>+</mo><msub><mo>∑</mo><mi>i</mi></msub><msup><mi>e</mi><mrow><mi>s</mi><mi>i</mi><mi>m</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><msubsup><mi>d</mi><mi>i</mi><mo>−</mo></msubsup><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>τ</mi></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\mathcal{L} = -\log \frac{e^{sim(q, d^+)/\tau}}{e^{sim(q, d^+)/\tau} + \sum_i e^{sim(q, d^-_i)/\tau}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathcal">L</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:2.0609em;vertical-align:-0.8715em"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mop">lo<span style="margin-right:0.0139em">g</span></span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1894em"><span style="top:-2.3535em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.913em"><span style="top:-2.913em;margin-right:0.0714em"><span class="pstrut" style="height:2.6267em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">im</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.0359em">q</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8773em"><span style="top:-2.8773em;margin-right:0.1em"><span class="pstrut" style="height:2.5833em"></span><span class="mbin mtight">+</span></span></span></span></span></span></span><span class="mclose mtight">)</span><span class="mord mtight">/</span><span class="mord mathnormal mtight" style="margin-right:0.1132em">τ</span></span></span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mop mtight"><span class="mop op-symbol small-op mtight" style="position:relative;top:0em">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1496em"><span style="top:-2.1786em;margin-left:0em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3214em"><span></span></span></span></span></span></span><span class="mspace mtight" style="margin-right:0.1952em"></span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.195em"><span style="top:-3.195em;margin-right:0.0714em"><span class="pstrut" style="height:2.7225em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">im</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.0359em">q</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0115em"><span style="top:-2.1488em;margin-left:0em;margin-right:0.1em"><span class="pstrut" style="height:2.6595em"></span><span class="mord mathnormal mtight">i</span></span><span style="top:-3.0877em;margin-right:0.1em"><span class="pstrut" style="height:2.6595em"></span><span class="mbin mtight">−</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5107em"><span></span></span></span></span></span></span><span class="mclose mtight">)</span><span class="mord mtight">/</span><span class="mord mathnormal mtight" style="margin-right:0.1132em">τ</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em"><span class="pstrut" style="height:3em"></span><span class="frac-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3.394em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.1362em"><span style="top:-3.1362em;margin-right:0.0714em"><span class="pstrut" style="height:2.7052em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">im</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.0359em">q</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9873em"><span style="top:-2.9873em;margin-right:0.1em"><span class="pstrut" style="height:2.5833em"></span><span class="mbin mtight">+</span></span></span></span></span></span></span><span class="mclose mtight">)</span><span class="mord mtight">/</span><span class="mord mathnormal mtight" style="margin-right:0.1132em">τ</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8715em"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="主流模型选型">主流模型选型<a href="#主流模型选型" class="hash-link" aria-label="主流模型选型的直接链接" title="主流模型选型的直接链接">​</a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th>模型</th><th>维度</th><th>特点</th></tr></thead><tbody><tr><td>OpenAI text-embedding-3-large</td><td>3072</td><td>商业方案，效果好，需要调用 API</td></tr><tr><td>BGE (BAAI)</td><td>768/1024</td><td>开源，中英文表现优秀</td></tr><tr><td>E5 (Microsoft)</td><td>768/1024</td><td>开源，instruction-tuned</td></tr><tr><td>GTE (Alibaba)</td><td>768</td><td>开源，多语言</td></tr><tr><td>Cohere Embed v3</td><td>1024</td><td>商业，支持多语言</td></tr><tr><td>Jina Embeddings</td><td>768</td><td>开源，支持长文本（8K tokens）</td></tr></tbody></table>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="选型考虑因素">选型考虑因素<a href="#选型考虑因素" class="hash-link" aria-label="选型考虑因素的直接链接" title="选型考虑因素的直接链接">​</a></h4>
+<ul>
+<li><strong>语言</strong>：中文场景优先考虑 BGE、GTE</li>
+<li><strong>维度</strong>：维度越高信息容量越大，但存储和计算成本也越高</li>
+<li><strong>上下文长度</strong>：大部分模型支持 512 tokens，部分新模型支持 8K+</li>
+<li><strong>是否需要 fine-tune</strong>：领域专业性强时微调 embedding 模型可以显著提升效果</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="六向量数据库详解">六、向量数据库详解<a href="#六向量数据库详解" class="hash-link" aria-label="六、向量数据库详解的直接链接" title="六、向量数据库详解的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="1-chromadb">1. ChromaDB<a href="#1-chromadb" class="hash-link" aria-label="1. ChromaDB的直接链接" title="1. ChromaDB的直接链接">​</a></h4>
+<ul>
+<li><strong>定位</strong>：轻量级、开发友好的嵌入式向量数据库</li>
+<li><strong>特点</strong>：
+<ul>
+<li>Python-native，<code>pip install chromadb</code> 即可使用</li>
+<li>默认使用 HNSW 索引</li>
+<li>支持 metadata 过滤</li>
+<li>内置 embedding 函数（可自动调用 OpenAI/HuggingFace 模型）</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：原型开发、小型项目、本地实验</li>
+<li><strong>局限</strong>：不支持分布式、数据量大了性能下降、不适合生产高并发</li>
+</ul>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> chromadb</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">client </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> chromadb</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">Client</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">collection </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> client</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">create_collection</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">&quot;docs&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">collection</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">add</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">documents</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">&quot;text1&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;text2&quot;</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> ids</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">&quot;id1&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;id2&quot;</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">results </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> collection</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">query</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">query_texts</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">&quot;search query&quot;</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> n_results</span><span class="token operator" style="color:#393A34">=</span><span class="token number" style="color:#36acaa">5</span><span class="token punctuation" style="color:#393A34">)</span><br></span></code></pre></div></div>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="2-milvus">2. Milvus<a href="#2-milvus" class="hash-link" aria-label="2. Milvus的直接链接" title="2. Milvus的直接链接">​</a></h4>
+<ul>
+<li><strong>定位</strong>：高性能、分布式、生产级向量数据库</li>
+<li><strong>架构</strong>：存算分离，计算节点和存储节点独立扩展</li>
+<li><strong>特点</strong>：
+<ul>
+<li>支持多种索引：HNSW、IVF_FLAT、IVF_PQ、DiskANN 等</li>
+<li>支持标量过滤 + 向量检索混合查询</li>
+<li>支持十亿级向量</li>
+<li>提供云托管版本 Zilliz Cloud</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：大规模生产系统、高并发、需要水平扩展</li>
+<li><strong>对比 ChromaDB</strong>：重得多，部署复杂（依赖 etcd、MinIO、Pulsar），但能力强很多</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="3-pgvector">3. pgvector<a href="#3-pgvector" class="hash-link" aria-label="3. pgvector的直接链接" title="3. pgvector的直接链接">​</a></h4>
+<ul>
+<li><strong>定位</strong>：PostgreSQL 的向量搜索<strong>扩展插件</strong></li>
+<li><strong>特点</strong>：
+<ul>
+<li>不需要额外部署新数据库，直接在现有 PostgreSQL 上 <code>CREATE EXTENSION vector</code></li>
+<li>支持 HNSW 和 IVFFlat 索引</li>
+<li>向量搜索和关系查询可以在<strong>同一条 SQL</strong> 中完成</li>
+<li>支持事务、ACL、备份等 PostgreSQL 的全部运维能力</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>已有 PostgreSQL 基础设施的团队</li>
+<li>向量数据需要和业务数据 JOIN 查询</li>
+<li>数据量在百万级以内</li>
+</ul>
+</li>
+<li><strong>局限</strong>：性能不如专用向量数据库，十亿级数据不适合</li>
+</ul>
+<div class="language-sql codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-sql codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">CREATE</span><span class="token plain"> EXTENSION vector</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">CREATE</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">TABLE</span><span class="token plain"> documents </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  id </span><span class="token keyword" style="color:#00009f">serial</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">PRIMARY</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">KEY</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  content </span><span class="token keyword" style="color:#00009f">text</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  embedding vector</span><span class="token punctuation" style="color:#393A34">(</span><span class="token number" style="color:#36acaa">768</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">-- 创建 HNSW 索引</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">CREATE</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">INDEX</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">ON</span><span class="token plain"> documents </span><span class="token keyword" style="color:#00009f">USING</span><span class="token plain"> hnsw </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">embedding vector_cosine_ops</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">-- 检索</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">SELECT</span><span class="token plain"> content </span><span class="token keyword" style="color:#00009f">FROM</span><span class="token plain"> documents</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">ORDER</span><span class="token plain"> </span><span class="token keyword" style="color:#00009f">BY</span><span class="token plain"> embedding </span><span class="token operator" style="color:#393A34">&lt;=&gt;</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&#x27;[0.1, 0.2, ...]&#x27;</span><span class="token plain">  </span><span class="token comment" style="color:#999988;font-style:italic">-- cosine distance</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">LIMIT</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">5</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="向量数据库选型总结">向量数据库选型总结<a href="#向量数据库选型总结" class="hash-link" aria-label="向量数据库选型总结的直接链接" title="向量数据库选型总结的直接链接">​</a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th></th><th>ChromaDB</th><th>Milvus</th><th>pgvector</th></tr></thead><tbody><tr><td>部署复杂度</td><td>极低</td><td>高</td><td>低（已有 PG 的话）</td></tr><tr><td>数据规模</td><td>十万级</td><td>十亿级</td><td>百万级</td></tr><tr><td>分布式</td><td>不支持</td><td>原生支持</td><td>依赖 PG 方案</td></tr><tr><td>混合查询</td><td>metadata 过滤</td><td>标量+向量</td><td><strong>SQL 全能力</strong></td></tr><tr><td>生产就绪</td><td>原型/小项目</td><td>大规模生产</td><td>中小规模生产</td></tr><tr><td>核心优势</td><td>开发体验</td><td>性能和规模</td><td>与现有数据整合</td></tr></tbody></table>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="七知识召回策略怎么召回得更准">七、知识召回策略——怎么召回得更准？<a href="#七知识召回策略怎么召回得更准" class="hash-link" aria-label="七、知识召回策略——怎么召回得更准？的直接链接" title="七、知识召回策略——怎么召回得更准？的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="1-混合检索hybrid-search">1. 混合检索（Hybrid Search）<a href="#1-混合检索hybrid-search" class="hash-link" aria-label="1. 混合检索（Hybrid Search）的直接链接" title="1. 混合检索（Hybrid Search）的直接链接">​</a></h4>
+<p>前面已经讲过，稀疏 + 稠密互补：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Final_score = α × BM25_score + (1-α) × Dense_score</span><br></span></code></pre></div></div>
+<p>或者用 <strong>Reciprocal Rank Fusion (RRF)</strong> 合并两路结果：</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>R</mi><mi>F</mi><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mo>∑</mo><mrow><mi>r</mi><mo>∈</mo><mi>R</mi><mi>a</mi><mi>n</mi><mi>k</mi><mi>e</mi><mi>r</mi><mi>s</mi></mrow></msub><mfrac><mn>1</mn><mrow><mi>k</mi><mo>+</mo><mi>r</mi><mi>a</mi><mi>n</mi><msub><mi>k</mi><mi>r</mi></msub><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">RRF(d) = \sum_{r \in Rankers} \frac{1}{k + rank_r(d)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord mathnormal" style="margin-right:0.0077em">R</span><span class="mord mathnormal" style="margin-right:0.0077em">R</span><span class="mord mathnormal" style="margin-right:0.1389em">F</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1.3651em;vertical-align:-0.52em"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1864em"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em">r</span><span class="mrel mtight">∈</span><span class="mord mathnormal mtight" style="margin-right:0.0077em">R</span><span class="mord mathnormal mtight" style="margin-right:0.0315em">ank</span><span class="mord mathnormal mtight" style="margin-right:0.0278em">er</span><span class="mord mathnormal mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3271em"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em"><span style="top:-2.655em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em">k</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight" style="margin-right:0.0278em">r</span><span class="mord mathnormal mtight">an</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em"><span style="top:-2.357em;margin-left:-0.0315em;margin-right:0.0714em"><span class="pstrut" style="height:2.5em"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em"><span></span></span></span></span></span></span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">d</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em"><span class="pstrut" style="height:3em"></span><span class="frac-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3.394em"><span class="pstrut" style="height:3em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>其中 k 通常取 60。RRF 不需要分数归一化，实践中非常稳定。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="2-rerank重排序显著提升精度的关键步骤">2. Rerank（重排序）——显著提升精度的关键步骤<a href="#2-rerank重排序显著提升精度的关键步骤" class="hash-link" aria-label="2. Rerank（重排序）——显著提升精度的关键步骤的直接链接" title="2. Rerank（重排序）——显著提升精度的关键步骤的直接链接">​</a></h4>
+<p><strong>为什么需要 Rerank</strong>：</p>
+<p>初次检索（BM25 或向量检索）是<strong>bi-encoder</strong> 架构——query 和 document 分别独立编码，无法做细粒度的 token-level 交互。这就像只看了两个人的简历就判断他们是否匹配，没有让他们&quot;面对面交流&quot;。</p>
+<p><strong>Rerank 怎么做</strong>：</p>
+<p>用 <strong>cross-encoder</strong> 对初次检索返回的 top-k（如 top 50）结果重新打分。Cross-encoder 把 query 和 document <strong>拼接后一起</strong>送入 Transformer，做完整的注意力交互，打分更精准。</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">初检索（快，粗糙）→ 返回 top 50 → Rerank（慢，精准）→ 返回 top 5 → 送入 LLM</span><br></span></code></pre></div></div>
+<p><strong>主流 Rerank 模型</strong>：Cohere Rerank、BGE-Reranker、Jina Reranker、bge-reranker-v2-m3</p>
+<p><strong>代价</strong>：Cross-encoder 不能预计算，每次查询都要跑模型推理，所以只能对小量候选做 rerank，不能对全库做。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="3-query-改写--扩展">3. Query 改写 / 扩展<a href="#3-query-改写--扩展" class="hash-link" aria-label="3. Query 改写 / 扩展的直接链接" title="3. Query 改写 / 扩展的直接链接">​</a></h4>
+<p>用户的原始 query 往往不是最优的检索 query：</p>
+<ul>
+<li><strong>Query Rewrite</strong>：用 LLM 改写用户问题，使其更适合检索。比如&quot;这个东西怎么用&quot;→&quot;XX 产品的使用说明和操作步骤&quot;</li>
+<li><strong>HyDE（Hypothetical Document Embedding）</strong>：让 LLM 先生成一个&quot;假想的完美答案&quot;，用这个答案的 embedding 去检索，因为答案和文档的语义空间更接近</li>
+<li><strong>Multi-Query</strong>：把一个问题分解成多个子问题分别检索，合并结果，提高召回覆盖率</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="4-metadata-过滤">4. Metadata 过滤<a href="#4-metadata-过滤" class="hash-link" aria-label="4. Metadata 过滤的直接链接" title="4. Metadata 过滤的直接链接">​</a></h4>
+<p>在向量检索之前或之后，用结构化字段做<strong>硬过滤</strong>：</p>
+<ul>
+<li>时间范围：只检索最近 3 个月的文档</li>
+<li>文档类型：只看技术文档，不看营销材料</li>
+<li>权限控制：用户只能看到自己有权限的文档</li>
+</ul>
+<p>这一步看似简单，但在生产系统中<strong>非常重要</strong>，能大幅减少噪声。</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="5-多路召回--融合">5. 多路召回 + 融合<a href="#5-多路召回--融合" class="hash-link" aria-label="5. 多路召回 + 融合的直接链接" title="5. 多路召回 + 融合的直接链接">​</a></h4>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">       ┌─ BM25 关键词检索 ──────┐</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Query ─┼─ Dense 语义检索 ────────┼─ 融合(RRF) → Rerank → Top-K → LLM</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">       ├─ Knowledge Graph 查询 ──┤</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">       └─ Metadata 过滤 ────────┘</span><br></span></code></pre></div></div>
+<p>每一路针对不同类型的匹配需求，融合后效果最优。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="八rag-的评估指标ragas-框架">八、RAG 的评估指标（RAGAS 框架）<a href="#八rag-的评估指标ragas-框架" class="hash-link" aria-label="八、RAG 的评估指标（RAGAS 框架）的直接链接" title="八、RAG 的评估指标（RAGAS 框架）的直接链接">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th>指标</th><th>衡量什么</th></tr></thead><tbody><tr><td><strong>Context Precision</strong></td><td>检索到的内容中，多少是真正相关的</td></tr><tr><td><strong>Context Recall</strong></td><td>应该检索到的内容，实际检索到了多少</td></tr><tr><td><strong>Faithfulness</strong></td><td>生成的回答是否忠实于检索到的上下文</td></tr><tr><td><strong>Answer Relevancy</strong></td><td>回答是否切题</td></tr></tbody></table>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="九面试高频追问及回答要点">九、面试高频追问及回答要点<a href="#九面试高频追问及回答要点" class="hash-link" aria-label="九、面试高频追问及回答要点的直接链接" title="九、面试高频追问及回答要点的直接链接">​</a></h3>
+<p><strong>Q：BM25 和向量检索什么时候该用哪个？</strong> → 精确关键词（型号、人名、代码）用 BM25；语义模糊（换了说法、同义表达）用 Dense。最佳实践是 Hybrid。</p>
+<p><strong>Q：chunk size 怎么选？</strong> → 没有银弹，需要根据文档类型和任务实验。通常 512 tokens 是起点，FAQ 类可以更小（256），技术文档可以更大（1024）。核心原则是每个 chunk 应该是一个<strong>自包含的语义单元</strong>。</p>
+<p><strong>Q：RAG 效果不好怎么排查？</strong> → 分层诊断：先看是<strong>检索问题</strong>还是<strong>生成问题</strong>。检索问题看 context precision/recall，可能需要优化分片、embedding、加 rerank。生成问题看 faithfulness，可能需要优化 prompt 或换更强的模型。</p>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="rag检索增强生成17种优化方法完整指南">RAG检索增强生成：17种优化方法完整指南<a href="#rag检索增强生成17种优化方法完整指南" class="hash-link" aria-label="RAG检索增强生成：17种优化方法完整指南的直接链接" title="RAG检索增强生成：17种优化方法完整指南的直接链接">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="什么是rag">什么是RAG？<a href="#什么是rag" class="hash-link" aria-label="什么是RAG？的直接链接" title="什么是RAG？的直接链接">​</a></h3>
+<p>RAG（Retrieval-Augmented Generation，检索增强生成）是一种提升大模型回答质量的技术方案。其核心思想是：当大模型需要回答问题时，不是直接基于训练数据生成答案，而是先从外部知识库中查询相关资料，然后基于查到的内容生成更准确、更具事实依据的答案。</p>
+<p>RAG的最终效果取决于三个关键环节：</p>
+<ul>
+<li><strong>如何查询</strong>：采用什么策略检索信息</li>
+<li><strong>查询什么</strong>：文档如何切分和组织</li>
+<li><strong>如何使用</strong>：检索结果如何整合到生成过程中</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="十种核心优化方法详解">十种核心优化方法详解<a href="#十种核心优化方法详解" class="hash-link" aria-label="十种核心优化方法详解的直接链接" title="十种核心优化方法详解的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="1-simple-rag简单rag">1. Simple RAG（简单RAG）<a href="#1-simple-rag简单rag" class="hash-link" aria-label="1. Simple RAG（简单RAG）的直接链接" title="1. Simple RAG（简单RAG）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>这是最基础的RAG实现方式。文本切块时采用固定字符数或TOKEN数进行机械切割，例如每40个字符切一块，或每100个TOKEN切一块。</p>
+<p><strong>实际案例</strong></p>
+<p>假设有这样一段文本：</p>
+<blockquote>
+<p>&quot;苹果公司于2007年发布了第一代iPhone，这款手机彻底改变了智能手机行业。相比之下，香蕉是一种富含钾的水果。&quot;</p>
+</blockquote>
+<p>按40字切割时，可能会出现这样的分块：</p>
+<ul>
+<li>块1：&quot;苹果公司于2007年发布了第一代iPhone，这款手机彻底改变了智能&quot;</li>
+<li>块2：&quot;手机行业。相比之下，香蕉是一种富含钾的水果。&quot;</li>
+</ul>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：实现极其简单，无需复杂的自然语言处理，计算成本低</p>
+<p>❌ <strong>缺点</strong>：</p>
+<ul>
+<li>切割方式死板，容易在句子中间切断</li>
+<li>导致语义断裂，上下文信息丢失</li>
+<li>可能将不相关的内容混在同一块中</li>
+</ul>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="2-语义切割semantic-chunking">2. 语义切割（Semantic Chunking）<a href="#2-语义切割semantic-chunking" class="hash-link" aria-label="2. 语义切割（Semantic Chunking）的直接链接" title="2. 语义切割（Semantic Chunking）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>不按固定字数切割，而是按句子为单位进行智能切分。系统会计算相邻句子之间的语义相似度，当相似度出现显著下降时，说明话题发生了转换，此处即为切割点。这样能确保每个切块都是语义完整的单元。</p>
+<p><strong>实际案例</strong></p>
+<p>针对前面的示例文本，语义切割会识别出&quot;iPhone相关内容&quot;与&quot;香蕉相关内容&quot;之间的相似度骤降，从而切分为：</p>
+<ul>
+<li>块1：&quot;苹果公司于2007年发布了第一代iPhone&quot;</li>
+<li>块2：&quot;这款手机彻底改变了智能手机行业&quot;</li>
+<li>块3：&quot;相比之下，香蕉是一种富含钾的水果&quot;</li>
+</ul>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：每个切块语义完整，检索时能精准匹配核心概念</p>
+<p>❌ <strong>缺点</strong>：召回率可能较低，因为切块过于精细，可能遗漏部分边缘相关信息</p>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="3-上下文增强检索contextual-retrieval">3. 上下文增强检索（Contextual Retrieval）<a href="#3-上下文增强检索contextual-retrieval" class="hash-link" aria-label="3. 上下文增强检索（Contextual Retrieval）的直接链接" title="3. 上下文增强检索（Contextual Retrieval）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>当检索到相关文本块后，系统不仅返回该块本身，还会自动附带其前后相邻的&quot;邻居块&quot;，将它们一同提交给大模型。这样可以保留局部上下文信息。</p>
+<p><strong>实际案例</strong></p>
+<p>假设文档被切分为三块：</p>
+<ul>
+<li>块1：苹果公司的历史背景</li>
+<li>块2：第一代iPhone的屏幕设计和无物理按键特性（核心相关）</li>
+<li>块3：iPhone的电池续航表现</li>
+</ul>
+<p>当用户询问&quot;iPhone的设计特点&quot;时，虽然块2是最相关的，但系统会将块1、块2、块3打包返回，让大模型能够了解更完整的背景。</p>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>避免信息碎片化</li>
+<li>保留局部上下文，帮助大模型更好理解</li>
+<li>减少因切块导致的信息丢失</li>
+</ul>
+<p>❌ <strong>缺点</strong>：会引入一些可能不太相关的内容，增加token消耗</p>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="4-上下文分块标题contextual-chunk-headers">4. 上下文分块标题（Contextual Chunk Headers）<a href="#4-上下文分块标题contextual-chunk-headers" class="hash-link" aria-label="4. 上下文分块标题（Contextual Chunk Headers）的直接链接" title="4. 上下文分块标题（Contextual Chunk Headers）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>在文档切块时或切块后，为每个切块添加对应的章节标题或主题标签。将标题与内容一起进行向量嵌入处理，这样检索时可以利用标题信息进行更精准的匹配。</p>
+<p><strong>实际案例</strong></p>
+<p>原始切块处理：</p>
+<ul>
+<li>切块A：&quot;苹果公司于2007年发布了第一代iPhone...&quot;</li>
+<li>切块B：&quot;香蕉是一种富含钾的水果...&quot;</li>
+</ul>
+<p>添加标题后：</p>
+<ul>
+<li>切块A：&quot;<strong>[苹果手机的历史和特性]</strong> 苹果公司于2007年发布了第一代iPhone...&quot;</li>
+<li>切块B：&quot;<strong>[香蕉的营养和用途]</strong> 香蕉是一种富含钾的水果...&quot;</li>
+</ul>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>即使不同切块存在相同词汇，也能通过标题区分语境</li>
+<li>提高检索精准度，避免歧义</li>
+<li>帮助模型快速理解文本块的主题</li>
+</ul>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="5-文本增强hypothetical-questions">5. 文本增强（Hypothetical Questions）<a href="#5-文本增强hypothetical-questions" class="hash-link" aria-label="5. 文本增强（Hypothetical Questions）的直接链接" title="5. 文本增强（Hypothetical Questions）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>让大模型为每个文本块生成若干个可能的问题。将原始文本块与生成的问题一起进行向量化并存储到知识库中。检索时，用户的问题既可以匹配原文，也可以匹配这些生成的假设性问题。</p>
+<p><strong>实际案例</strong></p>
+<p>针对文本块&quot;苹果公司于2007年发布了第一代iPhone，这款手机没有物理键盘&quot;，系统生成以下问题：</p>
+<ul>
+<li>&quot;第一代iPhone是什么时候发布的？&quot;</li>
+<li>&quot;iPhone有物理键盘吗？&quot;</li>
+<li>&quot;第一代iPhone的发布年份是？&quot;</li>
+</ul>
+<p>当用户提问&quot;iPhone有没有实体按键？&quot;时，即使用词不完全一致，也能通过匹配生成的问题&quot;iPhone有物理键盘吗？&quot;快速定位到该文本块。</p>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>大幅提升召回率</li>
+<li>扩大检索匹配范围</li>
+<li>能够处理用户问题的多种表达方式</li>
+</ul>
+<p>❌ <strong>缺点</strong>：需要额外的LLM调用生成问题，增加预处理成本</p>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="6-查询转换query-transformation">6. 查询转换（Query Transformation）<a href="#6-查询转换query-transformation" class="hash-link" aria-label="6. 查询转换（Query Transformation）的直接链接" title="6. 查询转换（Query Transformation）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>针对用户可能存在歧义或表达不清的问题，通过以下三种方式优化查询：</p>
+<ol>
+<li><strong>查询重写</strong>：将模糊问题改写为更精确的表达</li>
+<li><strong>回退提示</strong>：提供更通用的备选查询方式</li>
+<li><strong>子查询分解</strong>：将复杂问题拆解为多个简单子问题</li>
+</ol>
+<p><strong>实际案例</strong></p>
+<p>原始用户问题：&quot;iPhone键盘怎么样？&quot;</p>
+<p>查询转换后：</p>
+<ul>
+<li>重写版：&quot;第一代iPhone是否配备了物理键盘？它的键盘输入方式是什么？&quot;</li>
+<li>回退版：&quot;iPhone的输入方式&quot;</li>
+<li>子查询：
+<ul>
+<li>&quot;第一代iPhone有物理键盘吗？&quot;</li>
+<li>&quot;iPhone使用什么类型的键盘？&quot;</li>
+<li>&quot;iPhone的触摸屏键盘如何操作？&quot;</li>
+</ul>
+</li>
+</ul>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>问题精准度大幅提升</li>
+<li>大模型能更准确理解用户意图</li>
+<li>减少歧义导致的检索偏差</li>
+</ul>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="7-重排序reranking">7. 重排序（Reranking）<a href="#7-重排序reranking" class="hash-link" aria-label="7. 重排序（Reranking）的直接链接" title="7. 重排序（Reranking）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>检索过程分为两个阶段：</p>
+<ol>
+<li><strong>第一阶段（召回）</strong>：快速检索，返回较多候选结果（如Top 20）</li>
+<li><strong>第二阶段（重排）</strong>：使用专门的Reranker模型对候选结果打分排序，仅保留最相关的少数结果（如Top 5）提交给大模型</li>
+</ol>
+<p><strong>实际案例</strong></p>
+<p>用户查询：&quot;苹果手机的特点&quot;</p>
+<p>第一阶段召回20个候选块：</p>
+<ul>
+<li>块A：苹果iPhone的设计特性（相关度：9分）</li>
+<li>块B：香蕉的营养价值（相关度：2分）</li>
+<li>块C：机械键盘的手感（相关度：3分）</li>
+<li>块D：苹果公司的发展历史（相关度：7分）</li>
+<li>...</li>
+</ul>
+<p>第二阶段重排后，最终返回：</p>
+<ol>
+<li>块A（9分）</li>
+<li>块D（7分）</li>
+<li>块M（6分）</li>
+</ol>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>筛选出最相关的核心信息</li>
+<li>大幅提升检索精准度</li>
+<li>平衡了召回率和精确率</li>
+</ul>
+<p>❌ <strong>缺点</strong>：增加了计算成本和响应时间</p>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="8-相关段落提取rse---related-section-extraction">8. 相关段落提取（RSE - Related Section Extraction）<a href="#8-相关段落提取rse---related-section-extraction" class="hash-link" aria-label="8. 相关段落提取（RSE - Related Section Extraction）的直接链接" title="8. 相关段落提取（RSE - Related Section Extraction）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>检索到多个相关文本块后，系统会判断这些块在原始文档中是否连续。如果检索到的多个块在原文中是相邻的段落，系统会将它们拼接成完整的连续文本返回。</p>
+<p><strong>实际案例</strong></p>
+<p>用户询问：&quot;iPhone的完整介绍&quot;</p>
+<p>检索结果：</p>
+<ul>
+<li>块A：iPhone的发布时间（原文位置：第10-12段）</li>
+<li>块B：iPhone的设计特性（原文位置：第13-15段）</li>
+<li>块C：iPhone的操作系统（原文位置：第16-18段）</li>
+</ul>
+<p>由于三个块在原文中连续出现（第10-18段），系统将它们拼接为一个完整段落返回。</p>
+<p><strong>适用场景</strong></p>
+<p>这种方法特别适合：</p>
+<ul>
+<li>说明性文档</li>
+<li>技术手册</li>
+<li>长篇分析文章</li>
+<li>任何需要连贯阅读的内容</li>
+</ul>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：保证上下文的连贯性和完整性</p>
+<p>❌ <strong>缺点</strong>：可能引入一些不太相关但位置相邻的内容</p>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="9-上下文压缩context-compression">9. 上下文压缩（Context Compression）<a href="#9-上下文压缩context-compression" class="hash-link" aria-label="9. 上下文压缩（Context Compression）的直接链接" title="9. 上下文压缩（Context Compression）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>对检索到的文本块进行二次筛选，仅保留与用户问题直接相关的句子，删除无关或边缘相关的内容。这是一个&quot;减法&quot;过程，目的是提纯信息。</p>
+<p><strong>实际案例</strong></p>
+<p>检索到的文本块包含：</p>
+<blockquote>
+<p>&quot;苹果公司成立于1976年，总部位于加州。2007年发布的第一代iPhone采用3.5英寸触摸屏，没有物理键盘，这是一个革命性的设计。当时的竞争对手包括诺基亚和黑莓。&quot;</p>
+</blockquote>
+<p>用户问题：&quot;iPhone有物理键盘吗？&quot;</p>
+<p>压缩后保留：</p>
+<blockquote>
+<p>&quot;第一代iPhone没有物理键盘，采用触摸屏设计。&quot;</p>
+</blockquote>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>减少无关信息干扰</li>
+<li>让大模型聚焦核心问题</li>
+<li>降低token消耗</li>
+<li>提升回答精准度</li>
+</ul>
+<p>❌ <strong>缺点</strong>：过度压缩可能丢失有用的背景信息</p>
+<hr>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="10-反馈循环feedback-loop">10. 反馈循环（Feedback Loop）<a href="#10-反馈循环feedback-loop" class="hash-link" aria-label="10. 反馈循环（Feedback Loop）的直接链接" title="10. 反馈循环（Feedback Loop）的直接链接">​</a></h4>
+<p><strong>核心逻辑</strong></p>
+<p>类似于大模型的人类反馈强化学习（RLHF）。通过收集用户对回答的反馈（有用/无用），系统会调整文档权重或微调嵌入模型，实现性能的持续优化。</p>
+<p><strong>实际案例</strong></p>
+<p><strong>第一轮交互</strong>：</p>
+<ul>
+<li>用户问：&quot;iPhone有没有物理键盘？&quot;</li>
+<li>系统返回相关答案</li>
+<li>用户标记：👍 有用</li>
+</ul>
+<p><strong>系统学习</strong>：</p>
+<ul>
+<li>记录该查询与成功召回的文档块的关联</li>
+<li>提升该文档块对类似查询的权重</li>
+</ul>
+<p><strong>第二轮交互</strong>：</p>
+<ul>
+<li>另一个用户问：&quot;iPhone有实体按键吗？&quot;</li>
+<li>系统更有可能召回之前被标记为有用的文档块</li>
+</ul>
+<p><strong>优缺点分析</strong></p>
+<p>✅ <strong>优点</strong>：</p>
+<ul>
+<li>系统能学习人类偏好</li>
+<li>越用越智能</li>
+<li>检索准确性持续提升</li>
+<li>适应特定领域或用户群体的需求</li>
+</ul>
+<p>❌ <strong>缺点</strong>：</p>
+<ul>
+<li>需要积累足够的反馈数据</li>
+<li>可能存在反馈偏差</li>
+<li>实现相对复杂</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="其他七种优化方法概览">其他七种优化方法概览<a href="#其他七种优化方法概览" class="hash-link" aria-label="其他七种优化方法概览的直接链接" title="其他七种优化方法概览的直接链接">​</a></h3>
+<p>视频提到共有17种RAG优化方法，除了上述详细介绍的10种外，还有7种优化技术。这些方法同样围绕三大核心方向展开：</p>
+<ol>
+<li><strong>提升检索精准度</strong>：通过更智能的匹配算法和相似度计算</li>
+<li><strong>保留上下文完整性</strong>：避免切块导致的信息碎片化</li>
+<li><strong>优化交互反馈</strong>：改善用户体验和系统迭代能力</li>
+</ol>
+<p>这些方法可能包括：</p>
+<ul>
+<li>混合检索（结合关键词和语义检索）</li>
+<li>多向量索引</li>
+<li>层级式检索</li>
+<li>动态切块策略</li>
+<li>知识图谱增强</li>
+<li>跨文档推理</li>
+<li>自适应检索策略</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="如何选择合适的优化方法">如何选择合适的优化方法？<a href="#如何选择合适的优化方法" class="hash-link" aria-label="如何选择合适的优化方法？的直接链接" title="如何选择合适的优化方法？的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="根据应用场景选择">根据应用场景选择<a href="#根据应用场景选择" class="hash-link" aria-label="根据应用场景选择的直接链接" title="根据应用场景选择的直接链接">​</a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table tabindex="0" aria-label="数据表格，可横向滚动"><thead><tr><th>应用场景</th><th>推荐方法</th><th>原因</th></tr></thead><tbody><tr><td>技术文档问答</td><td>上下文增强 + 重排序</td><td>保证技术细节的完整性和准确性</td></tr><tr><td>客服聊天机器人</td><td>查询转换 + 文本增强</td><td>处理用户多样化的表达方式</td></tr><tr><td>学术研究助手</td><td>语义切割 + 相关段落提取</td><td>保持学术论证的连贯性</td></tr><tr><td>法律文档查询</td><td>上下文分块标题 + 压缩</td><td>精准定位条款，去除无关内容</td></tr></tbody></table>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="根据资源限制选择">根据资源限制选择<a href="#根据资源限制选择" class="hash-link" aria-label="根据资源限制选择的直接链接" title="根据资源限制选择的直接链接">​</a></h4>
+<p><strong>计算资源充足</strong>：可以组合使用多种方法，如&quot;语义切割 + 文本增强 + 重排序 + 反馈循环&quot;</p>
+<p><strong>资源受限</strong>：从Simple RAG开始，逐步引入&quot;上下文增强&quot;或&quot;查询转换&quot;等轻量级优化</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="根据数据特点选择">根据数据特点选择<a href="#根据数据特点选择" class="hash-link" aria-label="根据数据特点选择的直接链接" title="根据数据特点选择的直接链接">​</a></h4>
+<ul>
+<li><strong>文档结构清晰</strong>：优先使用上下文分块标题</li>
+<li><strong>内容高度相关</strong>：使用相关段落提取</li>
+<li><strong>数据量大</strong>：必须使用重排序</li>
+<li><strong>用户查询多样</strong>：优先使用查询转换和文本增强</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="实施建议">实施建议<a href="#实施建议" class="hash-link" aria-label="实施建议的直接链接" title="实施建议的直接链接">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="1-从基础开始逐步迭代">1. 从基础开始，逐步迭代<a href="#1-从基础开始逐步迭代" class="hash-link" aria-label="1. 从基础开始，逐步迭代的直接链接" title="1. 从基础开始，逐步迭代的直接链接">​</a></h4>
+<p>不要试图一次性实现所有优化方法。建议路径：</p>
+<ol>
+<li>Simple RAG（建立基线）</li>
+<li>语义切割（提升切块质量）</li>
+<li>重排序（提升精准度）</li>
+<li>根据实际效果引入其他方法</li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="2-建立评估体系">2. 建立评估体系<a href="#2-建立评估体系" class="hash-link" aria-label="2. 建立评估体系的直接链接" title="2. 建立评估体系的直接链接">​</a></h4>
+<p>关键指标：</p>
+<ul>
+<li><strong>召回率</strong>：相关文档被检索到的比例</li>
+<li><strong>精确率</strong>：检索结果中相关文档的比例</li>
+<li><strong>响应时间</strong>：从查询到返回结果的耗时</li>
+<li><strong>用户满意度</strong>：通过反馈收集</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="3-持续优化">3. 持续优化<a href="#3-持续优化" class="hash-link" aria-label="3. 持续优化的直接链接" title="3. 持续优化的直接链接">​</a></h4>
+<ul>
+<li>收集用户反馈</li>
+<li>分析失败案例</li>
+<li>A/B测试不同方法组合</li>
+<li>定期评估和调整策略</li>
+</ul>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="总结">总结<a href="#总结" class="hash-link" aria-label="总结的直接链接" title="总结的直接链接">​</a></h3>
+<p>RAG技术的核心是通过外部知识增强大模型的回答能力。17种优化方法各有侧重，从文档切分、检索策略到结果处理，每个环节都有优化空间。</p>
+<p><strong>关键要点</strong>：</p>
+<ul>
+<li>没有一种方法适用于所有场景</li>
+<li>组合使用多种方法通常效果更好</li>
+<li>要根据具体应用场景和资源限制选择</li>
+<li>建立反馈机制，持续优化系统性能</li>
+</ul>
+<p>通过合理选择和组合这些优化方法，可以显著提升RAG系统的准确性、相关性和用户体验。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/JerryLinyx/JerryLinyx.github.io/edit/codex/root-site/docs/notes/application/rag.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/notes/application/evaluation/"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">LLM Evaluation</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/notes/data/big-data/"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">Big Data</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#rag-之前的知识库检索关键技术" class="table-of-contents__link toc-highlight">RAG 之前的知识库检索关键技术</a><ul><li><a href="#一稀疏检索sparse-retrieval" class="table-of-contents__link toc-highlight">一、稀疏检索（Sparse Retrieval）</a></li><li><a href="#二倒排索引inverted-index" class="table-of-contents__link toc-highlight">二、倒排索引（Inverted Index）</a></li><li><a href="#三稀疏检索的局限--引出稠密检索" class="table-of-contents__link toc-highlight">三、稀疏检索的局限 → 引出稠密检索</a></li><li><a href="#四稠密检索dense-retrieval" class="table-of-contents__link toc-highlight">四、稠密检索（Dense Retrieval）</a></li><li><a href="#五annapproximate-nearest-neighbor" class="table-of-contents__link toc-highlight">五、ANN（Approximate Nearest Neighbor）</a></li><li><a href="#六hybrid-search混合检索" class="table-of-contents__link toc-highlight">六、Hybrid Search（混合检索）</a></li><li><a href="#七知识图谱knowledge-graph" class="table-of-contents__link toc-highlight">七、知识图谱（Knowledge Graph）</a></li><li><a href="#八技术演进脉络" class="table-of-contents__link toc-highlight">八、技术演进脉络</a></li></ul></li><li><a href="#知识库系统建设与-rag-全面解析" class="table-of-contents__link toc-highlight">知识库系统建设与 RAG 全面解析</a><ul><li><a href="#一rag-是什么" class="table-of-contents__link toc-highlight">一、RAG 是什么</a></li><li><a href="#二rag-完整流程" class="table-of-contents__link toc-highlight">二、RAG 完整流程</a></li><li><a href="#三文档解析document-parsing" class="table-of-contents__link toc-highlight">三、文档解析（Document Parsing）</a></li><li><a href="#四分片策略chunking面试高频考点" class="table-of-contents__link toc-highlight">四、分片策略（Chunking）——面试高频考点</a></li><li><a href="#五embedding-模型原理与应用" class="table-of-contents__link toc-highlight">五、Embedding 模型原理与应用</a></li><li><a href="#六向量数据库详解" class="table-of-contents__link toc-highlight">六、向量数据库详解</a></li><li><a href="#七知识召回策略怎么召回得更准" class="table-of-contents__link toc-highlight">七、知识召回策略——怎么召回得更准？</a></li><li><a href="#八rag-的评估指标ragas-框架" class="table-of-contents__link toc-highlight">八、RAG 的评估指标（RAGAS 框架）</a></li><li><a href="#九面试高频追问及回答要点" class="table-of-contents__link toc-highlight">九、面试高频追问及回答要点</a></li></ul></li><li><a href="#rag检索增强生成17种优化方法完整指南" class="table-of-contents__link toc-highlight">RAG检索增强生成：17种优化方法完整指南</a><ul><li><a href="#什么是rag" class="table-of-contents__link toc-highlight">什么是RAG？</a></li><li><a href="#十种核心优化方法详解" class="table-of-contents__link toc-highlight">十种核心优化方法详解</a></li><li><a href="#其他七种优化方法概览" class="table-of-contents__link toc-highlight">其他七种优化方法概览</a></li><li><a href="#如何选择合适的优化方法" class="table-of-contents__link toc-highlight">如何选择合适的优化方法？</a></li><li><a href="#实施建议" class="table-of-contents__link toc-highlight">实施建议</a></li><li><a href="#总结" class="table-of-contents__link toc-highlight">总结</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="site-footer"><a class="footer-name" href="/">Yuxuan Lin <span>林煜轩</span></a><p>Always learning. Always building.</p><div><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/blog/">Journal ↗</a><a href="/plog/">Photo log ↗</a><a href="/archive/">Archive ↗</a><a href="#top" aria-label="回到顶部">↑ Top</a></div><small>© <!-- -->2026<!-- --> Yuxuan Lin</small></footer></div>
+</body>
+</html>
