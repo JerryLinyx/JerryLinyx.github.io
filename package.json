@@ -3,59 +3,41 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "node scripts/publish-site.mjs",
-    "clear": "docusaurus clear",
+    "start": "node scripts/prepare-garden.mjs && ASTRO_TELEMETRY_DISABLED=1 astro dev --host 127.0.0.1",
+    "build": "node scripts/prepare-garden.mjs && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "serve": "node scripts/serve.mjs",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "sync:notes": "node scripts/sync-notes.mjs",
+    "deploy": "node scripts/publish-site.mjs",
     "verify:site": "node scripts/verify-site.mjs",
-    "qa:browser": "node scripts/qa-browser.cjs",
-    "format": "prettier --write src scripts docusaurus.config.js sidebars.js",
-    "qa:a11y": "node scripts/qa-a11y.cjs",
-    "import:legacy": "node scripts/import-legacy-sites.mjs",
-    "qa:legacy": "node scripts/qa-legacy.cjs"
+    "sync:notes": "node scripts/sync-notes.mjs",
+    "qa:browser": "node scripts/qa-garden.cjs",
+    "qa:a11y": "node scripts/qa-garden.cjs --a11y",
+    "format": "prettier --write src scripts astro.config.mjs"
   },
   "dependencies": {
-    "@docusaurus/core": "3.8.1",
-    "@docusaurus/plugin-client-redirects": "^3.8.1",
-    "@docusaurus/preset-classic": "3.8.1",
-    "@docusaurus/theme-mermaid": "3.8.1",
-    "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
+    "astro": "^7.4.2",
+    "gray-matter": "^4.0.3",
     "katex": "^0.16.47",
-    "prism-react-renderer": "^2.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "mermaid": "^12.2.0",
+    "rehype-highlight": "^7.0.2",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "rehype-raw": "^7.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
-    "@docusaurus/module-type-aliases": "3.8.1",
-    "@docusaurus/types": "3.8.1",
     "cheerio": "^1.2.0",
     "playwright": "^1.64.1",
     "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
     "sharp": "^0.35.5"
   },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
   "engines": {
-    "node": ">=22.0"
-  }
+    "node": ">=22.23.4"
+  },
+  "type": "module"
 }

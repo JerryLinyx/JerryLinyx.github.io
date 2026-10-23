@@ -1,0 +1,88 @@
+---
+import Base from "../../layouts/Base.astro";
+import { posts, renderPost } from "../../lib/content.mjs";
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/github.css";
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+const { post } = Astro.props;
+const rendered = await renderPost(post);
+const related = posts
+  .filter((p) => p.slug !== post.slug && p.topic === post.topic)
+  .slice(0, 3);
+---
+
+<Base
+  title={`${post.title} · 林煜轩`}
+  description={post.description}
+  section="writing"
+  article
+>
+  <div class="reading-progress" aria-hidden="true">
+    <span></span>
+  </div>
+  <article class="reader wrap">
+    <header class="reader-heading">
+      <a href="/writing/" class="back-link">
+        ← 回到写作
+      </a>
+      <p class="eyebrow">
+        {post.kind === "notes" ? "学习手记 / FIELD NOTE" : "文章 / ARTICLE"} ·{" "}
+        {post.topic}
+      </p>
+      <h1>{post.title}</h1>
+      <div class="reader-byline">
+        <span>林煜轩 / Yuxuan Lin</span>
+        {post.date && <time datetime={post.date}>{post.date}</time>}
+        <span>{post.minutes} 分钟阅读</span>
+        <button type="button" data-copy-link>
+          复制链接 ↗
+        </button>
+      </div>
+    </header>
+    <div class="reading-layout">
+      <aside class="toc">
+        <details open>
+          <summary>这篇文字里的小径</summary>
+          <nav aria-label="文章目录">
+            {rendered.headings.map((h) => (
+              <a href={`#${h.id}`} class:list={[{ sub: h.level === 3 }]}>
+                {h.text}
+              </a>
+            ))}
+          </nav>
+        </details>
+        <a class="toc-back" href="/writing/">
+          ← 浏览所有文字
+        </a>
+      </aside>
+      <div class="prose" set:html={rendered.html} />
+    </div>
+    <div class="reader-end">
+      <span aria-hidden="true">✳</span>
+      <p>
+        一个想法暂且落笔。
+        <br />
+        新的问题，留给下一次。
+      </p>
+      <a href="/writing/" class="text-link">
+        继续逛逛 ↗
+      </a>
+    </div>
+    {related.length > 0 && (
+      <section class="related">
+        <h2>顺着读下去。</h2>
+        {related.map((p) => (
+          <a href={p.url}>
+            <span>{p.title}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </section>
+    )}
+  </article>
+</Base>

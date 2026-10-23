@@ -24,3 +24,8 @@ yarn-error.log*
 
 # Complete local migration backups (never published as site assets)
 /.migration/
+
+# Astro cache and generated content copies
+/.astro/
+/static/content/
+/static/media/

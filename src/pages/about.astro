@@ -1,0 +1,142 @@
+---
+import Base from "../layouts/Base.astro";
+import { profile, experience } from "../data/portfolio.js";
+---
+
+<Base title="关于我 · 林煜轩" section="about">
+  <section class="wrap about-hero">
+    <div>
+      <p class="eyebrow">THE PERSON BEHIND THE GARDEN</p>
+      <h1>
+        林煜轩<span>Yuxuan Lin.</span>
+      </h1>
+      <p class="about-lede">
+        工程师、研究者，
+        <br />
+        也是一直在学习的人。
+      </p>
+      <p>
+        我关注如何让 AI 进入可用、可理解、可扩展的真实系统。
+        <br />
+        兴趣从生成式模型延伸到分布式计算、GPU 与操作系统，
+        <br />
+        也延伸到城市、摄影，以及生活里的细小发现。
+      </p>
+      <div class="inline-links">
+        <a class="button" href={`mailto:${profile.email}`}>
+          联系我 ↗
+        </a>
+        <a class="text-link" href={profile.github}>
+          GitHub ↗
+        </a>
+        <a class="text-link" href={profile.linkedin}>
+          LinkedIn ↗
+        </a>
+      </div>
+    </div>
+    <figure>
+      <img
+        src="/media/portrait.webp"
+        alt="林煜轩站在红墙旁的照片"
+        width="650"
+        height="800"
+        fetchpriority="high"
+      />
+      <figcaption class="mono">A PERSON, ALWAYS IN PROGRESS.</figcaption>
+    </figure>
+  </section>
+  <section class="wrap profile-section" id="profile">
+    <div class="profile-label">
+      <p class="eyebrow">01 / EDUCATION</p>
+      <h2>来时的路。</h2>
+    </div>
+    <div class="timeline">
+      <div>
+        <p class="mono">2025 — EXPECTED FEB 2027</p>
+        <h3>Columbia University</h3>
+        <p>
+          M.S. in Computer Engineering
+          <br />
+          MS EE/CE Honors 2026
+        </p>
+        <p class="muted">
+          大规模分布式系统、数据中心处理、生成式 AI、计算机网络与计算机视觉。
+        </p>
+      </div>
+      <div>
+        <p class="mono">ZJU × UIUC</p>
+        <h3>浙江大学 × 伊利诺伊大学厄巴纳—香槟分校</h3>
+        <p>
+          B.Eng. Electronic & Computer Engineering
+          <br />
+          B.S. Computer Engineering
+        </p>
+        <p class="muted">ZJU–UIUC 双学位项目。</p>
+      </div>
+    </div>
+  </section>
+  <section class="wrap profile-section">
+    <div class="profile-label">
+      <p class="eyebrow">02 / EXPERIENCE</p>
+      <h2>在实践里学习。</h2>
+    </div>
+    <div class="timeline">
+      {experience.map((e) => (
+        <div>
+          <p class="mono">{e.date}</p>
+          <h3>{e.company}</h3>
+          <p class="role">{e.role}</p>
+          <p>{e.text}</p>
+        </div>
+      ))}
+      <div>
+        <p class="mono">SEP 2024 — JAN 2025</p>
+        <h3>ZJU–UIUC</h3>
+        <p class="role">离散数学课程助教</p>
+        <p>
+          组织教学与答疑，参与课程材料策划、作业与考试批改，整理并跟进学生问题。
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="wrap profile-section">
+    <div class="profile-label">
+      <p class="eyebrow">03 / TOOLBOX</p>
+      <h2>常用的工具。</h2>
+    </div>
+    <div class="toolbox">
+      {[
+        [
+          "语言",
+          "C / C++ · Python · Go · TypeScript · SQL · x86 Assembly · SystemVerilog",
+        ],
+        [
+          "模型与系统",
+          "PyTorch · CUDA · LangGraph · FSDP · LoRA · Linux · FreeRTOS",
+        ],
+        ["应用开发", "Gin · FastAPI · Flask · PostgreSQL · Docker · React"],
+      ].map(([k, v]) => (
+        <div>
+          <h3>{k}</h3>
+          <p>{v}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="wrap about-colophon">
+    <div>
+      <p class="eyebrow">ABOUT THIS GARDEN</p>
+      <h2>为想法留一块生长的地方。</h2>
+      <p>
+        这里把作品、研究、写作与生活放在一起。
+        <br />
+        有些文字已经成形，有些理解仍会随着学习被修正。
+        <br />
+        如果一个想法刚好对你有用，欢迎带走，也欢迎来交流。
+      </p>
+    </div>
+    <button class="button button-outline" type="button" data-print>
+      打印个人简介 ↗
+    </button>
+  </section>
+</Base>

@@ -2,8 +2,7 @@ import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-// Docusaurus 3.8's subpath preview redirects five-character extensions such as
-// .woff2 as if they were routes. Serve the exported site without that heuristic.
+// Serve static output with explicit MIME types and real 404 status codes.
 const args = process.argv.slice(2);
 const option = (name, fallback) => {
   const index = args.indexOf(name);
@@ -82,10 +81,14 @@ const server = http.createServer(async (req, res) => {
     });
     res.end(req.method === "HEAD" ? undefined : await fs.readFile(target));
   } catch (error) {
-    res.writeHead(error instanceof URIError ? 400 : 404, {
-      "Content-Type": "text/plain; charset=utf-8",
-    });
-    res.end("Not found");
+    const status = error instanceof URIError ? 400 : 404;
+    if (status === 404) {
+      res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
+      res.end(await fs.readFile(path.join(root, "404.html")));
+    } else {
+      res.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("Invalid URL");
+    }
   }
 });
 server.on("error", (error) => {

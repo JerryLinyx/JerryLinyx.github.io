@@ -1,3 +1,5 @@
+> Historical Docusaurus phase. The current Astro implementation and acceptance report are documented in [digital garden](2026-10-23-digital-garden.md) and [garden quality review](2026-10-23-garden-quality-review.md). Repository preservation and disabled Doc/CV policies remain in force.
+
 # Root-domain consolidation
 
 Latest user decision (2026-10-23): **keep the Doc and CV repositories; unpublish their old URLs entirely (no redirects)**. The new personal website is published at https://jerrylinyx.github.io/. Do not delete either repository.

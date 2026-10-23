@@ -1,0 +1,58 @@
+---
+import Base from "../../layouts/Base.astro";
+import { legacy, oldRoutes } from "../../lib/content.mjs";
+---
+
+<Base title="旧日存档 · 林煜轩">
+  <section class="page-heading wrap">
+    <p class="eyebrow">THE GARDEN REMEMBERS</p>
+    <h1>
+      旧日的<span>文字与痕迹。</span>
+    </h1>
+    <div class="heading-bottom">
+      <p>
+        网站会变，来路不必消失。
+        <br />
+        这里保留早期博客的原始版本，以及过去的个人介绍。
+      </p>
+      <span class="mono">17 ORIGINAL EDITIONS / 2024</span>
+    </div>
+  </section>
+  <section class="wrap archive-list">
+    <div class="archive-notice">
+      <p>
+        历史版本按原样保留，内容可能不再适用于今天。
+        <br />
+        最新文章与笔记请前往<a href="/writing/">写作区</a>，个人近况请见
+        <a href="/about/">关于我</a>。
+      </p>
+      <a class="text-link" href="/archive/cv/">
+        2025 年个人简历 ↗
+      </a>
+    </div>
+    {legacy.articles.map((a) => (
+      <div class="archive-row">
+        <span class="mono">{a.date}</span>
+        <a href={a.archive}>
+          {a.title}
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          class="archive-current"
+          href={oldRoutes.get(a.canonical) || a.canonical}
+        >
+          现行版本
+        </a>
+      </div>
+    ))}
+    {legacy.extras.map((a) => (
+      <div class="archive-row">
+        <span class="mono">EARLY WEB</span>
+        <a href={a.archive}>
+          {a.title}
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    ))}
+  </section>
+</Base>

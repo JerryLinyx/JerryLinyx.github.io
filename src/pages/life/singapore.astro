@@ -1,0 +1,70 @@
+---
+import Base from "../../layouts/Base.astro";
+import { photos } from "../../lib/content.mjs";
+---
+
+<Base title="新加坡，入夜之后 · 生活 · 林煜轩" section="life">
+  <section class="page-heading wrap gallery-heading">
+    <a href="/life/" class="back-link">
+      ← 回到生活
+    </a>
+    <p class="eyebrow">CITY WALK / 2025.07 / 09 PHOTOGRAPHS</p>
+    <h1>
+      新加坡，<span>入夜之后。</span>
+    </h1>
+    <div class="heading-bottom">
+      <p>
+        Singapore through my lens.
+        <br />
+        从雨漩涡到超级树，在一座城市里慢慢走。
+      </p>
+      <span class="mono">点击照片，放大看看 ↗</span>
+    </div>
+  </section>
+  <div class="wrap photo-gallery">
+    {photos.map((p, i) => (
+      <figure>
+        <button
+          type="button"
+          data-photo={i}
+          data-src={p.url}
+          data-caption={`${p.title} / ${p.english}`}
+          aria-label={`放大照片：${p.title}`}
+        >
+          <img
+            src={p.url}
+            alt={p.title + " / " + p.english}
+            width="800"
+            height="1000"
+            loading={i < 2 ? "eager" : "lazy"}
+          />
+          <span aria-hidden="true">↗</span>
+        </button>
+        <figcaption>
+          <span class="mono">{String(i + 1).padStart(2, "0")}</span>
+          <div>
+            <h2>{p.title}</h2>
+            <span>{p.english}</span>
+            {p.caption && <p>{p.caption}</p>}
+          </div>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <dialog class="lightbox" aria-labelledby="lightbox-caption">
+    <button type="button" class="lightbox-close" aria-label="关闭照片">
+      关闭 ×
+    </button>
+    <button type="button" class="lightbox-prev" aria-label="上一张照片">
+      ←
+    </button>
+    <figure>
+      <img src="/media/singapore-0.webp" alt="" />
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+    <button type="button" class="lightbox-next" aria-label="下一张照片">
+      →
+    </button>
+    <p class="lightbox-count mono"></p>
+  </dialog>
+</Base>

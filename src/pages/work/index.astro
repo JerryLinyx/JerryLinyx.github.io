@@ -1,0 +1,73 @@
+---
+import Base from "../../layouts/Base.astro";
+import { projects, moreProjects } from "../../data/portfolio.js";
+const all = [...projects, ...moreProjects];
+const themes = ["green", "orange", "purple", "ochre", "blue", "rose"];
+---
+
+<Base title="作品 · 林煜轩" section="work">
+  <section class="page-heading wrap">
+    <p class="eyebrow">01 / MAKE SOMETHING REAL</p>
+    <h1>
+      想法的<span>另一种形状。</span>
+    </h1>
+    <div class="heading-bottom">
+      <p>
+        从 AI 应用到系统底层。
+        <br />
+        在真实的约束里设计、构建、验证。
+      </p>
+      <span class="mono">06 PROJECTS / 2024—2026</span>
+    </div>
+  </section>
+  <section class="wrap project-grid" aria-label="全部作品">
+    {all.map((p, i) => (
+      <a href={`/work/${p.slug}/`} class:list={["project-card", themes[i]]}>
+        <div class="project-cover">
+          <span class="mono">
+            {p.number} / {p.category}
+          </span>
+          {i === 0 ? (
+            <div class="cover-graph">
+              <span>DATA</span>
+              <i>↗</i>
+              <span>AGENTS</span>
+              <i>↗</i>
+              <span>INSIGHT</span>
+            </div>
+          ) : i === 1 ? (
+            <div class="cover-bars">
+              {[44, 82, 58, 100, 66, 38, 76, 52].map((n) => (
+                <i style={`height:${n}%`}></i>
+              ))}
+            </div>
+          ) : i === 2 ? (
+            <div class="cover-orbits">
+              <i></i>
+              <i></i>
+              <i></i>
+              <span>p(x | y)</span>
+            </div>
+          ) : (
+            <div class="cover-type">
+              {i === 3 ? "__global__" : i === 4 ? "0x0000" : "3D ↗"}
+            </div>
+          )}
+          <span class="cover-bottom mono">
+            {p.year}
+            <b aria-hidden="true">↗</b>
+          </span>
+        </div>
+        <div class="project-caption">
+          <h2>{p.title}</h2>
+          <p>{p.subtitle}</p>
+          <div class="tags">
+            {p.tags.slice(0, 3).map((t) => (
+              <span>{t}</span>
+            ))}
+          </div>
+        </div>
+      </a>
+    ))}
+  </section>
+</Base>

@@ -13,6 +13,7 @@ async function walk(dir) {
   ).flat();
 }
 const files = await walk(root);
+await fs.access(path.join(root, ".nojekyll"));
 for (const retired of ["Doc", "CV"]) {
   if (
     files.some((file) => {
@@ -30,6 +31,11 @@ const missing = new Set();
 let checked = 0;
 for (const file of htmlFiles) {
   const html = await fs.readFile(file, "utf8");
+  if (
+    file.includes(path.sep + "writing" + path.sep) &&
+    html.includes('class="katex-error"')
+  )
+    missing.add("Invalid rendered formula: " + path.relative(root, file));
   for (const match of html.matchAll(/(?:href|src)="([^"#?]+)[^\"]*"/g)) {
     const url = match[1].replaceAll("&amp;", "&");
     if (!url.startsWith(base) || url.startsWith("//")) continue;
@@ -55,10 +61,11 @@ for (const file of htmlFiles) {
 }
 const home = await fs.readFile(path.join(root, "index.html"), "utf8");
 for (const expected of [
-  "Thinking in",
-  "FinGOAT",
-  "PACC",
-  "application/ld+json",
+  "把好奇心",
+  "/work/",
+  "/research/",
+  "/writing/",
+  "/life/",
 ]) {
   if (!home.includes(expected)) missing.add("Home missing " + expected);
 }

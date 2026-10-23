@@ -1,75 +1,87 @@
-# Yuxuan Lin · Personal website
+# 林煜轩 · 个人数字花园
 
-Portfolio, research, public technical notebook and photo journal. Built with Docusaurus 3.8.1 and React 19; all content is rendered as a static website.
+Published website: **https://jerrylinyx.github.io/**
 
-## Run locally
+A custom Astro static website with equal space for work, research, writing and life. Docusaurus, React, the former theme and the old document navigation have been removed. Pages are rendered to HTML at build time; small native JavaScript modules handle search, the mobile menu, reading controls and the gallery. Mermaid is loaded only on pages with diagrams.
 
-Use Node.js 22 LTS (the same version as CI):
+## Start and verify
+
+Requires Node **22.23.4 or newer**. CI uses the latest Node 22 release.
 
 ```sh
 npm ci
-npm start -- --host 127.0.0.1
+npm start
 ```
-
-Open `http://localhost:3000/`.
 
 ```sh
 npm run build
 npm run verify:site
-npm run serve -- --host 127.0.0.1
+npm run serve -- --port 3091 --host 127.0.0.1
 ```
 
-`build/` is deployable output. The verifier checks rendered internal links and assets. Production builds fail for broken page / Markdown links.
+Build output: `build/`. The build prepares content assets and optimizes the original photographs; it never needs iCloud access. Astro telemetry is disabled in the project commands.
 
-## Content
+Browser QA requires Chrome on macOS, or a Playwright Chromium installation and `CHROME_EXECUTABLE` set to its executable:
 
-- `src/data/portfolio.js`: shared project and experience content.
-- `src/pages/index.js`: custom portfolio homepage.
-- `src/pages/projects/`: complete project detail routes.
-- `src/pages/resume.md`: public profile; browser printing is supported.
-- `src/pages/notes.js`: full-text notebook search and topic filtering; query and topic persist in the URL.
-- `docs/notes/`: generated public Obsidian content and resolved image assets.
-- `blog/`: existing authored articles with original slugs preserved.
-- `plog/`: original Singapore photo journal.
+```sh
+npm run qa:browser
+npm run qa:a11y
+```
 
-The homepage and reading pages share a warm-paper / ink / chartreuse palette, locally hosted Instrument Serif and Manrope fonts, and a custom navigation/footer. The SVG hero is original generative artwork, not a model output or scientific result. Motion respects `prefers-reduced-motion`.
+`PREVIEW_URL` overrides `http://127.0.0.1:3091/`. Results and screenshots are saved in ignored `output/playwright/garden/`.
 
-## Sync the public notebook
+## Page distribution
+
+| Section | Route | Content |
+| --- | --- | --- |
+| Garden | `/` | Four equal interest areas and a custom linked garden map |
+| Work | `/work/` | Six projects with complete case studies |
+| Research | `/research/` | ISBI publication, research project and connected learning trails |
+| Writing | `/writing/` | 18 articles and 25 notes, full-text search, topic/type filters, shareable queries |
+| Life | `/life/` | Personal photo journal and Singapore gallery |
+| About | `/about/` | Biography, education, experience, tools and printable profile |
+| Archive | `/archive/` | 17 original Hexo editions, historical CV and old links |
+
+RSS: `/feed.xml`. Sitemap: `/sitemap.xml`. No external analytics or runtime font requests.
+
+## Source organization
+
+- `astro.config.mjs`: static build and root-domain settings.
+- `src/layouts/Base.astro`: global document, navigation and footer.
+- `src/styles/garden.css`: design tokens, complete responsive layouts, print and reduced-motion styles.
+- `src/scripts/garden.js`: native browser interactions.
+- `src/components/GardenMap.astro`: original SVG navigation artwork.
+- `src/data/portfolio.js`: verified project, experience and profile information.
+- `src/lib/content.mjs`: Markdown, KaTeX, highlighting, old-content mapping and historical HTML rendering.
+- `docs/notes/`: 25 imported Obsidian public notes. The eight excluded outlines remain unpublished.
+- `blog/`: authored article sources. Explicit drafts are excluded. Previously published articles whose current Markdown is mostly commented out use the preserved original HTML so their reading pages remain complete.
+- `plog/`: original photography and captions, preserved as source material.
+- `src/data/legacy.json`: preserved original HTML editions and historical CV.
+- `scripts/prepare-garden.mjs`: deterministic content asset copying and WebP photography preparation.
+- `scripts/verify-site.mjs`: rendered link/assets, homepage and retired-prefix checks.
+- `scripts/qa-garden.cjs`: viewport, content, interactions, redirects and axe verification.
+
+`static/content/` and `static/media/` are generated and ignored; the source material is tracked. Other original public assets remain available for historical links. Article source is not rewritten by the build.
+
+To resync the authorized Obsidian Public folder:
 
 ```sh
 npm run sync:notes -- '/absolute/path/to/MyBook/Public' '/absolute/path/to/MyBook/GitBook'
 ```
 
-The second directory is an optional **asset-only** fallback for old image filenames still referenced in Public. The script never modifies the source vault or imports private Markdown from the fallback. It resolves and validates all images before writing, normalizes Obsidian links and heading levels, repairs Mermaid edge-label syntax, preserves other fenced code and converts PNG diagrams to lossless WebP when smaller and records excluded drafts in `scripts/notes-manifest.json`. Only previously generated files can be removed by sync. Commit generated content so CI never requires iCloud access.
+The optional second directory is an asset-only fallback. The importer never modifies the vault or imports private Markdown. Commit the generated notes and metadata before publication.
 
-Current import: 25 notes, 40 images. Eight empty, very short or explicitly unfinished outlines are excluded from publication. The original Public landing page is replaced by a curated reading map at `/docs/intro/`.
+## Publication and retired sites
 
-## Deployment and consolidation
-
-Canonical target: **https://jerrylinyx.github.io/**
-
-Source repository: **https://github.com/JerryLinyx/JerryLinyx.github.io**. Maintained source: `codex/root-site`; published static output: `master`.
-
-See [root consolidation](docs/plans/2026-10-23-root-migration.md). The source branch workflow builds and verifies changes with Node 22 and uploads an artifact. To publish using normal Git credentials:
+One repository: `JerryLinyx/JerryLinyx.github.io`. Maintained source: **`codex/root-site`**. Generated GitHub Pages output: **`master`**.
 
 ```sh
 git push origin codex/root-site
 npm run deploy
 ```
 
-The publisher requires a clean, pushed source commit, builds and verifies the site, then fast-forwards the static `master` branch. It does not force-push, modify Pages settings or extract tokens. `master` retains both the previous deployment and source commit as parents. The existing root Pages publishing setup is preserved.
+The publisher requires a clean, pushed source commit, builds and verifies the site, then makes a normal fast-forward push to `master`. Publication records `/site-version.json` and preserves both the preceding deployment and exact source commit as parents. Credentials are handled by normal Git authentication; no tokens are extracted.
 
-`/archive/` unifies 17 original Hexo articles, their exact historical editions, the old CV and the populated legacy links page. `archive/source/hugo/` retains the local Hugo project content and configuration. Original Git histories are reachable in this same repository. The Doc and CV repositories are preserved per the latest user decision, and both Pages sites are unpublished with source branch set to `None`. `/Doc/` and `/CV/` must not redirect or serve content. Root compatibility redirects exclude both prefixes. Public checks confirm both old URLs return HTTP 404 without redirects; the root website returns HTTP 200. Do not delete either repository.
+**Doc and CV repositories must remain intact, and their websites must remain unpublished.** Both Pages sources were set to `None`; `/Doc/` and `/CV/` have no redirects and must return HTTP 404. Build verification rejects either prefix. Former root content routes (`/notes/`, `/blog/…`, `/docs/notes/…`, `/projects/…`, `/resume/`) map to the new corresponding routes. Date-based Hexo links and `/archive/…` originals are preserved.
 
-For another hostname at its root, set `SITE_BASE_URL=/` for the build and change `url` in `docusaurus.config.js`. Update the Person structured-data URL in `src/pages/index.js` if moving the canonical site. No hosting service credentials are stored in the project.
-
-Browser checks: `npm run qa:browser` and `npm run qa:a11y` against a running preview. On macOS, set `CHROME_EXECUTABLE` to the Chrome executable; otherwise run `npx playwright install chromium` once. `PREVIEW_URL` overrides the default `http://127.0.0.1:3087/`.
-
-## Quality checks
-
-```sh
-npm run build
-npm run verify:site
-```
-
-Browser QA and actual results are recorded in `docs/plans/2026-10-23-quality-review.md`. Screenshots are local verification artifacts in `output/playwright/`.
+Full previous root, Doc and CV Git histories remain reachable through consolidation commit `cc2311cb262602eb23faabbb6bc71d747154ac0f`. Local full mirrors are retained under ignored `.migration/backups/`. Earlier design/deployment reports document previous versions; the current design and acceptance review are in `docs/plans/2026-10-23-digital-garden.md` and `docs/plans/2026-10-23-garden-quality-review.md`.

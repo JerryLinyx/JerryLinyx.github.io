@@ -1,3 +1,5 @@
+> Historical Docusaurus phase. The current Astro implementation and acceptance report are documented in [digital garden](2026-10-23-digital-garden.md) and [garden quality review](2026-10-23-garden-quality-review.md). Repository preservation and disabled Doc/CV policies remain in force.
+
 # Root migration acceptance review
 
 Date: 2026-10-23. Canonical website: https://jerrylinyx.github.io/.

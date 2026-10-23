@@ -136,3 +136,77 @@ export const experience = [
     text: "在 Linux 与 FreeRTOS 上开发商用清洁机器人控制模块、传感器控制与数据采集逻辑。",
   },
 ];
+
+export const moreProjects = [
+  {
+    slug: "cuda-lenet",
+    number: "04",
+    title: "CUDA–LeNet5",
+    category: "GPU ENGINEERING",
+    year: "2024",
+    subtitle: "从算子细节里，找到性能的空间。",
+    description:
+      "针对 LeNet-5 卷积核进行 GPU 并行优化，探索访存、执行与精度之间的取舍。",
+    tags: ["CUDA", "Tensor Cores", "Profiling"],
+    repo: "https://github.com/JerryLinyx/LeNet-CUDA-ECE408",
+    context:
+      "卷积性能不仅取决于并行线程数。访存方式、数据复用与硬件特性共同决定实际吞吐量。",
+    decisions: [
+      [
+        "Memory & execution",
+        "使用共享与常量内存分块、Streams、循环展开，减少访存与调度开销。",
+      ],
+      ["Hardware-aware kernels", "结合 Tensor Cores 与量化探索 GPU 计算能力。"],
+    ],
+    outcome:
+      "根据项目记录，相较未优化的并行基线提升 36%。结果对应项目内的指定硬件、数据与测试设置。",
+    related: "/docs/notes/hpc/cuda",
+  },
+  {
+    slug: "linux-kernel",
+    number: "05",
+    title: "LOS / Linux-like OS",
+    category: "SYSTEMS ENGINEERING",
+    year: "2024",
+    subtitle: "从中断到进程，理解系统如何运转。",
+    description: "四人协作，使用 C 与 x86 汇编构建类 Linux 操作系统内核。",
+    tags: ["C", "x86 Assembly", "Virtual Memory"],
+    repo: "https://github.com/JerryLinyx/Linux-OS-Kernel-ECE391/tree/main/mp3",
+    context:
+      "从底层构建一个操作系统，能把教科书中的进程、内存与设备抽象变成相互配合的真实模块。",
+    decisions: [
+      ["Kernel fundamentals", "实现虚拟内存、文件系统、终端、中断与系统调用。"],
+      [
+        "Scheduling & devices",
+        "实现键盘、RTC、PIT 等设备驱动，支持多进程切换与多终端调度。",
+      ],
+    ],
+    outcome:
+      "完成内核与用户态隔离下的多进程、多终端机制。项目由四人团队共同完成。",
+    related: "/blog/2024/04/23/391os/",
+  },
+  {
+    slug: "aid3",
+    number: "06",
+    title: "AID3 / Blender",
+    category: "CREATIVE TOOLS",
+    year: "2024 — 2025",
+    subtitle: "让生成式模型进入设计工作流。",
+    description:
+      "面向 Blender 的生成式 AI 插件，连接文本到 3D 生成、原型管理与几何处理。",
+    tags: ["Blender", "Diffusion", "Flask"],
+    repo: "https://github.com/JerryLinyx/AID3-Blender-Plugin",
+    context:
+      "生成一个 3D 结果只是起点。设计者还需要管理原型、调整几何，并把生成能力融入熟悉的工具。",
+    decisions: [
+      ["Tool integration", "在 Blender 中集成原型管理、分割与高斯—网格转换。"],
+      [
+        "Model & service",
+        "结合 Transformer、Diffusion 与 Flask 服务，探索文本到 3D 的交互流程。",
+      ],
+    ],
+    outcome:
+      "在浙江大学 ICI Lab 科研助理阶段参与开发，将生成能力与设计工具连接。",
+    related: "/docs/notes/algo/text2image",
+  },
+];

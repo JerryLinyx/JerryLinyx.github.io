@@ -1,0 +1,122 @@
+---
+import Base from "../../layouts/Base.astro";
+import { posts } from "../../lib/content.mjs";
+const topics = [...new Set(posts.map((p) => p.topic))];
+---
+
+<Base title="写作 · 林煜轩" section="writing">
+  <section class="page-heading wrap">
+    <p class="eyebrow">03 / LEARNING IN PUBLIC</p>
+    <h1>
+      文字是<span>思考的根系。</span>
+    </h1>
+    <div class="heading-bottom">
+      <p>
+        长一点的文章，短一点的理解。
+        <br />
+        把学习与思考留下来，慢慢连成自己的知识地图。
+      </p>
+      <span class="mono">{posts.length} ENTRIES / ARTICLES & NOTES</span>
+    </div>
+  </section>
+  <section class="wrap writing-library" data-library>
+    <form class="search-form" role="search">
+      <label for="garden-search">在花园里找一找</label>
+      <div class="search-input">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle
+            cx="10"
+            cy="10"
+            r="6.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path d="m15 15 6 6" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+        <input
+          id="garden-search"
+          name="q"
+          type="search"
+          placeholder="搜索标题、正文或主题…"
+          autocomplete="off"
+        />
+        <kbd>/</kbd>
+      </div>
+    </form>
+    <div class="library-controls">
+      <fieldset class="type-filter">
+        <legend class="sr-only">内容类型</legend>
+        {[
+          ["all", "全部"],
+          ["articles", "文章"],
+          ["notes", "学习手记"],
+        ].map(([key, label]) => (
+          <label>
+            <input
+              type="radio"
+              name="type"
+              value={key}
+              checked={key === "all"}
+            />
+            <span>{label}</span>
+          </label>
+        ))}
+      </fieldset>
+      <label class="topic-select">
+        主题
+        <select name="topic" aria-label="按主题筛选">
+          <option value="">所有主题</option>
+          {topics.map((t) => (
+            <option value={t}>{t}</option>
+          ))}
+        </select>
+      </label>
+    </div>
+    <div class="library-heading">
+      <p role="status" aria-live="polite" data-result-count>
+        共 {posts.length} 篇文字
+      </p>
+      <span class="mono">A COLLECTION OF THOUGHTS</span>
+    </div>
+    <div class="entry-list">
+      {posts.map((p, i) => (
+        <a
+          class="entry"
+          href={p.url}
+          data-entry={p.slug}
+          data-type={p.kind}
+          data-topic={p.topic}
+        >
+          <span class="entry-index mono">{String(i + 1).padStart(2, "0")}</span>
+          <div>
+            <p class="eyebrow">
+              {p.kind === "notes" ? "学习手记" : "文章"}{" "}
+              <span> / {p.topic}</span>
+            </p>
+            <h2>{p.title}</h2>
+            <p class="entry-description">{p.description}</p>
+          </div>
+          <div class="entry-info">
+            <span class="mono">{p.date || "KNOWLEDGE NOTE"}</span>
+            <span>
+              {p.minutes} 分钟 <i aria-hidden="true">↗</i>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+    <div class="empty-state" hidden>
+      <span aria-hidden="true">✳</span>
+      <h2>这条小径还没有找到。</h2>
+      <p>换个关键词，或清除筛选再逛逛。</p>
+      <button type="button" class="button" data-clear-search>
+        清除筛选
+      </button>
+    </div>
+    <noscript>
+      <p class="notice">
+        当前展示全部文字。启用 JavaScript 后可以搜索全文并筛选。
+      </p>
+    </noscript>
+  </section>
+</Base>

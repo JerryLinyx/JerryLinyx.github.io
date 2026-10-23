@@ -2,4 +2,4 @@
 *.md whitespace=-blank-at-eol
 # Preserve imported source snapshots and font licenses verbatim.
 archive/source/** whitespace=-blank-at-eol
-src/css/fonts/*-OFL.txt whitespace=-blank-at-eol
+static/fonts/*-OFL.txt whitespace=-blank-at-eol
