@@ -4,6 +4,8 @@ sidebar_class_name: hidden
 ---
 # Personal website implementation plan
 
+> The later root-domain decision supersedes the original `/Doc/` hosting choice. See [root migration](2026-10-23-root-migration.md).
+
 **Goal:** Complete a coherent portfolio, research archive and searchable technical notebook without losing existing real content.
 
 **Architecture:** Retain Docusaurus 3.8.1 and its static routing, Markdown, math and blog support. Store portfolio content in shared data and import the explicitly public Obsidian directory through a repeatable, validated sync script. Keep GitHub Pages `/Doc/` as canonical; the root domain contains a separate legacy blog.

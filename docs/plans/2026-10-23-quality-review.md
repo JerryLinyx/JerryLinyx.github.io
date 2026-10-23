@@ -1,5 +1,7 @@
 # Website quality review
 
+> Historical pre-migration report. Deployment decisions are superseded by [root migration](2026-10-23-root-migration.md); current migration checks are in [root quality review](2026-10-23-root-quality-review.md).
+
 Completed 2026-10-23. Scope: the completed local refactor and static production build, before any remote release.
 
 ## Final verification
