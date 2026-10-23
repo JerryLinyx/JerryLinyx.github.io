@@ -1,3 +1,5 @@
+> 历史设计记录：本方向已由用户要求的科学影像档案替代。当前实施与验收见 2026-10-23-scientific-archive 系列文档。
+
 # Minimal zine curation and quality review
 
 Date: 2026-10-23. Canonical site: https://jerrylinyx.github.io/.

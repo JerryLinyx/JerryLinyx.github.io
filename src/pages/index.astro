@@ -1,189 +1,193 @@
 ---
 import Base from "../layouts/Base.astro";
+import Instrument from "../components/Instrument.astro";
+import FieldVisual from "../components/FieldVisual.astro";
 import { posts } from "../lib/content.mjs";
-import { projects, moreProjects } from "../data/portfolio.js";
-const sections = [
-  {
-    no: "01",
-    title: "作品",
-    en: "Making",
-    href: "/work/",
-    count: `${projects.length + moreProjects.length} 个项目`,
-    text: "让想法落在真实的系统里。",
-  },
-  {
-    no: "02",
-    title: "研究",
-    en: "Questions",
-    href: "/research/",
-    count: "1 篇论文 · 3 条学习路径",
-    text: "在模型、成像与系统之间追问。",
-  },
-  {
-    no: "03",
-    title: "写作",
-    en: "Writing",
-    href: "/writing/",
-    count: `${posts.length} 篇整理后的文字`,
-    text: "文章、笔记，以及相互连接的理解。",
-  },
-  {
-    no: "04",
-    title: "生活",
-    en: "Outside",
-    href: "/life/",
-    count: "1 本影集 · 9 张照片",
-    text: "在屏幕以外，慢慢观察。",
-  },
+import { projects } from "../data/portfolio.js";
+const selected = [projects[2], projects[0], projects[1]];
+const fieldTypes = ["flow", "network", "terrain"];
+const inquiries = [
+  "从有限的观测，如何推断未知？",
+  "多个智能体，如何形成共同的判断？",
+  "一次训练的成本，究竟发生在哪里？",
 ];
-const entries = [
-  {
-    label: "01 / WORK",
-    title: "FinGOAT",
-    description: "关于多智能体如何共同完成研究。",
-    href: "/work/fingoat/",
-  },
-  {
-    label: "02 / RESEARCH",
-    title: "Probabilistic imaging",
-    description: "重建图像，也理解不确定性。",
-    href: "/research/",
-  },
-  {
-    label: "03 / WRITING",
-    title: "Road to Flow Matching",
-    description: "沿着可逆变换，走向连续时间的生成模型。",
-    href: "/writing/articles/road-to-flow-matching/",
-  },
-  {
-    label: "04 / LIFE",
-    title: "Singapore, after dark",
-    description: "从雨漩涡到超级树，九张路上的记录。",
-    href: "/life/singapore/",
-  },
-];
+const writing = [
+  "articles/road-to-flow-matching",
+  "notes/hpc/cuda",
+  "notes/application/rag",
+]
+  .map((slug) => posts.find((p) => p.slug === slug))
+  .filter(Boolean);
 ---
 
 <Base>
-  <section class="zine-cover wrap" aria-labelledby="cover-title">
-    <div class="cover-meta mono">
-      <span>PERSONAL INDEX / VOL. 01</span>
-      <span>林煜轩 · YUXUAN LIN</span>
+  <section class="observatory wrap" aria-labelledby="home-title">
+    <div class="observatory-index mono">
+      <span>PERSONAL OBSERVATORY — 2026</span>
+      <span>YUXUAN LIN / 林煜轩</span>
+      <span>NEW YORK, US</span>
     </div>
-    <div class="cover-words">
-      <p class="eyebrow">A SMALL COLLECTION OF THINGS</p>
-      <h1 id="cover-title">
-        作品，问题，
+    <div class="hero-typography">
+      <p class="eyebrow">ENGINEERING · GENERATIVE MODELS · SYSTEMS</p>
+      <h1 id="home-title">
+        A question
         <br />
-        和沿途的事。
+        <em>takes form.</em>
       </h1>
-      <p>
-        我在这里整理做过的东西、
+      <p class="hero-chinese">从问题出发，让理解成形。</p>
+      <p class="hero-intro">
+        我是林煜轩。研究生成式模型，构建真实系统，
         <br />
-        正在理解的问题，以及生活的片刻。
+        也记录世界在日常里显露的结构。
       </p>
-      <a href="#index" class="cover-enter">
-        从索引开始 <span aria-hidden="true">↓</span>
+      <a href="#investigations" class="archive-link">
+        进入作品档案 <span aria-hidden="true">↘</span>
       </a>
     </div>
-    <figure class="cover-fragment">
-      <div class="fragment-photo">
-        <img
-          src="/media/portrait.webp"
-          alt="林煜轩站在红墙旁，个人照片以印刷片段呈现"
-          width="180"
-          height="225"
-          fetchpriority="high"
-        />
-      </div>
-      <div class="ink-slip" aria-hidden="true">
-        <span>
-          collected
-          <br />
-          along
-          <br />
-          the way.
-        </span>
-        <small>YL / 001</small>
-      </div>
-      <figcaption class="mono">
-        一些想法，
-        <br />
-        在这里慢慢成形。
-      </figcaption>
-      <span class="registration" aria-hidden="true">
-        +
-      </span>
-    </figure>
-    <div class="cover-foot mono">
-      <span>NEW YORK, US</span>
-      <p>创造 / 理解 / 记录 / 生活</p>
-      <span>SCROLL TO EXPLORE ↘</span>
+    <Instrument />
+    <div class="hero-footer mono">
+      <span>OBSERVE → MODEL → EXPERIMENT</span>
+      <span>AN ONGOING INQUIRY</span>
+      <a href="#investigations">SCROLL TO DISCOVER ↓</a>
     </div>
   </section>
-  <section class="wrap zine-directory" id="index" aria-label="内容索引">
-    {sections.map((s) => (
-      <a href={s.href}>
-        <span class="directory-top mono">
-          {s.no} / {s.en}
-          <i aria-hidden="true">↗</i>
-        </span>
-        <h2>{s.title}</h2>
-        <p>{s.text}</p>
-        <span class="directory-count">{s.count}</span>
+  <section class="archive-manifesto wrap" data-reveal>
+    <p class="eyebrow">A NOTE ON THE WORK</p>
+    <h2>
+      信息成为结构，
+      <br />
+      结构产生关系，
+      <br />
+      <span>理解由此发生。</span>
+    </h2>
+    <div>
+      <p>
+        我的工作横跨生成式模型、AI 应用和计算系统。
+        <br />
+        在抽象的想法与真实的约束之间，寻找可以验证的答案。
+      </p>
+      <a class="text-link" href="/about/">
+        关于我与这条路径 ↗
       </a>
+    </div>
+    <span class="manifesto-registration" aria-hidden="true">
+      +
+    </span>
+  </section>
+  <section
+    class="investigations"
+    id="investigations"
+    aria-labelledby="work-title"
+  >
+    <header class="archive-section-head wrap">
+      <div>
+        <p class="eyebrow">01 / SELECTED INVESTIGATIONS</p>
+        <h2 id="work-title">
+          三个问题。<em>三次探索。</em>
+        </h2>
+      </div>
+      <a class="text-link" href="/work/">
+        全部 6 个项目 ↗
+      </a>
+    </header>
+    {selected.map((p, i) => (
+      <article class:list={["investigation", `investigation-${i}`]} data-reveal>
+        <div class="investigation-inner wrap">
+          <div class="investigation-visual">
+            <div class="specimen-top mono">
+              <span>SPECIMEN / 00{i + 1}</span>
+              <span>{["PROBABILITY", "REASONING", "COMPUTATION"][i]}</span>
+            </div>
+            <FieldVisual kind={fieldTypes[i]} />
+            <div class="specimen-bottom mono">
+              <span>MATHEMATICAL FORM STUDY</span>
+              <span aria-hidden="true">∴</span>
+            </div>
+            <span class="specimen-tab mono">{p.year}</span>
+          </div>
+          <div class="investigation-text">
+            <p class="eyebrow">{p.category}</p>
+            <p class="inquiry">{inquiries[i]}</p>
+            <h3>
+              <a href={`/work/${p.slug}/`}>{p.title}</a>
+            </h3>
+            <p>{p.description}</p>
+            <div class="investigation-fact">
+              <span class="mono">
+                {["RESEARCH OUTPUT", "PROJECT OBSERVATION", "METHOD & ROLE"][i]}
+              </span>
+              <p>
+                {i === 0
+                  ? "IEEE ISBI 2026 · 第二作者"
+                  : i === 1
+                    ? "图编排、并行推理与完整推理链路"
+                    : "团队项目 · 多 GPU 事件采集与格式转换"}
+              </p>
+            </div>
+            <a class="archive-link" href={`/work/${p.slug}/`}>
+              查看研究与构建过程 <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </article>
     ))}
   </section>
-  <section class="wrap zine-spread">
-    <div class="spread-side">
-      <p class="eyebrow">SELECTED PAGES</p>
-      <h2>
-        几页，
+  <section class="research-desk wrap" data-reveal>
+    <div class="desk-heading">
+      <p class="eyebrow">02 / WORKING NOTES</p>
+      <h2>思考的中间态。</h2>
+      <p>
+        一些已成文的理解，
         <br />
-        从这里翻起。
-      </h2>
-      <figure>
-        <a href="/life/singapore/" aria-label="进入新加坡影集">
-          <img
-            src="/media/singapore-6.webp"
-            alt="新加坡牛车水的街巷，旅途中的一张照片"
-            width="300"
-            height="360"
-            loading="lazy"
-          />
+        以及仍然开放的问题。
+      </p>
+      <div class="desk-links">
+        <a href="/research/" class="text-link">
+          论文与研究线索 ↗
         </a>
-        <figcaption class="mono">A WALK / SINGAPORE, 2025</figcaption>
-      </figure>
+        <a href="/writing/" class="text-link">
+          {posts.length} 篇文章与笔记 ↗
+        </a>
+      </div>
     </div>
-    <div class="spread-index">
-      {entries.map((e) => (
-        <a href={e.href}>
-          <span class="eyebrow">{e.label}</span>
-          <h3>{e.title}</h3>
-          <p>{e.description}</p>
-          <span class="spread-arrow" aria-hidden="true">
-            ↗
+    <div class="desk-pages">
+      {writing.map((p, i) => (
+        <a class="desk-page" href={p.url}>
+          <span class="mono">
+            NOTE / {String(i + 1).padStart(3, "0")}
+            <span aria-hidden="true">↗</span>
+          </span>
+          <h3>{p.title}</h3>
+          <p>{p.description}</p>
+          <span class="mono desk-page-meta">
+            {p.topic} / {p.minutes} MIN READ
           </span>
         </a>
       ))}
     </div>
   </section>
-  <section class="wrap zine-colophon">
-    <span class="mono">A NOTE FROM THE EDITOR</span>
-    <div>
-      <p>
-        你好，我是林煜轩。
-        <br />
-        计算机工程、生成式模型与系统，是我的学习和实践方向。
-        <br />
-        这本个人索引，也为生活里的细小发现留一些空白。
-      </p>
-      <a href="/about/" class="text-link">
-        关于我 ↗
+  <section class="outside-frame wrap" data-reveal>
+    <a class="outside-image" href="/life/singapore/">
+      <img
+        src="/media/singapore-8.webp"
+        alt="新加坡滨海湾花园的夜景，灯光中的树形结构"
+        width="1400"
+        height="900"
+        loading="lazy"
+      />
+      <span class="outside-image-label mono">
+        OBSERVATION / SINGAPORE, 2025
+      </span>
+    </a>
+    <div class="outside-caption">
+      <p class="eyebrow">03 / OUTSIDE THE MODEL</p>
+      <h2>
+        世界始终比模型<em>更丰富。</em>
+      </h2>
+      <p>离开屏幕，走进真实的光线、街道和时间。</p>
+      <a class="archive-link" href="/life/">
+        生活与摄影 <span aria-hidden="true">↗</span>
       </a>
     </div>
-    <a class="colophon-archive" href="/archive/">
-      旧日文字与版本记录 ↗
-    </a>
   </section>
 </Base>

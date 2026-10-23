@@ -9,8 +9,9 @@
     "deploy": "node scripts/publish-site.mjs",
     "verify:site": "node scripts/verify-site.mjs && node scripts/verify-curation.mjs",
     "sync:notes": "node scripts/sync-notes.mjs",
-    "qa:browser": "node scripts/qa-garden.cjs",
-    "qa:a11y": "node scripts/qa-garden.cjs --a11y",
+    "qa:browser": "node scripts/qa-site.cjs",
+    "qa:instrument": "node scripts/qa-instrument.cjs",
+    "qa:a11y": "node scripts/qa-site.cjs --a11y",
     "format": "prettier --write src scripts astro.config.mjs",
     "inventory": "node scripts/inventory-assets.mjs"
   },

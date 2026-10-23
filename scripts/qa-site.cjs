@@ -6,7 +6,7 @@ const base = process.env.PREVIEW_URL || "http://127.0.0.1:3091/";
 const a11y = process.argv.includes("--a11y");
 (async () => {
   const { posts, legacy } = await import("../src/lib/content.mjs");
-  await fs.mkdir("output/playwright/garden", { recursive: true });
+  await fs.mkdir("output/playwright/archive", { recursive: true });
   const browser = await chromium.launch({
     headless: true,
     executablePath:
@@ -89,7 +89,7 @@ const a11y = process.argv.includes("--a11y");
         });
       }
       await page.screenshot({
-        path: `output/playwright/garden/${route.replaceAll("/", "-") || "home"}-${width}.png`,
+        path: `output/playwright/archive/${route.replaceAll("/", "-") || "home"}-${width}.png`,
         fullPage: route === "" || route === "work/" || route === "research/",
       });
       if (a11y) {
@@ -231,7 +231,9 @@ const a11y = process.argv.includes("--a11y");
     }
   }
   await fs.writeFile(
-    "output/playwright/garden/" + (a11y ? "a11y" : "browser") + "-results.json",
+    "output/playwright/archive/" +
+      (a11y ? "a11y" : "browser") +
+      "-results.json",
     JSON.stringify({ checks, axe, errors, badResponses }, null, 2),
   );
   await browser.close();

@@ -1,9 +1,9 @@
 ---
-import "../styles/garden.css";
-import "../styles/zine.css";
+import "../styles/foundation.css";
+import "../styles/archive.css";
 const {
-  title = "林煜轩 · 个人数字花园",
-  description = "林煜轩的个人数字花园。记录作品、研究、学习与日常，让好奇心慢慢生长。",
+  title = "林煜轩 · 作品与研究",
+  description = "林煜轩的个人网站。生成式模型、多智能体与计算系统，以及写作和摄影。",
   section = "",
   article = false,
 } = Astro.props;
@@ -32,7 +32,7 @@ const nav = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f6f4ed" />
+    <meta name="theme-color" content="#eeede7" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -42,9 +42,9 @@ const nav = [
     <meta property="og:url" content={canonical} />
     <meta
       property="og:image"
-      content="https://jerrylinyx.github.io/social-garden.png"
+      content="https://jerrylinyx.github.io/social-preview.png"
     />
-    <link rel="icon" type="image/svg+xml" href="/garden-icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/site-icon.svg" />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -69,17 +69,18 @@ const nav = [
       跳到主要内容
     </a>
     <header class="header">
-      <a class="wordmark" href="/" aria-label="林煜轩，花园首页">
+      <a class="wordmark" href="/" aria-label="林煜轩，个人网站首页">
         <span class="wordmark-stamp" aria-hidden="true">
-          yl.
+          ∴
         </span>
         <span>
           林煜轩<small>YUXUAN LIN</small>
         </span>
       </a>
       <nav class="desktop-nav" aria-label="主导航">
-        {nav.map(([key, label, url]) => (
+        {nav.map(([key, label, url], i) => (
           <a href={url} aria-current={section === key ? "page" : undefined}>
+            <small class="nav-no">0{i + 1}</small>
             {label}
             <span>
               {key === "work"
@@ -124,18 +125,25 @@ const nav = [
         </a>
       </nav>
     </header>
+    <noscript>
+      <nav class="no-script-nav" aria-label="无脚本主导航">
+        {nav.map(([, label, url]) => (
+          <a href={url}>{label} ↗</a>
+        ))}
+      </nav>
+    </noscript>
     <main id="main">
       <slot />
     </main>
     <footer class="footer">
       <div class="footer-top">
         <p>
-          一些记录。
+          始于一个问题。
           <br />
-          <span>留一点空白。</span>
+          <span>保持探索。</span>
         </p>
         <a class="contact" href="mailto:yl6061@columbia.edu">
-          来打个招呼 <span aria-hidden="true">↗</span>
+          LET’S TALK <span aria-hidden="true">↗</span>
           <small>yl6061@columbia.edu</small>
         </a>
       </div>
@@ -149,9 +157,9 @@ const nav = [
             回到顶部 ↑
           </a>
         </div>
-        <span class="footer-note">个人编辑索引 / EST. 2024</span>
+        <span class="footer-note">AN INDEPENDENT OBSERVATORY / 2026</span>
       </div>
     </footer>
-    <script src="../scripts/garden.js"></script>
+    <script src="../scripts/site.js"></script>
   </body>
 </html>

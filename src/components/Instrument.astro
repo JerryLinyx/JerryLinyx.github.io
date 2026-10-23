@@ -1,0 +1,74 @@
+---
+import FieldVisual from "./FieldVisual.astro";
+---
+
+<figure class="instrument" data-instrument aria-label="原创数学形态交互习作">
+  <div class="instrument-case">
+    <div class="instrument-engraving mono">
+      <span>YL / FIELD INSTRUMENT</span>
+      <span>No. 001</span>
+    </div>
+    <div class="instrument-bezel">
+      <div class="instrument-screen">
+        <div class="screen-title mono">
+          <span>
+            <i></i> SHAPE OBSERVATORY
+          </span>
+          <span>LOCAL / LIVE</span>
+        </div>
+        <FieldVisual class="instrument-fallback" />
+        <canvas class="instrument-canvas" aria-hidden="true"></canvas>
+        <div class="screen-reticle mono" aria-hidden="true">
+          <span>y ↑</span>
+          <span>x →</span>
+        </div>
+        <div class="screen-readout mono">
+          <span data-field-equation>r(u,v) → R³</span>
+          <span data-field-name>01 / CONTINUOUS FIELD</span>
+        </div>
+      </div>
+    </div>
+    <div class="instrument-lower">
+      <span class="instrument-symbol" aria-hidden="true">
+        ∴
+      </span>
+      <div class="instrument-vents" aria-hidden="true"></div>
+      <span class="power-light" aria-hidden="true"></span>
+      <span class="mono">
+        YUXUAN LIN
+        <br />
+        PERSONAL OBSERVATORY
+      </span>
+    </div>
+  </div>
+  <div class="instrument-plinth" aria-hidden="true"></div>
+  <figcaption class="instrument-controls">
+    <div class="shape-select" role="group" aria-label="选择数学形态" hidden>
+      <button type="button" data-shape="field" aria-pressed="true">
+        01 场
+      </button>
+      <button type="button" data-shape="branch" aria-pressed="false">
+        02 生长
+      </button>
+      <button type="button" data-shape="terrain" aria-pressed="false">
+        03 地形
+      </button>
+    </div>
+    <button
+      type="button"
+      class="motion-control"
+      data-motion-pause
+      aria-pressed="false"
+      hidden
+    >
+      暂停动效 Ⅱ
+    </button>
+    <p class="mono">数学形态习作 · 可切换结构 / VISUAL STUDY</p>
+  </figcaption>
+  <noscript>
+    <p class="instrument-noscript">
+      当前为静态形态图。启用 JavaScript 后可以切换结构与观察角度。
+    </p>
+  </noscript>
+</figure>
+<script src="../scripts/instrument.js"></script>

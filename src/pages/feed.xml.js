@@ -13,7 +13,7 @@ const esc = (s) =>
   );
 export function GET() {
   return new Response(
-    `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>林煜轩 · 数字花园</title><link>https://jerrylinyx.github.io/</link><description>作品、研究、写作与生活</description><language>zh-CN</language>${posts
+    `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>林煜轩 · 作品与研究</title><link>https://jerrylinyx.github.io/</link><description>作品、研究、写作与生活</description><language>zh-CN</language>${posts
       .filter((p) => p.date)
       .map(
         (p) =>

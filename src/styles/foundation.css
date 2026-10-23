@@ -1,10 +1,16 @@
 @font-face {
-  font-family: Garden Serif;
+  font-family: Archive Serif;
   src: url("/fonts/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf") format("truetype");
   font-display: swap;
 }
 @font-face {
-  font-family: Garden Sans;
+  font-family: Archive Serif;
+  src: url("/fonts/jizHRFtNs2ka5fXjeivQ4LroWlx-6zATiw.ttf") format("truetype");
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: Archive Sans;
   src: url("/fonts/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4aE-_F.ttf") format("truetype");
   font-weight: 400 700;
   font-display: swap;
@@ -17,8 +23,8 @@
   --green: #242423;
   --orange: #244acb;
   --serif: "Songti SC", "Noto Serif CJK SC", "Noto Serif SC", "STSong", serif;
-  --latin: "Garden Serif", Georgia, serif;
-  --sans: "Garden Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --latin: "Archive Serif", Georgia, serif;
+  --sans: "Archive Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   --radius: 3px;
 }
 * {

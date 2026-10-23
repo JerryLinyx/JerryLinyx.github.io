@@ -6,22 +6,22 @@ const topics = [...new Set(posts.map((p) => p.topic))];
 
 <Base title="写作 · 林煜轩" section="writing">
   <section class="page-heading wrap">
-    <p class="eyebrow">03 / LEARNING IN PUBLIC</p>
+    <p class="eyebrow">03 / THOUGHT RECORDS</p>
     <h1>
-      文字是<span>思考的根系。</span>
+      记录，是<span>理解的另一种实验。</span>
     </h1>
     <div class="heading-bottom">
       <p>
         长一点的文章，短一点的理解。
         <br />
-        把学习与思考留下来，慢慢连成自己的知识地图。
+        保存推导、实践与尚待回答的问题。
       </p>
       <span class="mono">{posts.length} ENTRIES / ARTICLES & NOTES</span>
     </div>
   </section>
   <section class="wrap writing-library" data-library>
     <form class="search-form" role="search">
-      <label for="garden-search">在花园里找一找</label>
+      <label for="garden-search">检索思考档案</label>
       <div class="search-input">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle
@@ -107,8 +107,8 @@ const topics = [...new Set(posts.map((p) => p.topic))];
     </div>
     <div class="empty-state" hidden>
       <span aria-hidden="true">✳</span>
-      <h2>这条小径还没有找到。</h2>
-      <p>换个关键词，或清除筛选再逛逛。</p>
+      <h2>没有找到匹配的记录。</h2>
+      <p>尝试其他关键词，或清除筛选。</p>
       <button type="button" class="button" data-clear-search>
         清除筛选
       </button>

@@ -1,3 +1,5 @@
+> 历史设计记录：本方向已由用户要求的科学影像档案替代。当前实施与验收见 2026-10-23-scientific-archive 系列文档。
+
 # Asset curation and minimal zine presentation
 
 User goal: inventory personal assets, consolidate obvious repetition and reorganize presentation, learning the visual language of LiamGvchi/gc-minimal-zine-poster. Four interests retain equal standing. Root hosting and retired Doc/CV URLs remain unchanged.

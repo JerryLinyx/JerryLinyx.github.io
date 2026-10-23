@@ -1,0 +1,58 @@
+---
+const { kind = "flow", label = "", class: className = "" } = Astro.props;
+const linePaths = [];
+for (let j = 0; j < 34; j++) {
+  const points = [];
+  for (let i = 0; i <= 100; i++) {
+    const t = (i / 100) * Math.PI * 2;
+    const v = j / 33;
+    let x, y;
+    if (kind === "terrain") {
+      x = 25 + i * 4.5;
+      y =
+        115 +
+        v * 170 -
+        65 * Math.exp(-(((i - 53) / 24) ** 2)) * Math.sin(v * 3 + i * 0.07) +
+        Math.sin(i * 0.09 + v * 4) * 15;
+    } else if (kind === "network") {
+      const r = 28 + v * 138;
+      x = 250 + Math.cos(t) * r * (0.8 + Math.sin(t * 3 + v * 4) * 0.15);
+      y = 195 + Math.sin(t) * r * 0.86;
+    } else {
+      const a = v * Math.PI;
+      x = 250 + 155 * Math.cos(t) * Math.sin(a) + 35 * Math.sin(t * 2 + a);
+      y = 195 + 145 * Math.cos(a) + 38 * Math.sin(t) * Math.sin(a);
+    }
+    points.push(`${i ? "L" : "M"}${x.toFixed(2)},${y.toFixed(2)}`);
+  }
+  linePaths.push(points.join(" "));
+}
+---
+
+<svg
+  class:list={["field-visual", className]}
+  viewBox="0 0 500 390"
+  role={label ? "img" : undefined}
+  aria-label={label || undefined}
+  aria-hidden={!label ? "true" : undefined}
+>
+  <g
+    class="field-crosses"
+    fill="none"
+    stroke="currentColor"
+    stroke-width=".6"
+    opacity=".35"
+  >
+    <path d="M25 30h14m-7-7v14M461 30h14m-7-7v14M25 360h14m-7-7v14M461 360h14m-7-7v14" />
+    <path d="M250 20v350M18 195h464" stroke-dasharray="2 7" opacity=".35" />
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width=".75" opacity=".8">
+    {linePaths.map((d) => (
+      <path d={d} />
+    ))}
+  </g>
+  <g fill="currentColor">
+    <circle cx="250" cy="195" r="2" />
+    <circle cx="32" cy="30" r="2" />
+  </g>
+</svg>
