@@ -48,9 +48,6 @@ document.querySelector("[data-backtop]")?.addEventListener("click", (e) => {
       : "smooth",
   });
 });
-document
-  .querySelector("[data-print]")
-  ?.addEventListener("click", () => window.print());
 const durationToken = getComputedStyle(document.documentElement)
   .getPropertyValue("--feedback-duration")
   .trim();
@@ -224,6 +221,8 @@ if (library) {
       card.hidden = !visible;
       if (visible) total++;
     }
+    for (const shelf of library.querySelectorAll("[data-shelf]"))
+      shelf.hidden = !shelf.querySelector("[data-entry]:not([hidden])");
     count.textContent = `找到 ${total} 篇文字${failed ? "（全文暂不可用，当前按标题与摘要搜索）" : ""}`;
     empty.hidden = total > 0;
     if (write) {
@@ -435,58 +434,4 @@ if (diagrams.length) {
       for (const code of diagrams)
         code.parentElement.setAttribute("aria-label", "图表源代码");
     });
-}
-// De-coding: headings resolve from mathematical symbols once, when they come into view.
-// Wide (CJK) characters swap with wide glyphs and narrow with narrow, so lines don't reflow.
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const wide = "数形场流构关系理解记录∴∵";
-  const narrow = "01∂∫∑∇λπ≈#/<>{}";
-  const pick = (pool) => pool[Math.floor(Math.random() * pool.length)];
-  const decode = (el) => {
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while (walker.nextNode())
-      nodes.push([walker.currentNode, walker.currentNode.data]);
-    const total = nodes.reduce((n, [, s]) => n + s.length, 0);
-    if (!total) return;
-    el.setAttribute("aria-label", el.textContent.trim());
-    const duration = Math.min(900, 360 + total * 28);
-    const begin = performance.now();
-    const step = (now) => {
-      const p = Math.min(1, (now - begin) / duration);
-      let index = 0;
-      for (const [node, original] of nodes) {
-        let out = "";
-        for (const ch of original) {
-          const settled = index / total < p * 1.15 - 0.15;
-          out +=
-            settled || /\s/.test(ch)
-              ? ch
-              : pick(/[⺀-￿]/.test(ch) ? wide : narrow);
-          index++;
-        }
-        node.data = out;
-      }
-      if (p < 1) requestAnimationFrame(step);
-      else {
-        for (const [node, original] of nodes) node.data = original;
-        el.removeAttribute("aria-label");
-      }
-    };
-    requestAnimationFrame(step);
-  };
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries)
-        if (e.isIntersecting) {
-          io.unobserve(e.target);
-          decode(e.target);
-        }
-    },
-    { threshold: 0.6 },
-  );
-  for (const el of document.querySelectorAll(
-    ".page-head h1, .block-head h2, .case-head h1, .about-head h1, .montage-title, .not-found h1",
-  ))
-    io.observe(el);
 }

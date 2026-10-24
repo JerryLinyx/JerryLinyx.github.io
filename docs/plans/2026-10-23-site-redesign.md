@@ -34,7 +34,6 @@ Direction: learns from the Kimi brand films (retro computer, science as metaphor
 
 - **Hero, a retro computer:** a CSS-built cream/lavender desktop. Its terminal "runs" `sample.py`, then particles sampled from Gaussian noise are transported along a velocity field until they write 林煜轩 on the screen, in reference to the PET reconstruction / flow-matching research. The `t` fader and the 重新采样 key on the case control the flow; the pointer perturbs it. Without JavaScript the screen shows the name; under reduced motion the finished state.
 - **Interlude, 同一种生长:** a black band with nine self-similar structures generated live by code (lightning, river, vessels, leaf veins, snowflake, binary tree, galaxy, DNA, point-cloud terrain). Calm cadence (grow 1.5 s, hold 1.7 s, fade 0.45 s), never a strobe; pause and next controls; stops offscreen; a still under reduced motion.
-- **De-coding:** page and section headings resolve once from mathematical symbols (wide glyphs swap with wide, narrow with narrow, so nothing reflows); off under reduced motion; `aria-label` keeps the real text for screen readers during the effect.
 - **End card:** the footer is a black card with a large white 林煜轩.
 - **Desk puzzle:** the 404 page arranges a ruler, pencils, paper strips and a magnifier into "404" (找找这个数字。).
 - **Archive plates:** project figures sit on white plates with crop marks.

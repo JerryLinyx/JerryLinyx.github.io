@@ -21,6 +21,17 @@ legacy.extras = legacy.extras.map((e) => ({
 }));
 const noteMeta = await readJson("src/data/notes.json");
 export const curation = await readJson("content/curation.json");
+// Every piece of writing sits in one category > topic shelf, whatever its source folder.
+export const taxonomy = await readJson("content/taxonomy.json");
+const shelves = new Map(
+  taxonomy.flatMap((c) =>
+    c.groups.flatMap((g) =>
+      g.slugs.map((s) => [s, { category: c.name, topic: g.name }]),
+    ),
+  ),
+);
+const placement = (slug) =>
+  shelves.get(slug) || { category: "其他", topic: "未分类" };
 const supplements = await readJson("content/supplements.json");
 const imageDimensions = await readJson(".astro/image-dimensions.json").catch(
   () => ({}),
@@ -79,10 +90,20 @@ for (const kind of ["notes", "articles"]) {
       .trim();
     const original = legacy.articles.find((a) => a.currentSource === file);
     const commented = (content.match(/<!--[\s\S]*?-->/g) || []).join("").length;
-    const legacyHtml =
-      original && (plain.length < 10 || commented > content.length * 0.5)
-        ? original.html
-        : null;
+    // Old Docusaurus posts kept their body inside comments. The Markdown keeps
+    // the formulas that the archived Hexo HTML lost, so publish it instead.
+    if (commented > content.length * 0.5) {
+      content = content.replace(/<!--(?! truncate )([\s\S]*?)-->/g, "$1");
+      plain = content
+        .replace(/```[\s\S]*?```/g, " ")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+        .replace(/[#*_`$>{}|]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+    const legacyHtml = original && plain.length < 10 ? original.html : null;
     if (legacyHtml)
       plain = cheerio.load(legacyHtml).text().replace(/\s+/g, " ").trim();
     const summaries = {
@@ -116,11 +137,7 @@ for (const kind of ["notes", "articles"]) {
       url: `/writing/${slug}/`,
       kind,
       title: String(data.title || stem),
-      topic:
-        data.topic ||
-        meta?.topic ||
-        (Array.isArray(data.tags) ? data.tags[0] : data.category) ||
-        "随笔",
+      ...placement(slug),
       description: meta?.description || summaries[stem] || plain.slice(0, 110),
       plain,
       date,
@@ -139,6 +156,22 @@ export const posts = entries.sort(
     (b.date || "").localeCompare(a.date || "") ||
     a.title.localeCompare(b.title),
 );
+export const shelf = taxonomy.map((c) => ({
+  name: c.name,
+  groups: c.groups
+    .map((g) => ({
+      name: g.name,
+      posts: g.slugs
+        .map((s) => posts.find((p) => p.slug === s))
+        .filter(Boolean),
+    }))
+    .filter((g) => g.posts.length),
+}));
+const unplaced = posts.filter((p) => !shelves.has(p.slug));
+if (unplaced.length)
+  shelf
+    .find((c) => c.name === "其他")
+    .groups.push({ name: "未分类", posts: unplaced });
 export const byFile = new Map(posts.map((p) => [path.resolve(p.file), p]));
 export const oldRoutes = new Map();
 for (const p of posts) {
@@ -230,6 +263,14 @@ export async function renderPost(post) {
     );
     return prepareHtml(json.html, post.file);
   }
+  // Unwrap math placeholders left by copying from ChatGPT.
+  input = input.replace(
+    /\$begin:math:(text|display)\$([\s\S]*?)\$end:math:\1\$/g,
+    (_, kind, expression) => {
+      const tex = expression.trim().replace(/\\\\/g, "\\");
+      return kind === "display" ? `$$${tex}$$` : `$${tex}$`;
+    },
+  );
   // Normalize paired display delimiters outside code, without altering expressions.
   input = input
     .split(/(```[\s\S]*?```|`[^`\n]+`)/g)

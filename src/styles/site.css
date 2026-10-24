@@ -1326,6 +1326,31 @@ button {
 .library[aria-busy="true"] .entries {
   opacity: 0.5;
 }
+.shelf {
+  margin-top: 56px;
+}
+.shelf-title {
+  font-size: var(--t-xl);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.shelf-group {
+  margin-top: 24px;
+}
+.shelf-topic {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 4px;
+  font-size: var(--t-s);
+  font-weight: 600;
+  color: var(--muted);
+}
+.shelf-topic small {
+  font-size: var(--t-xs);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
 .entries {
   border-bottom: 1px solid var(--rule);
 }
@@ -2029,8 +2054,53 @@ button {
 .tools dt {
   font-weight: 600;
 }
-.cv-note {
-  margin-top: 0;
+.about-review {
+  display: grid;
+  gap: 8px;
+  margin-top: 28px;
+}
+.cv-item h3 a {
+  transition: color 0.2s;
+}
+.cv-item h3 a:hover {
+  color: var(--signal);
+}
+.cv-detail {
+  display: grid;
+  grid-template-columns: 6em minmax(0, 1fr);
+  gap: 2px 16px;
+  margin-top: 10px;
+  font-size: var(--t-s);
+}
+.cv-detail > span {
+  color: var(--muted);
+}
+.cv-detail a,
+.cv-detail a + span {
+  grid-column: 1 / -1;
+}
+.cv-detail a {
+  font-weight: 600;
+}
+.cv-courses {
+  margin-top: 12px;
+  font-size: var(--t-s);
+}
+.cv-courses summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+.cv-courses ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 10px;
+}
+.cv-courses li {
+  padding-left: 0;
+}
+.cv-courses li::before {
+  content: none;
 }
 @media (max-width: 760px) {
   .about-head,
@@ -2194,7 +2264,7 @@ button {
   .skip,
   .progress,
   .toc,
-  .about-links button,
+  .about-links a[download],
   .hero,
   .interlude {
     display: none !important;

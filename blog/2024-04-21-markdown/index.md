@@ -34,7 +34,7 @@ draft: false
 1. 汉字形式，符号：`\mbox{}`，如：```$V_{\mbox{初始}}$``` $V_{\mbox{初始}}$
 2. 字体控制，符号：`\displaystyle`，如：```$\displaystyle \frac{x+y}{y+z}$``` $\displaystyle \frac{x+y}{y+z}$
 3. 下划线符号，符号：`\underline`，如：```$\underline{x+y}$``` $\underline{x+y}$
-4. 标签，符号：`\tag{数字}`，如：$\tag{11}$
+4. 标签，符号：`\tag{数字}`，如：$$x \tag{11}$$
 5. 上大括号，符号：`\overbrace{算式}`，如：$\overbrace{a+b+c+d}^{2.0}$
 6. 下大括号，符号：`\underbrace{算式}`，如：$a+\underbrace{b+c}_{1.0}+d$
 7. 上位符号，符号：`\stacrel{上位符号}{基位符号}`，如：$\vec{x}\stackrel{\mathrm{def}}{=}{x_1,\dots,x_n}$
@@ -115,8 +115,8 @@ quad空格，符号：`\quad`，如：$x \quad y$
 差集运算，符号：`\setminus`，如：$x \setminus y$
 同或运算，符号：`\bigodot`，如：$x \bigodot y$
 同与运算，符号：`\bigotimes`，如：$x \bigotimes y$
-实数集合，符号：`\mathbb{R}`，如：\mathbb{R}
-自然数集合，符号：`\mathbb{Z}`，如：\mathbb{Z}
+实数集合，符号：`\mathbb{R}`，如：$\mathbb{R}$
+自然数集合，符号：`\mathbb{Z}`，如：$\mathbb{Z}$
 空集，符号：`\emptyset`，如：$\emptyset$
 ### 数学符号
 

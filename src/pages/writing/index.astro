@@ -1,9 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { posts, readingRoutes } from "../../lib/content.mjs";
-const topics = [...new Set(posts.map((p) => p.topic))].sort((a, b) =>
-  a.localeCompare(b, "zh"),
-);
+import { posts, readingRoutes, shelf } from "../../lib/content.mjs";
 const counts = {
   all: posts.length,
   articles: posts.filter((p) => p.kind === "articles").length,
@@ -85,8 +82,12 @@ const counts = {
         <span class="sr-only">按主题筛选</span>
         <select name="topic">
           <option value="">所有主题</option>
-          {topics.map((t) => (
-            <option value={t}>{t}</option>
+          {shelf.map((c) => (
+            <optgroup label={c.name}>
+              {c.groups.map((g) => (
+                <option value={g.name}>{g.name}</option>
+              ))}
+            </optgroup>
           ))}
         </select>
       </label>
@@ -99,25 +100,38 @@ const counts = {
         重试全文检索
       </button>
     </div>
-    <ul class="entries">
-      {posts.map((p) => (
-        <li data-entry={p.slug} data-type={p.kind} data-topic={p.topic}>
-          <a class="entry" href={p.url}>
-            <span class="entry-date">
-              {p.date ? p.date.slice(0, 7).replace("-", ".") : "笔记"}
-            </span>
-            <span class="entry-main">
-              <span class="entry-title">{p.title}</span>
-              <span class="entry-desc">{p.description}</span>
-            </span>
-            <span class="entry-meta">
-              {p.topic}
-              <span>{p.minutes} 分钟</span>
-            </span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    {shelf.map((c) => (
+      <section class="shelf" data-shelf>
+        <h2 class="shelf-title">{c.name}</h2>
+        {c.groups.map((g) => (
+          <div class="shelf-group" data-shelf>
+            <h3 class="shelf-topic">
+              {g.name}
+              <small>{g.posts.length}</small>
+            </h3>
+            <ul class="entries">
+              {g.posts.map((p) => (
+                <li data-entry={p.slug} data-type={p.kind} data-topic={p.topic}>
+                  <a class="entry" href={p.url}>
+                    <span class="entry-date">
+                      {p.date && p.date.slice(0, 7).replace("-", ".")}
+                    </span>
+                    <span class="entry-main">
+                      <span class="entry-title">{p.title}</span>
+                      <span class="entry-desc">{p.description}</span>
+                    </span>
+                    <span class="entry-meta">
+                      {p.kind === "notes" ? "笔记" : "文章"}
+                      <span>{p.minutes} 分钟</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ))}
     <div class="empty" hidden>
       <p>没有匹配的文字。试试 CUDA、Flow、并行，或切换到全部主题。</p>
       <button type="button" class="button" data-clear-search>

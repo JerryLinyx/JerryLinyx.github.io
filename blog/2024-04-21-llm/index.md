@@ -88,7 +88,6 @@ $$
 AdaGrad（Adaptive Gradient Algorithm）是一种自适应学习率调整方法，它根据过去的梯度累积来调整学习率大小。
 
 $$
-$$
 g_t = \nabla J(\theta_t)
 $$
 $$

@@ -33,7 +33,10 @@ const hasToc = rendered.headings.length > 2;
       <h1>{post.title}</h1>
       <p class="reader-meta">
         <span>
-          {post.kind === "notes" ? "笔记" : "文章"}，{post.topic}
+          {post.kind === "notes" ? "笔记" : "文章"}，{post.category} /{" "}
+          <a href={`/writing/?topic=${encodeURIComponent(post.topic)}`}>
+            {post.topic}
+          </a>
         </span>
         {post.date && (
           <time datetime={post.date}>{post.date.replaceAll("-", ".")}</time>

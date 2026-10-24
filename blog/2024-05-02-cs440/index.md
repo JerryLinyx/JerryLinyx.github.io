@@ -19,7 +19,7 @@ draft: false
 ## Formula Sheet
 
 ### Probability:
-$$P(X = x) = \text{Pr}(X = x)$ or $P(X = x) = \frac{d}{dx} \text{Pr}(X \leq x)$$
+$P(X = x) = \text{Pr}(X = x)$ or $P(X = x) = \frac{d}{dx} \text{Pr}(X \leq x)$
 $$P(X, Y) = P(X|Y)P(Y)$$
 $$E[f(X,Y)] = \sum_{x,y} f(x,y)P(X = x, Y = y)$$
 ### MAP Decision:

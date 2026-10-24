@@ -1,0 +1,116 @@
+[
+  {
+    "name": "AI 与机器学习",
+    "groups": [
+      {
+        "name": "机器学习基础",
+        "slugs": [
+          "notes/training/deep-learning",
+          "notes/algo/transformer",
+          "articles/cs440",
+          "articles/mdp",
+          "articles/rl"
+        ]
+      },
+      {
+        "name": "生成模型",
+        "slugs": [
+          "notes/algo/flow-based-model",
+          "articles/road-to-flow-matching",
+          "notes/algo/ideas",
+          "notes/algo/dpi",
+          "notes/algo/vae",
+          "notes/algo/text2image",
+          "notes/algo/video-generation"
+        ]
+      },
+      {
+        "name": "大模型与应用",
+        "slugs": [
+          "articles/llm",
+          "notes/application/rag",
+          "notes/application/evaluation"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "AI 系统",
+    "groups": [
+      {
+        "name": "GPU 与编译",
+        "slugs": [
+          "notes/hpc/cuda",
+          "notes/hpc/nvidia-architecture",
+          "notes/hpc/compiler"
+        ]
+      },
+      {
+        "name": "训练与推理",
+        "slugs": [
+          "notes/training/distributed-training",
+          "notes/inference/inference"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "计算机系统",
+    "groups": [
+      { "name": "操作系统", "slugs": ["articles/391os"] },
+      {
+        "name": "数据与存储",
+        "slugs": ["notes/data/big-data", "articles/legacy-acidvsbase"]
+      },
+      {
+        "name": "后端工程",
+        "slugs": ["notes/engineering/go-web-resources"]
+      }
+    ]
+  },
+  {
+    "name": "编程与算法",
+    "groups": [
+      {
+        "name": "编程语言",
+        "slugs": [
+          "articles/cpp",
+          "notes/leetcode/C语言",
+          "notes/leetcode/C++语法",
+          "notes/leetcode/python-syntax"
+        ]
+      },
+      {
+        "name": "算法与题解",
+        "slugs": [
+          "articles/leetcode",
+          "notes/leetcode/ACM模式",
+          "notes/leetcode/图论",
+          "notes/leetcode/回溯",
+          "notes/leetcode/递归",
+          "notes/leetcode/技巧"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "其他",
+    "groups": [
+      { "name": "游戏开发", "slugs": ["articles/cs415"] },
+      {
+        "name": "工具与建站",
+        "slugs": [
+          "articles/markdown",
+          "articles/macos-hexo-github",
+          "articles/hello-world",
+          "articles/cs-skillsets"
+        ]
+      },
+      {
+        "name": "英语考试",
+        "slugs": ["articles/toefl", "articles/duolingo"]
+      },
+      { "name": "随笔", "slugs": ["articles/legacy-words"] }
+    ]
+  }
+]

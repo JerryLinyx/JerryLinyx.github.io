@@ -1,19 +1,16 @@
 ---
 import Base from "../layouts/Base.astro";
 import { mediaSize } from "../lib/content.mjs";
+import { profile } from "../data/portfolio.js";
 import {
-  profile,
+  resumePdf,
+  selfReview,
   education,
   experience,
-  publication,
+  research,
   projects,
-  otherProjects,
-  tools,
-} from "../data/portfolio.js";
-const aid3 = projects.find((p) => p.slug === "aid3");
-const engineering = projects.filter((p) =>
-  ["fingoat", "pacc", "cuda-lenet", "linux-kernel"].includes(p.slug),
-);
+  activities,
+} from "../data/resume.js";
 ---
 
 <Base
@@ -26,15 +23,18 @@ const engineering = projects.filter((p) =>
       <h1>
         林煜轩 <span>Yuxuan Lin</span>
       </h1>
-      <p class="about-focus">{profile.focus}</p>
-      <p class="lead">{profile.intro}</p>
+      <div class="lead about-review">
+        {selfReview.map((t) => (
+          <p>{t}</p>
+        ))}
+      </div>
       <p class="about-links">
         <a href={`mailto:${profile.email}`}>Email</a>
         <a href={profile.github}>GitHub ↗</a>
         <a href={profile.linkedin}>LinkedIn ↗</a>
-        <button type="button" class="link-button" data-print>
-          打印简历
-        </button>
+        <a href={resumePdf} download="林煜轩CV.pdf">
+          下载简历 PDF
+        </a>
       </p>
     </div>
     <figure class="portrait">
@@ -49,20 +49,51 @@ const engineering = projects.filter((p) =>
 
   <div class="wrap cv">
     <section id="education" aria-labelledby="edu-title">
-      <h2 id="edu-title">Education</h2>
+      <h2 id="edu-title">教育背景</h2>
       <div class="cv-items">
         {education.map((e) => (
           <article class="cv-item">
             <h3>{e.school}</h3>
-            <p class="cv-sub">{e.degree}</p>
-            <p>{e.text}</p>
+            <p class="cv-sub">
+              <time>{e.period}</time>
+              <span>{e.college}</span>
+            </p>
+            <p>
+              {e.degree}｜{e.gpa}
+            </p>
+            {e.honor && (
+              <p class="cv-detail">
+                <a href={e.honor.url}>{e.honor.title} ↗</a>
+                <span lang="en">{e.honor.text}</span>
+              </p>
+            )}
+            {e.thesis && (
+              <p class="cv-detail">
+                <b>毕业论文</b>
+                <span>{e.thesis}</span>
+              </p>
+            )}
+            {e.teaching && (
+              <p class="cv-detail">
+                <b>教学经历</b>
+                <span>{e.teaching}</span>
+              </p>
+            )}
+            <details class="cv-courses">
+              <summary>课程（{e.courses.length}）</summary>
+              <ul lang="en">
+                {e.courses.map((c) => (
+                  <li>{c}</li>
+                ))}
+              </ul>
+            </details>
           </article>
         ))}
       </div>
     </section>
 
     <section id="experience" aria-labelledby="exp-title">
-      <h2 id="exp-title">Experience</h2>
+      <h2 id="exp-title">工作经历</h2>
       <div class="cv-items">
         {experience.map((e) => (
           <article class="cv-item">
@@ -71,16 +102,43 @@ const engineering = projects.filter((p) =>
             </h3>
             <p class="cv-sub">
               <time>{e.period}</time>
-              {e.team && <span>{e.team}</span>}
+              <span>{e.team}</span>
+              {e.unit && <span>{e.unit}</span>}
             </p>
-            {e.points.length > 1 ? (
-              <ul>
-                {e.points.map((t) => (
-                  <li>{t}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>{e.points[0]}</p>
+            <ul>
+              {e.points.map(([label, text]) => (
+                <li>
+                  <b>{label}：</b>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="proj-title">
+      <h2 id="proj-title">项目经历</h2>
+      <div class="cv-items">
+        {projects.map((p) => (
+          <article class="cv-item">
+            <h3>{p.page ? <a href={p.page}>{p.title}</a> : p.title}</h3>
+            {(p.role || p.period) && (
+              <p class="cv-sub">
+                {p.period && <time>{p.period}</time>}
+                {p.role && <span>{p.role}</span>}
+              </p>
+            )}
+            <ul>
+              {p.points.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+            {p.repo && (
+              <p class="cv-links">
+                <a href={p.repo}>代码 ↗</a>
+              </p>
             )}
           </article>
         ))}
@@ -88,77 +146,34 @@ const engineering = projects.filter((p) =>
     </section>
 
     <section id="research" aria-labelledby="res-title">
-      <h2 id="res-title">Research</h2>
+      <h2 id="res-title">研究经历</h2>
       <div class="cv-items">
         <article class="cv-item">
-          <h3>{publication.title}</h3>
+          <h3 lang="en">{research.title}</h3>
           <p class="cv-sub">
-            <span>{publication.venue}</span>
-            <span>{publication.role}</span>
-            <span>{publication.date}</span>
+            <span>{research.venue}</span>
+            <span>{research.role}</span>
+            <time>{research.date}</time>
           </p>
-          <p class="authors">
-            {publication.authors.map((a, i) => (
-              <>
-                {a === profile.name ? <strong>{a}</strong> : a}
-                {i < publication.authors.length - 1 && ", "}
-              </>
-            ))}
-          </p>
-          <p>{publication.text}</p>
+          <p>{research.text}</p>
           <p class="cv-links">
-            <a href={publication.paper}>论文 ↗</a>
-            <a href={publication.project}>研究详情</a>
-            <a href={publication.code}>代码 ↗</a>
-          </p>
-        </article>
-        <article class="cv-item">
-          <h3>
-            Zhejiang University ICI Lab <span>科研助理</span>
-          </h3>
-          <p>{aid3.description}</p>
-          <p class="cv-links">
-            <a href="/work/aid3/">项目</a>
-            <a href={aid3.repo}>代码 ↗</a>
+            <a href={research.url}>论文 ↗</a>
+            <a href="/work/probabilistic-imaging/">研究详情</a>
           </p>
         </article>
       </div>
     </section>
 
-    <section id="projects" aria-labelledby="proj-title">
-      <h2 id="proj-title">Selected engineering projects</h2>
-      <ul class="cv-items cv-list">
-        {engineering.map((p) => (
-          <li>
-            <a href={`/work/${p.slug}/`}>{p.title}</a>
-            <span>{p.description}</span>
-          </li>
+    <section id="activities" aria-labelledby="act-title">
+      <h2 id="act-title">其他经历</h2>
+      <div class="cv-items">
+        {activities.map((a) => (
+          <article class="cv-item">
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+          </article>
         ))}
-        {otherProjects.map((t) => {
-          const [name, text] = t.split(" — ");
-          return (
-            <li>
-              <b>{name}</b>
-              <span>{text}</span>
-            </li>
-          );
-        })}
-      </ul>
+      </div>
     </section>
-
-    <section id="tools" aria-labelledby="tools-title">
-      <h2 id="tools-title">Tools I work with</h2>
-      <dl class="cv-items tools">
-        {tools.map(([k, v]) => (
-          <div>
-            <dt>{k}</dt>
-            <dd>{v}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
-    <p class="footnote cv-note">
-      项目数据根据个人简历整理，属于对应项目和测试场景中的结果。
-    </p>
   </div>
 </Base>
