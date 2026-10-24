@@ -61,7 +61,7 @@ const out = "static/fonts/site-song.woff2";
 // fontTools (pip install fonttools brotli) subsets and renames the font.
 execFileSync(
   "python3",
-  ["-I", "scripts/subset_font.py", cache, charsFile, out, "Site Song"],
+  ["scripts/subset_font.py", cache, charsFile, out, "Site Song"],
   { stdio: "inherit" },
 );
 const woff2 = await fs.readFile(out);
