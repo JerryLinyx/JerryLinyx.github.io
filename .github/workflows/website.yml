@@ -20,6 +20,7 @@ jobs:
           node-version: 26
           cache: npm
       - run: npm ci
+      - run: pip install fonttools brotli
       - run: npm run build
       - run: npm run verify:site
       - uses: actions/upload-pages-artifact@v3

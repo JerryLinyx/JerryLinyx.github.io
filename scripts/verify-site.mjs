@@ -96,6 +96,14 @@ for (const folded of ["research", "life/singapore"]) {
   if (!html.includes('http-equiv="refresh"'))
     missing.add("Folded route is not a redirect: /" + folded + "/");
 }
+// Every CJK character on a page must be in the Site Song subset.
+const subset = new Set(await fs.readFile(".astro/site-song-chars.txt", "utf8"));
+const uncovered = new Set();
+for (const file of htmlFiles)
+  for (const ch of load(await fs.readFile(file, "utf8")).text())
+    if (/[⺀-鿿豈-﫿＀-￯]/u.test(ch) && !subset.has(ch)) uncovered.add(ch);
+if (uncovered.size)
+  missing.add("Site Song subset lacks: " + [...uncovered].join(""));
 if (missing.size) {
   console.error([...missing].join("\n"));
   process.exit(1);

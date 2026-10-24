@@ -402,7 +402,7 @@ if (diagrams.length) {
           primaryTextColor: "#17181b",
           primaryBorderColor: "#3a2ee8",
           lineColor: "#5f626a",
-          fontFamily: "Manrope, PingFang SC, sans-serif",
+          fontFamily: getComputedStyle(document.body).fontFamily,
         },
         suppressErrorRendering: true,
       });

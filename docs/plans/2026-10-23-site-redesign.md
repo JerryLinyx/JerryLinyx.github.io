@@ -38,7 +38,7 @@ Direction: learns from the Kimi brand films (retro computer, science as metaphor
 - **Desk puzzle:** the 404 page arranges a ruler, pencils, paper strips and a magnifier into "404" (找找这个数字。).
 - **Archive plates:** project figures sit on white plates with crop marks.
 - **Colour:** paper 米白 `#EEECE6`, ink `#18171C`, muted `#5E5C66`, rule `#D2CFC5`, lavender `#C7C0EE`, signal violet `#5B4BD6` (links, focus), night `#000` for the interlude and end card. Dark mode keeps the computer as a physical cream object.
-- **Type:** Manrope (Latin only, via `unicode-range`) with the system CJK sans; system mono only inside the terminal and the montage readout.
+- **Type:** Noto Sans for Latin text and Site Song (a renamed subset of LXGW Neo ZhiSong, regenerated at build) for Chinese; system mono only inside the terminal and the montage readout.
 - **Layout:** 12-column grid, left aligned; lists over cards.
 
 ## Verification

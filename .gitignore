@@ -29,3 +29,4 @@ yarn-error.log*
 /.astro/
 /static/content/
 /static/media/
+/static/fonts/site-song.woff2
