@@ -1,70 +1,89 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f1f1ee" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark"><title>Leetcode Tutorial &lt;数据结构&gt; · 林煜轩</title><meta name="description" content="算法与数据结构学习中的题解和方法整理。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/articles/leetcode/"><meta property="og:title" content="Leetcode Tutorial <数据结构> · 林煜轩"><meta property="og:description" content="算法与数据结构学习中的题解和方法整理。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/articles/leetcode/"><meta property="og:image" content="https://jerrylinyx.github.io/social-preview.png"><link rel="icon" type="image/svg+xml" href="/site-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","email":"mailto:yl6061@columbia.edu","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.CqwgCzFW.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/">林煜轩<span>Yuxuan Lin</span></a><nav class="nav" aria-label="主导航"><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a></nav><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"><span class="sr-only">打开导航</span><i aria-hidden="true"></i></button><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a><a class="mobile-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></nav></header><main id="main"><div class="progress" aria-hidden="true"><span></span></div><article class="wrap reader"><header class="reader-head"><a href="/writing/" class="back">写作</a><h1>Leetcode Tutorial &lt;数据结构&gt;</h1><p class="reader-meta"><span>文章，Data Structure</span><time datetime="2024-04-21">2024.04.21</time><span>6 分钟阅读</span><button type="button" class="link-button" data-copy-link>复制链接</button></p></header><div class="reader-layout has-toc"><aside class="toc"><details open><summary>目录</summary><nav aria-label="文章目录"><a href="#1-图-Graph">1. 图 Graph</a><a href="#2-树-Tree">2. 树 Tree</a><a href="#3-动态规划-Dynamic-Programming">3. 动态规划 Dynamic Programming</a><a href="#4-堆-Heap-栈-Stack-队-Queue">4. 堆 Heap, 栈 Stack, 队 Queue</a><a href="#栈-Stack" class="sub">栈 Stack</a><a href="#堆-Heap" class="sub">堆 Heap</a><a href="#队-Queue-Deque" class="sub">队 Queue, Deque</a><a href="#5-链表-LinkedList">5. 链表 LinkedList</a><a href="#6-排序-Sort">6. 排序 Sort</a><a href="#7-搜索和查询-Search-and-Query">7. 搜索和查询 Search and Query</a><a href="#8-数组和字符串相关（array-amp-string）">8. 数组和字符串相关（array &amp; string）</a><a href="#Reference">Reference:</a></nav></details></aside><div class="prose"><h2 id="1-图-Graph"><a href="#1-图-Graph" class="headerlink" title="1. 图 Graph"></a>1. 图 Graph</h2><ul>
-<li>图的遍历BFS，DFS，准备模板</li>
-<li><p>图—三类</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f1f1ee" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark"><title>Leetcode Tutorial &lt;数据结构&gt; · 林煜轩</title><meta name="description" content="算法与数据结构学习中的题解和方法整理。"><link rel="canonical" href="https://jerrylinyx.github.io/writing/articles/leetcode/"><meta property="og:title" content="Leetcode Tutorial <数据结构> · 林煜轩"><meta property="og:description" content="算法与数据结构学习中的题解和方法整理。"><meta property="og:type" content="article"><meta property="og:url" content="https://jerrylinyx.github.io/writing/articles/leetcode/"><meta property="og:image" content="https://jerrylinyx.github.io/social-preview.png"><link rel="icon" type="image/svg+xml" href="/site-icon.svg"><link rel="alternate" type="application/rss+xml" title="林煜轩 · 写作" href="/feed.xml"><link rel="preload" href="/fonts/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf" as="font" type="font/ttf" crossorigin><meta name="generator" content="Astro v7.4.2"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Yuxuan Lin","alternateName":"林煜轩","url":"https://jerrylinyx.github.io/","email":"mailto:yl6061@columbia.edu","sameAs":["https://github.com/JerryLinyx","https://www.linkedin.com/in/yuxuan0/"]}</script><link rel="stylesheet" href="/_astro/Base.DfENyP_C.css"><link rel="stylesheet" href="/_astro/katex.BNLSuGWh.css"></head><body><a class="skip" href="#main">跳到主要内容</a><header class="header"><a class="wordmark" href="/">林煜轩<span>Yuxuan Lin</span></a><nav class="nav" aria-label="主导航"><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a></nav><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"><span class="sr-only">打开导航</span><i aria-hidden="true"></i></button><nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden><a href="/work/">作品</a><a href="/writing/" aria-current="page">写作</a><a href="/life/">生活</a><a href="/about/">关于</a><a class="mobile-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></nav></header><main id="main"><div class="progress" aria-hidden="true"><span></span></div><article class="wrap reader"><header class="reader-head"><a href="/writing/" class="back">写作</a><h1>Leetcode Tutorial &lt;数据结构&gt;</h1><p class="reader-meta"><span>文章，编程与算法 / <a href="/writing/?topic=%E7%AE%97%E6%B3%95%E4%B8%8E%E9%A2%98%E8%A7%A3">算法与题解</a></span><time datetime="2024-04-21">2024.04.21</time><span>6 分钟阅读</span><button type="button" class="link-button" data-copy-link>复制链接</button></p></header><div class="reader-layout has-toc"><aside class="toc"><details open><summary>目录</summary><nav aria-label="文章目录"><a href="#1-图-graph">1. 图 Graph</a><a href="#2-树-tree">2. 树 Tree</a><a href="#3-动态规划-dynamic-programming">3. 动态规划 Dynamic Programming</a><a href="#4-堆-heap-栈-stack-队-queue">4. 堆 Heap, 栈 Stack, 队 Queue</a><a href="#栈-stack" class="sub">栈 Stack</a><a href="#堆-heap" class="sub">堆 Heap</a><a href="#队-queue-deque" class="sub">队 Queue, Deque</a><a href="#5-链表-linkedlist">5. 链表 LinkedList</a><a href="#6-排序-sort">6. 排序 Sort</a><a href="#7-搜索和查询-search-and-query">7. 搜索和查询 Search and Query</a><a href="#8-数组和字符串相关array-string">8. 数组和字符串相关（array &amp; string）</a><a href="#reference">Reference:</a></nav></details></aside><div class="prose"><h2 id="1-图-graph">1. 图 Graph</h2>
 <ul>
-<li>常规的node和edge的图, 建adj matrix然后遍历  (690. Employee Importance)</li>
+<li>
+<p>图的遍历BFS，DFS，准备模板</p>
+</li>
+<li>
+<p>图--三类</p>
+<ul>
+<li>常规的node和edge的图, 建adj matrix然后遍历&nbsp;&nbsp;(690. Employee Importance)</li>
 <li>把矩阵看成图, 4周neighbor相连 （0-1 Islands系列, 79. Word Search, 417. Pacific Atlantic Water Flow）</li>
 <li>把data(state)看成node, 把操作operation看成edge (127. Word Ladder, 1345. Jump Game IV) , 这种思路很多时候就变成了动态规划题。</li>
 </ul>
 </li>
-<li><p>拓扑排序（topological sort） 准备模板</p>
+<li>
+<p>拓扑排序（topological sort） 准备模板</p>
 <ul>
 <li>决定nodes先后顺序(关系) （210. Course Schedule II， 269. Alien Dictionary）</li>
 <li>判断有向图是否有cycle (207. Course Schedule)</li>
 </ul>
 </li>
-<li><p>判断无向图是否有cycle (1192. Critical Connections in a Network)</p>
+<li>
+<p>判断无向图是否有cycle (1192. Critical Connections in a Network)</p>
 </li>
-<li><p>图二分染色 (785. Is Graph Bipartite?)</p>
+<li>
+<p>图二分染色 (785. Is Graph Bipartite?)</p>
 </li>
-<li>最短（最长）路径<ul>
+<li>
+<p>最短（最长）路径</p>
+<ul>
 <li>经典BFS题 994. Rotting Oranges, 909. Snakes and Ladders, 1091. Shortest Path in Binary Matrix, 1293. Shortest Path in a Grid with Obstacles Elimination</li>
 <li>Dijkstra （用heap 写，准备模板） （1631. Path With Minimum Effort， 1066. Campus Bikes II）</li>
 </ul>
 </li>
-<li>并查集Union Find  准备模板<ul>
+<li>
+<p>并查集Union Find&nbsp;&nbsp;准备模板</p>
+<ul>
 <li>用于快速合并图的不同components （305. Number of Islands II）</li>
 <li>用于快速判断两个nodes是不是连通</li>
 </ul>
 </li>
-<li><p>回溯法 Backtracking 本质就是想象成图，然后递归的DFS（有时可以剪枝）526. Beautiful Arrangement, 22. Generate Parentheses</p>
+<li>
+<p>回溯法 Backtracking 本质就是想象成图，然后递归的DFS（有时可以剪枝）526. Beautiful Arrangement, 22. Generate Parentheses</p>
 </li>
-<li><p>binarysearch+BFS： 用binary search 查找答案，然后在限制条件下做BFS。类似的用binary search 查找答案的思路见【7. 搜索和查询 中的binary search部分】</p>
+<li>
+<p>binarysearch+BFS： 用binary search 查找答案，然后在限制条件下做BFS。类似的用binary search 查找答案的思路见【7. 搜索和查询 中的binary search部分】</p>
 <ul>
 <li>1102 Path With Maximum Minimum Value</li>
-<li>778  Swim in Rising Water</li>
+<li>778&nbsp;&nbsp;Swim in Rising Water</li>
 <li>1631 Path With Minimum Effort</li>
 </ul>
 </li>
 </ul>
-<h2 id="2-树-Tree"><a href="#2-树-Tree" class="headerlink" title="2. 树 Tree"></a>2. 树 Tree</h2><ul>
-<li>树的遍历<ul>
-<li>DFS (binary tree: in-order, pre-order,  post-order)</li>
+<h2 id="2-树-tree">2. 树 Tree</h2>
+<ul>
+<li>树的遍历
+<ul>
+<li>DFS (binary tree: in-order, pre-order,&nbsp;&nbsp;post-order)</li>
 <li>BFS: 314. Binary Tree Vertical Order Traversal， 199. Binary Tree Right Side View</li>
 </ul>
 </li>
-<li>递归大法 (大部分树的题都能递归，大的问题(root)，等于先解决几个子问题（subtree), 然后合并）:<ul>
+<li>递归大法 (大部分树的题都能递归，大的问题(root)，等于先解决几个子问题（subtree), 然后合并）:
+<ul>
 <li>124 Binary Tree Maximum Path Sum，</li>
 <li>366 Find Leaves of Binary Tree</li>
 </ul>
 </li>
 <li>Lowest Common Ancestor系列</li>
 <li>Binary Search Tree 判断和快速查找元素 98. Validate Binary Search Tree</li>
-<li>树的编码和解码<ul>
+<li>树的编码和解码
+<ul>
 <li>297 Serialize and Deserialize Binary Tree</li>
 <li>428 Serialize and Deserialize N-ary Tree</li>
 </ul>
 </li>
 <li>把树变成图： 863. All Nodes Distance K in Binary Tree</li>
 </ul>
-<h2 id="3-动态规划-Dynamic-Programming"><a href="#3-动态规划-Dynamic-Programming" class="headerlink" title="3. 动态规划 Dynamic Programming"></a>3. 动态规划 Dynamic Programming</h2><p>有状态转化方程，可以把大问题转化为几个小问题，或者可以按某种顺序依次解决问题。（用图的思想，data是node, operation是edge）<br>常见思路</p>
+<h2 id="3-动态规划-dynamic-programming">3. 动态规划 Dynamic Programming</h2>
+<p>有状态转化方程，可以把大问题转化为几个小问题，或者可以按某种顺序依次解决问题。（用图的思想，data是node, operation是edge）
+常见思路</p>
 <ul>
-<li>用dp代表关于arr[0:i]的subproblem  (只到i 或者 从i开始的subproblem）</li>
+<li>用dp代表关于arr[0:i]的subproblem&nbsp;&nbsp;(只到i 或者 从i开始的subproblem）</li>
 <li>用dp[j] 代表关于arr[i:j+1]的subproblem （或者是关于两个数组的 arr[0:i] 和 arr2[0:j]的subproblem, 或者关于两个变量i,j的subproblem） ..</li>
 </ul>
 <p>经典DP题目</p>
 <ul>
-<li>LIS: 300. Longest Increasing Subsequence O(nlogn)  (2D version: 354. Russian Doll Envelopes)</li>
+<li>LIS: 300. Longest Increasing Subsequence O(nlogn)&nbsp;&nbsp;(2D version: 354. Russian Doll Envelopes)</li>
 <li>LCS: 1143. Longest Common Subsequence</li>
 <li>Longest Substring Without Repeating Characters</li>
 <li>字符串操作： 72. Edit Distance， 44. Wildcard Matching, 10. Regular Expression Matching</li>
@@ -79,82 +98,141 @@
 <li>Unique Paths 系列</li>
 <li>688 Knight Probability in Chessboard</li>
 <li>摘樱桃 Pick cherry</li>
-<li>174  Dungeon Game</li>
+<li>174&nbsp;&nbsp;Dungeon Game</li>
 <li>1277 Count Square Submatrices with All Ones</li>
 <li>加油站问题 871. Minimum Number of Refueling Stops</li>
 </ul>
-<h2 id="4-堆-Heap-栈-Stack-队-Queue"><a href="#4-堆-Heap-栈-Stack-队-Queue" class="headerlink" title="4. 堆 Heap, 栈 Stack, 队 Queue"></a>4. 堆 Heap, 栈 Stack, 队 Queue</h2><h3 id="栈-Stack"><a href="#栈-Stack" class="headerlink" title="栈 Stack"></a>栈 Stack</h3><p>常规题</p>
+<h2 id="4-堆-heap-栈-stack-队-queue">4. 堆 Heap, 栈 Stack, 队 Queue</h2>
+<h3 id="栈-stack">栈 Stack</h3>
+<p>常规题</p>
 <ul>
 <li>946 Validate Stack Sequences</li>
-<li>Asteroid Collision<br>括号题</li>
+<li>Asteroid Collision
+括号题</li>
 <li>Valid Parentheses, Remove Invalid Parentheses</li>
 <li>Basic Calculator 系列</li>
 <li>Nested List Iterator 系列</li>
-<li>Decode String， Number of Atoms<br>单调栈</li>
+<li>Decode String， Number of Atoms
+单调栈</li>
 <li>Next Greater Element 系列</li>
 <li>402 Remove K Digits</li>
 <li>853 Car Fleet</li>
 <li>739 Daily Temperatures</li>
 </ul>
-<h3 id="堆-Heap"><a href="#堆-Heap" class="headerlink" title="堆 Heap"></a>堆 Heap</h3><ul>
+<h3 id="堆-heap">堆 Heap</h3>
+<ul>
 <li>Top k： 215. Kth Largest Element in an Array， 347. Top K Frequent Elements</li>
-<li>中位数： double heap 295. Find Median from Data Stream<br>另外一道经典中位数题目 4. Median of Two Sorted Arrays</li>
+<li>中位数： double heap 295. Find Median from Data Stream
+另外一道经典中位数题目 4. Median of Two Sorted Arrays</li>
 <li>会议室问题 253. Meeting Rooms II</li>
-<li>CPU分配 模板: LC 1834. Single-Threaded CPU, LC 1882. Process Tasks Using Servers.google  и</li>
+<li>CPU分配 模板: LC 1834. Single-Threaded CPU, LC 1882. Process Tasks Using Servers.google&nbsp;&nbsp;и</li>
 </ul>
-<h3 id="队-Queue-Deque"><a href="#队-Queue-Deque" class="headerlink" title="队 Queue, Deque"></a>队 Queue, Deque</h3><ul>
+<h3 id="队-queue-deque">队 Queue, Deque</h3>
+<ul>
 <li>BFS related</li>
-<li>239 Sliding Window Maximum  —-&gt; 2D sliding window maximum ( 转化成两次1D的问题）</li>
+<li>239 Sliding Window Maximum&nbsp;&nbsp;-&gt; 2D sliding window maximum ( 转化成两次1D的问题）</li>
 <li>Moving Average from Data Stream</li>
 </ul>
-<h2 id="5-链表-LinkedList"><a href="#5-链表-LinkedList" class="headerlink" title="5. 链表 LinkedList"></a>5. 链表 LinkedList</h2><ul>
-<li>Fast and Slow pointer  (detect cycle, get middle,  get kth element)<br>141 Linked List Cycle<br>19 Remove Nth Node From End of List</li>
-<li>Reverse Linked List (trick: dummy head)  206 Reverse Linked List, 25 Reverse Nodes in k-Group</li>
+<h2 id="5-链表-linkedlist">5. 链表 LinkedList</h2>
+<ul>
+<li>Fast and Slow pointer&nbsp;&nbsp;(detect cycle, get middle,&nbsp;&nbsp;get kth element)
+141 Linked List Cycle
+19 Remove Nth Node From End of List</li>
+<li>Reverse Linked List (trick: dummy head)&nbsp;&nbsp;206 Reverse Linked List, 25 Reverse Nodes in k-Group</li>
 <li>LRU cache</li>
-<li>Deep copy  (138 Copy List with Random Pointer)</li>
-<li>Merge LinkedList  (2. Add Two Numbers)</li>
+<li>Deep copy&nbsp;&nbsp;(138 Copy List with Random Pointer)</li>
+<li>Merge LinkedList&nbsp;&nbsp;(2. Add Two Numbers)</li>
 </ul>
-<h2 id="6-排序-Sort"><a href="#6-排序-Sort" class="headerlink" title="6. 排序 Sort"></a>6. 排序 Sort</h2><ul>
-<li>Merge sort<br>非常规高频题 315 Count of Smaller Numbers After Self  —&gt; (google题： 一堆点, 对每个点(x,y)数【严格大 (x,y)&lt;(u,v)】的点的个数. 思路：先排序，x增序，y减序，然后把y单独拿出来看，对每个点数右边有多少大的元素，变成问题315 with bigger numbers after self)</li>
-<li>Quick Sort —&gt; QuickSelect O(n) time on average) 973. K Closest Points to Origin</li>
+<h2 id="6-排序-sort">6. 排序 Sort</h2>
+<ul>
+<li>Merge sort
+非常规高频题 315 Count of Smaller Numbers After Self&nbsp;&nbsp;-&gt; (google题： 一堆点, 对每个点(x,y)数【严格大 (x,y)&lt;(u,v)】的点的个数. 思路：先排序，x增序，y减序，然后把y单独拿出来看，对每个点数右边有多少大的元素，变成问题315 with bigger numbers after self)</li>
+<li>Quick Sort -&gt; QuickSelect O(n) time on average) 973. K Closest Points to Origin</li>
 <li>Bucket Sort O(n) 通常是整体数据量可能很大，但是unique元素有限</li>
 <li>Cycle Sort O(n) 通常是用于把0到n-1在array中排序 （不断交换的想法）</li>
-<li>Python built-in sort<ul>
-<li>OrderedDict (linked list + hash) —&gt; 自己实现： 用 hashtable 存double linkedlist 的 node</li>
+<li>Python built-in sort
+<ul>
+<li>OrderedDict (linked list + hash) -&gt; 自己实现： 用 hashtable 存double linkedlist 的 node</li>
 <li>sorted containers (sorted list, sorted dict, sorted set)</li>
 </ul>
 </li>
 </ul>
-<h2 id="7-搜索和查询-Search-and-Query"><a href="#7-搜索和查询-Search-and-Query" class="headerlink" title="7. 搜索和查询 Search and Query"></a>7. 搜索和查询 Search and Query</h2><p>hash (python: dictionary, set):</p>
+<h2 id="7-搜索和查询-search-and-query">7. 搜索和查询 Search and Query</h2>
+<p>hash (python: dictionary, set):</p>
 <ul>
-<li>O(1)查找，</li>
-<li>记录unique element的frequency<br>binary search  左开右闭模板</li>
-<li>data是有顺序的，每次可以缩小搜索范围。 经典题：<br>33 Search in Rotated Sorted Array，<br>153 Find Minimum in Rotated Sorted Array，<br>162 Find Peak Element</li>
-<li><p>解的范围是一个区间可以二分搜索<br>Binary search + greedy: 1231 Divide Chocolate, 1011 Capacity To Ship Packages Within D Days, 410. Split Array Largest Sum<br>378 Kth Smallest Element in a Sorted Matrix</p>
+<li>
+<p>O(1)查找，</p>
 </li>
-<li><p>经典题 Search a 2D Matrix 系列</p>
+<li>
+<p>记录unique element的frequency
+binary search&nbsp;&nbsp;左开右闭模板</p>
 </li>
-<li>字典树 Trie 模板 （单词相关的查找）： 642. Design Search Autocomplete System， 472. Concatenated Words， 212. Word Search II</li>
-<li>Range Query (Segment Tree 模板)  307. Range Sum Query - Mutable</li>
+<li>
+<p>data是有顺序的，每次可以缩小搜索范围。 经典题：
+33 Search in Rotated Sorted Array，
+153 Find Minimum in Rotated Sorted Array，
+162 Find Peak Element</p>
+</li>
+<li>
+<p>解的范围是一个区间可以二分搜索
+Binary search + greedy: 1231 Divide Chocolate, 1011 Capacity To Ship Packages Within D Days, 410. Split Array Largest Sum
+378 Kth Smallest Element in a Sorted Matrix</p>
+</li>
+<li>
+<p>经典题 Search a 2D Matrix 系列</p>
+</li>
+<li>
+<p>字典树 Trie 模板 （单词相关的查找）： 642. Design Search Autocomplete System， 472. Concatenated Words， 212. Word Search II</p>
+</li>
+<li>
+<p>Range Query (Segment Tree 模板)&nbsp;&nbsp;307. Range Sum Query - Mutable</p>
+</li>
 </ul>
-<h2 id="8-数组和字符串相关（array-amp-string）"><a href="#8-数组和字符串相关（array-amp-string）" class="headerlink" title="8. 数组和字符串相关（array &amp; string）"></a>8. 数组和字符串相关（array &amp; string）</h2><ul>
+<h2 id="8-数组和字符串相关array-string">8. 数组和字符串相关（array &amp; string）</h2>
+<ul>
 <li>括号相关题 （另外见【栈】）921. Minimum Add to Make Parentheses Valid， 1249. Minimum Remove to Make Valid Parentheses</li>
 <li>排列（组合） Permutation</li>
-<li>区间题 Intervals [left, right, val]<ul>
+<li>区间题 Intervals [left, right, val]
+<ul>
 <li>按左右端点排序的思想 252. Meeting Rooms</li>
 <li>插入，合并，删除区间： 56. Merge Intervals， 57. Insert Interval， 1272. Remove Interval， 435. Non-overlapping Intervals</li>
-<li>安排会议/任务  253. Meeting Rooms II， 1235 Maximum Profit in Job Scheduling， 2054 Two Best Non-Overlapping Events</li>
+<li>安排会议/任务&nbsp;&nbsp;253. Meeting Rooms II， 1235 Maximum Profit in Job Scheduling， 2054 Two Best Non-Overlapping Events</li>
 <li>区间更新 1094. Car Pooling</li>
 </ul>
 </li>
-<li>常规双指针<br>15 3Sum，<br>75 Sort Colors（Dutch national flag problem 经典题<br>1229 Meeting Scheduler，<br>680 Valid Palindrome II，<br>408 Valid Word Abbreviation.</li>
-<li>滑动窗口 Sliding window 模板<br>3 Longest Substring Without Repeating Characters<br>76 Minimum Window Substring<br>1004 Max Consecutive Ones III<br>209  Minimum Size Subarray Sum<br>1438 Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit</li>
-<li>Subsequence<br>Greedy drop idea: 392 Is Subsequence， 792 Number of Matching Subsequences<br>经典题 727. Minimum Window Subsequence<br>940 Distinct Subsequences II</li>
-<li>Subarray、substring （连续的）<br>Rolling hash （Rabin-Karp） 1062. Longest Repeating Substring， 1044. Longest Duplicate Substring</li>
-<li>排列组合<br>46 Permutations, 31. Next Permutation<br>77 Combinations</li>
-<li>Subset<br>78 Subsets<br>368 Largest Divisible Subset</li>
-<li>数据流相关的问题<br>top k 问题 —&gt; heap; buck sort —&gt;  distributed system:<br>1146 Snapshot Array （打version tag + binary search）<br>359 Logger Rate Limiter<br>LRU, LFU<br>Median 295. Find Median from Data Stream<br>Iterator  284. Peeking Iterator, 900. RLE Iterator</li>
+<li>常规双指针
+15 3Sum，
+75 Sort Colors（Dutch national flag problem 经典题
+1229 Meeting Scheduler，
+680 Valid Palindrome II，
+408 Valid Word Abbreviation.</li>
+<li>滑动窗口 Sliding window 模板
+3 Longest Substring Without Repeating Characters
+76 Minimum Window Substring
+1004 Max Consecutive Ones III
+209&nbsp;&nbsp;Minimum Size Subarray Sum
+1438 Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit</li>
+<li>Subsequence
+Greedy drop idea: 392 Is Subsequence， 792 Number of Matching Subsequences
+经典题 727. Minimum Window Subsequence
+940 Distinct Subsequences II</li>
+<li>Subarray、substring （连续的）
+Rolling hash （Rabin-Karp） 1062. Longest Repeating Substring， 1044. Longest Duplicate Substring</li>
+<li>排列组合
+46 Permutations, 31. Next Permutation
+77 Combinations</li>
+<li>Subset
+78 Subsets
+368 Largest Divisible Subset</li>
+<li>数据流相关的问题
+top k 问题 -&gt; heap; buck sort -&gt;&nbsp;&nbsp;distributed system:
+1146 Snapshot Array&nbsp;（打version tag + binary search）
+359 Logger Rate Limiter
+LRU, LFU
+Median 295. Find Median from Data Stream
+Iterator&nbsp;&nbsp;284. Peeking Iterator, 900. RLE Iterator</li>
 <li>Bitmask 用bit来表示状态 847. Shortest Path Visiting All Nodes</li>
 </ul>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><p><a rel="noopener" href="https://www.1point3acres.com/bbs/thread-840864-1-1.html">力扣常见题目类型总结</a><br><a rel="noopener" href="https://www.1point3acres.com/bbs/thread-1035135-1-1.html">SDE intern找工经验贴清单</a></p>
-</div></div><footer class="reader-end"><a class="inline-more" href="/writing/">全部文字</a></footer></article></main><footer class="footer"><div class="footer-inner"><div class="footer-contact"><p>聊聊 AI、系统，或一个尚未成形的想法。</p><a class="footer-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></div><div class="footer-links"><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/feed.xml">RSS</a><a href="/archive/">旧日存档</a></div><p class="endcard" aria-hidden="true">林煜轩</p><p class="footer-meta"><span>© 2026 Yuxuan Lin</span><a href="#top" data-backtop>回到顶部</a></p></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.lrrpZqVD.js"></script></body></html>
+<h2 id="reference">Reference:</h2>
+<p><a href="https://www.1point3acres.com/bbs/thread-840864-1-1.html">力扣常见题目类型总结</a>
+<a href="https://www.1point3acres.com/bbs/thread-1035135-1-1.html">SDE intern找工经验贴清单</a></p></div></div><footer class="reader-end"><section aria-labelledby="related-title"><h2 id="related-title">同一主题</h2><ul><li><a href="/writing/notes/leetcode/ACM模式/">ACM 模式</a></li><li><a href="/writing/notes/leetcode/回溯/">回溯</a></li><li><a href="/writing/notes/leetcode/图论/">图论</a></li></ul></section><a class="inline-more" href="/writing/">全部文字</a></footer></article></main><footer class="footer"><div class="footer-inner"><div class="footer-contact"><p>聊聊 AI、系统，或一个尚未成形的想法。</p><a class="footer-mail" href="mailto:yl6061@columbia.edu">yl6061@columbia.edu</a></div><div class="footer-links"><a href="https://github.com/JerryLinyx">GitHub ↗</a><a href="https://www.linkedin.com/in/yuxuan0/">LinkedIn ↗</a><a href="/feed.xml">RSS</a><a href="/archive/">旧日存档</a></div><p class="endcard" aria-hidden="true">林煜轩</p><p class="footer-meta"><span>© 2026 Yuxuan Lin</span><a href="#top" data-backtop>回到顶部</a></p></div></footer><script type="module" src="/_astro/Base.astro_astro_type_script_index_0_lang.DcvHY_kV.js"></script></body></html>
