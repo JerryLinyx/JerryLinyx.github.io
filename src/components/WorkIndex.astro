@@ -1,12 +1,13 @@
 ---
-const { items, headingLevel = 3 } = Astro.props;
+import { localPath } from "../i18n.js";
+const { items, headingLevel = 3, lang = "zh" } = Astro.props;
 const Heading = `h${headingLevel}`;
 ---
 
 <ul class="work-index" data-work-index>
   {items.map((p) => (
     <li>
-      <a class="work-row" href={`/work/${p.slug}/`}>
+      <a class="work-row" href={localPath(lang, `/work/${p.slug}/`)}>
         <Heading class="work-title">{p.title}</Heading>
         <span class="work-sub">{p.subtitle}</span>
         <span class="work-cat">{p.category}</span>

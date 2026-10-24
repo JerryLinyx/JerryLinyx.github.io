@@ -370,7 +370,8 @@ if (montage) {
     ops = make(rng(17 + scene * 101));
     maxOrder = Math.max(...ops.map((o) => o.o)) || 1;
     indexOut.textContent = `${String(scene + 1).padStart(2, "0")} / ${String(scenes.length).padStart(2, "0")}`;
-    nameOut.textContent = `${name} ${english}`;
+    nameOut.textContent =
+      document.documentElement.lang === "en" ? english : `${name} ${english}`;
   }
 
   function render(progress, alpha) {
@@ -418,7 +419,14 @@ if (montage) {
   function setPaused(value) {
     paused = value;
     pauseButton.setAttribute("aria-pressed", String(paused));
-    pauseButton.textContent = paused ? "播放" : "暂停";
+    const en = document.documentElement.lang === "en";
+    pauseButton.textContent = paused
+      ? en
+        ? "Play"
+        : "播放"
+      : en
+        ? "Pause"
+        : "暂停";
     if (paused) {
       cancelAnimationFrame(frame);
       frame = 0;

@@ -1,0 +1,108 @@
+---
+import Base from "../../layouts/Base.astro";
+import FlowHero from "../FlowHero.astro";
+import WorkIndex from "../WorkIndex.astro";
+import Montage from "../Montage.astro";
+import { posts, photos, readingRoutes, mediaSize } from "../../lib/content.mjs";
+import { localPath, portfolio, ui } from "../../i18n.js";
+const { lang } = Astro.props;
+const t = ui[lang];
+const { projects, publication, education } = portfolio[lang];
+const about = localPath(lang, "/about/");
+// Writing and life are Chinese-only; English links to them say so.
+const zh = lang === "en" ? "zh-CN" : undefined;
+---
+
+<Base home>
+  <FlowHero lang={lang} />
+
+  <section class="wrap facts" aria-label={t.facts}>
+    <dl>
+      <div>
+        <dt>{t.now}</dt>
+        <dd>
+          <a href={`${about}#education`}>{education[0].school}</a>
+          <span>{education[0].degree}</span>
+        </dd>
+      </div>
+      <div>
+        <dt>{t.undergrad}</dt>
+        <dd>
+          <a href={`${about}#education`}>Zhejiang University × UIUC</a>
+          <span>{t.dualDegree}</span>
+        </dd>
+      </div>
+      <div>
+        <dt>{t.paper}</dt>
+        <dd>
+          <a href={`${about}#research`}>{publication.venue}</a>
+          <span>{publication.role}</span>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <Montage lang={lang} />
+
+  <section class="wrap block" aria-labelledby="work-title">
+    <header class="block-head">
+      <h2 id="work-title">{t.work}</h2>
+      <a class="more" href={localPath(lang, "/work/")}>
+        {t.allProjects(projects.length)}
+      </a>
+    </header>
+    <WorkIndex items={projects} lang={lang} />
+  </section>
+
+  <section class="wrap block" aria-labelledby="writing-title">
+    <header class="block-head">
+      <h2 id="writing-title">{t.writing}</h2>
+      <a class="more" href="/writing/" hreflang={zh}>
+        {t.allWriting(posts.length)}
+      </a>
+    </header>
+    <div class="routes">
+      <p class="routes-lead">{t.routesLead}</p>
+      {t.writingNote && <p class="routes-note">{t.writingNote}</p>}
+      <ul>
+        {readingRoutes.map((r) => (
+          <li>
+            <span class="route-q">
+              {lang === "en" ? r.english : r.question}
+            </span>
+            <span class="route-links">
+              {r.posts.map((p) => (
+                <a href={p.url} hreflang={zh}>
+                  {p.title}
+                </a>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="block life-teaser" aria-labelledby="life-title">
+    <header class="wrap block-head">
+      <h2 id="life-title">{t.life}</h2>
+      <a class="more" href="/life/" hreflang={zh}>
+        Singapore · Water & Light
+      </a>
+    </header>
+    <div class="strip" tabindex="0" aria-label={t.photoStrip}>
+      {photos.map((p, i) => (
+        <a href={`/life/#photo-${i + 1}`} class="strip-item" hreflang={zh}>
+          <img
+            src={p.url}
+            alt={p.alt}
+            loading="lazy"
+            decoding="async"
+            {...mediaSize(p.url)}
+          />
+          <span>{lang === "en" ? p.english : p.title}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

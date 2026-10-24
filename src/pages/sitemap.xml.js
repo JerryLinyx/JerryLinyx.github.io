@@ -11,6 +11,10 @@ export function GET() {
     "/archive/cv/",
     ...posts.map((p) => p.url),
     ...projects.map((p) => `/work/${p.slug}/`),
+    "/en/",
+    "/en/work/",
+    "/en/about/",
+    ...projects.map((p) => `/en/work/${p.slug}/`),
     ...legacy.articles
       .filter((p) => !archiveCanonical.has(p.archive))
       .map((p) => p.archive),

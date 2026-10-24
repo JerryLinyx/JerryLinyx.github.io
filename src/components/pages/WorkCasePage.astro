@@ -1,0 +1,105 @@
+---
+import Base from "../../layouts/Base.astro";
+import { oldRoutes, mediaSize } from "../../lib/content.mjs";
+import { localPath, portfolio, ui } from "../../i18n.js";
+const { lang, slug } = Astro.props;
+const t = ui[lang];
+const { projects } = portfolio[lang];
+const index = projects.findIndex((x) => x.slug === slug);
+const p = projects[index];
+const next = projects[(index + 1) % projects.length];
+const related =
+  oldRoutes.get(p.related.endsWith("/") ? p.related : p.related + "/") ||
+  "/writing/";
+---
+
+<Base
+  title={`${p.title} · ${t.workTitle} · ${t.nameSuffix}`}
+  description={p.description}
+  section="work"
+>
+  <article class="case">
+    <header class="wrap case-head">
+      <a class="back" href={localPath(lang, "/work/")}>
+        {t.allWorkBack}
+      </a>
+      <h1>{p.title}</h1>
+      <p class="case-subtitle">{p.subtitle}</p>
+      <dl class="case-meta">
+        <div>
+          <dt>{t.caseMeta.category}</dt>
+          <dd>{p.category}</dd>
+        </div>
+        <div>
+          <dt>{t.caseMeta.year}</dt>
+          <dd>{p.year}</dd>
+        </div>
+        <div>
+          <dt>{t.caseMeta.tags}</dt>
+          <dd>{p.tags.join(t.tagJoin)}</dd>
+        </div>
+        <div>
+          <dt>{t.caseMeta.links}</dt>
+          <dd class="case-links">
+            <a href={p.repo}>{t.source}</a>
+            {p.paper && <a href={p.paper}>{t.paperLink}</a>}
+          </dd>
+        </div>
+      </dl>
+    </header>
+    {p.image && (
+      <figure class="wrap case-figure">
+        <div class="plate">
+          <img
+            src={`/media/${p.image}.webp`}
+            alt={p.imageAlt}
+            {...mediaSize(`/media/${p.image}.webp`)}
+          />
+        </div>
+        <figcaption>{p.imageAlt}</figcaption>
+      </figure>
+    )}
+    <div class="wrap case-body">
+      <p class="case-summary">{p.description}</p>
+      <section>
+        <h2>{t.problem}</h2>
+        <p>{p.context}</p>
+      </section>
+      <section>
+        <h2>{t.decisions}</h2>
+        <dl class="decisions">
+          {p.decisions.map(([title, text]) => (
+            <div>
+              <dt>{title}</dt>
+              <dd>{text}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+      <section>
+        <h2>{t.outcome}</h2>
+        {p.metric && (
+          <p class="metric">
+            <strong>{p.metric}</strong>
+            <span>{p.metricLabel}</span>
+          </p>
+        )}
+        <p>{p.outcome}</p>
+        <a
+          class="inline-more"
+          href={related}
+          hreflang={lang === "en" ? "zh-CN" : undefined}
+        >
+          {t.relatedNotes}
+        </a>
+      </section>
+    </div>
+    <nav class="wrap next" aria-label={t.nextProject}>
+      <span>{t.nextProject}</span>
+      <a href={localPath(lang, `/work/${next.slug}/`)}>
+        <strong>{next.title}</strong>
+        <span>{next.subtitle}</span>
+      </a>
+    </nav>
+  </article>
+</Base>

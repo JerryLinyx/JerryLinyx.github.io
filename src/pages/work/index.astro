@@ -1,23 +1,5 @@
 ---
-import Base from "../../layouts/Base.astro";
-import WorkIndex from "../../components/WorkIndex.astro";
-import { projects, otherProjects } from "../../data/portfolio.js";
+import WorkListPage from "../../components/pages/WorkListPage.astro";
 ---
 
-<Base title="作品 · 林煜轩" section="work">
-  <header class="wrap page-head">
-    <h1>作品</h1>
-    <p class="lead">
-      从生成式模型到 GPU
-      内核与操作系统。每个项目写清问题、关键取舍与结果，以及我在团队中的部分。
-    </p>
-  </header>
-  <section class="wrap" aria-label="全部项目">
-    <WorkIndex items={projects} headingLevel={2} />
-    <p class="footnote">
-      还有 {otherProjects.map((t) => t.split(" — ")[0])}，记录在
-      <a href="/about/#projects">关于</a>
-      页。项目数据根据个人简历整理，属于对应项目和测试场景中的结果。
-    </p>
-  </section>
-</Base>
+<WorkListPage lang="zh" />

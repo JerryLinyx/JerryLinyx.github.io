@@ -1,15 +1,26 @@
 ---
 import "@fontsource-variable/noto-sans/wght.css";
+import "@fontsource-variable/source-serif-4/opsz.css";
 import "../styles/site.css";
-import { profile } from "../data/portfolio.js";
+import { localPath, portfolio, translated, ui } from "../i18n.js";
+const path = Astro.url.pathname;
+const lang = path.startsWith("/en/") || path === "/en" ? "en" : "zh";
+const t = ui[lang];
+const { profile } = portfolio[lang];
 const {
-  title = "林煜轩 Yuxuan Lin",
+  title = t.siteTitle,
   description = profile.description,
   section = "",
   article = false,
   home = false,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, "https://jerrylinyx.github.io/");
+const site = "https://jerrylinyx.github.io";
+const canonical = new URL(path, site + "/");
+// The same page in each language, when it has been translated.
+const zhPath = lang === "en" ? path.slice(3) || "/" : path;
+const pair = translated(zhPath) ? { zh: zhPath, en: "/en" + zhPath } : null;
+const other = lang === "en" ? "zh" : "en";
+const switchHref = pair ? pair[other] : other === "en" ? "/en/" : "/";
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -19,16 +30,19 @@ const structuredData = {
   email: `mailto:${profile.email}`,
   sameAs: [profile.github, profile.linkedin],
 };
-const nav = [
-  ["work", "作品", "/work/"],
-  ["writing", "写作", "/writing/"],
-  ["life", "生活", "/life/"],
-  ["about", "关于", "/about/"],
-];
+const nav = ["work", "writing", "life", "about"].map((key) => {
+  const url = localPath(lang, `/${key}/`);
+  return {
+    key,
+    url,
+    label: t.nav[key],
+    zhOnly: lang === "en" && !url.startsWith("/en/"),
+  };
+});
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,6 +60,14 @@ const nav = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {pair && (
+      <>
+        <link rel="alternate" hreflang="zh-CN" href={site + pair.zh} />
+        <link rel="alternate" hreflang="en" href={site + pair.en} />
+        <link rel="alternate" hreflang="x-default" href={site + pair.zh} />
+      </>
+    )}
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "zh_CN"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={article ? "article" : "website"} />
@@ -58,7 +80,7 @@ const nav = [
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="林煜轩 · 写作"
+      title={t.feedTitle}
       href="/feed.xml"
     />
     <link rel="preload" href="/img/signature.svg" as="image" />
@@ -77,19 +99,37 @@ const nav = [
   </head>
   <body class:list={{ "is-home": home }}>
     <a class="skip" href="#main">
-      跳到主要内容
+      {t.skip}
     </a>
     <header class="header">
-      <a class="wordmark" href="/" aria-current={home ? "page" : undefined}>
+      <a
+        class="wordmark"
+        href={lang === "en" ? "/en/" : "/"}
+        aria-current={home ? "page" : undefined}
+      >
         <span class="signature" role="img" aria-label="林煜轩"></span>
         <span>Yuxuan Lin</span>
       </a>
-      <nav class="nav" aria-label="主导航">
-        {nav.map(([key, label, url]) => (
-          <a href={url} aria-current={section === key ? "page" : undefined}>
+      <nav class="nav" aria-label={t.navLabel}>
+        {nav.map(({ key, url, label, zhOnly }) => (
+          <a
+            href={url}
+            hreflang={zhOnly ? "zh-CN" : undefined}
+            aria-current={section === key ? "page" : undefined}
+          >
             {label}
+            {zhOnly && <small class="zh-only">{t.zhOnly}</small>}
           </a>
         ))}
+        <a
+          class="lang-switch"
+          href={switchHref}
+          hreflang={other === "en" ? "en" : "zh-CN"}
+          lang={other === "en" ? "en" : "zh-CN"}
+          aria-label={t.switchLabel}
+        >
+          {t.switchText}
+        </a>
       </nav>
       <button
         class="menu-toggle"
@@ -97,15 +137,32 @@ const nav = [
         aria-expanded="false"
         aria-controls="mobile-nav"
       >
-        <span class="sr-only">打开导航</span>
+        <span class="sr-only">{t.openMenu}</span>
         <i aria-hidden="true"></i>
       </button>
-      <nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航" hidden>
-        {nav.map(([key, label, url]) => (
-          <a href={url} aria-current={section === key ? "page" : undefined}>
+      <nav
+        class="mobile-nav"
+        id="mobile-nav"
+        aria-label={t.mobileNavLabel}
+        hidden
+      >
+        {nav.map(({ key, url, label, zhOnly }) => (
+          <a
+            href={url}
+            hreflang={zhOnly ? "zh-CN" : undefined}
+            aria-current={section === key ? "page" : undefined}
+          >
             {label}
+            {zhOnly && <small class="zh-only">{t.zhOnly}</small>}
           </a>
         ))}
+        <a
+          href={switchHref}
+          hreflang={other === "en" ? "en" : "zh-CN"}
+          lang={other === "en" ? "en" : "zh-CN"}
+        >
+          {t.switchLabel}
+        </a>
         <a class="mobile-mail" href={`mailto:${profile.email}`}>
           {profile.email}
         </a>
@@ -117,7 +174,7 @@ const nav = [
     <footer class="footer">
       <div class="footer-inner">
         <div class="footer-contact">
-          <p>聊聊 AI、系统，或一个尚未成形的想法。</p>
+          <p>{t.footerPitch}</p>
           <a class="footer-mail" href={`mailto:${profile.email}`}>
             {profile.email}
           </a>
@@ -126,7 +183,9 @@ const nav = [
           <a href={profile.github}>GitHub ↗</a>
           <a href={profile.linkedin}>LinkedIn ↗</a>
           <a href="/feed.xml">RSS</a>
-          <a href="/archive/">旧日存档</a>
+          <a href="/archive/" hreflang="zh-CN">
+            {t.archive}
+          </a>
         </div>
         <p class="endcard" aria-hidden="true">
           <span class="signature"></span>
@@ -134,7 +193,7 @@ const nav = [
         <p class="footer-meta">
           <span>© 2026 Yuxuan Lin</span>
           <a href="#top" data-backtop>
-            回到顶部
+            {t.backTop}
           </a>
         </p>
       </div>

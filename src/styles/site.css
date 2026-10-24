@@ -29,6 +29,10 @@
   --sans:
     "Noto Sans Variable", "Site Song", "Songti SC", "Noto Serif CJK SC",
     "Source Han Serif SC", "SimSun", serif;
+  /* Display and reading serif, after claude.com's serif-led hierarchy. */
+  --serif:
+    "Source Serif 4 Variable", "Site Song", "Songti SC", "Noto Serif CJK SC",
+    "Source Han Serif SC", "SimSun", serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --t-xs: 0.8125rem;
   --t-s: 0.9375rem;
@@ -97,10 +101,14 @@ ol {
 h1,
 h2,
 h3 {
-  font-weight: 600;
+  font-family: var(--serif);
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   text-wrap: balance;
+}
+h1 {
+  font-weight: 380;
 }
 p,
 li,
@@ -259,6 +267,7 @@ button {
   max-width: 36em;
   font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
   line-height: 1.8;
+  font-family: var(--serif);
 }
 .footnote {
   margin-top: 32px;
@@ -367,6 +376,19 @@ button {
 .nav a[aria-current="page"]::after {
   transform: scale(1);
 }
+/* Marks English-nav links that lead to Chinese-only pages. */
+.zh-only {
+  margin-left: 0.35em;
+  font-size: 0.72em;
+  color: var(--muted);
+  opacity: 0.8;
+}
+.nav .lang-switch {
+  margin-left: 10px;
+  padding-inline: 10px;
+  border-left: 1px solid var(--rule);
+  font-variant-numeric: tabular-nums;
+}
 .menu-toggle {
   display: none;
   width: 44px;
@@ -458,11 +480,12 @@ button {
   display: inline-block;
   margin-top: 8px;
   font-size: clamp(1.75rem, 1rem + 3.6vw, 4rem);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.15;
   word-break: break-all;
   background-size: 0 2px;
+  font-family: var(--serif);
 }
 .footer-mail:hover {
   background-size: 100% 2px;
@@ -975,6 +998,11 @@ button {
   padding: 22px 0;
   border-top: 1px solid var(--rule);
 }
+.routes-note {
+  margin: -8px 0 16px;
+  font-size: var(--t-xs);
+  color: var(--muted);
+}
 .routes-lead {
   margin-bottom: 16px;
   font-size: var(--t-s);
@@ -1330,7 +1358,7 @@ button {
 }
 .shelf-title {
   font-size: var(--t-xl);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
 .shelf-group {
@@ -1344,6 +1372,7 @@ button {
   font-size: var(--t-s);
   font-weight: 600;
   color: var(--muted);
+  font-family: var(--sans);
 }
 .shelf-topic small {
   font-size: var(--t-xs);
@@ -1378,10 +1407,11 @@ button {
 .entry-title {
   display: block;
   font-size: var(--t-l);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.35;
   transition: color 0.2s;
+  font-family: var(--serif);
 }
 .entry-desc {
   display: -webkit-box;

@@ -1,0 +1,236 @@
+---
+import Base from "../../layouts/Base.astro";
+import { mediaSize } from "../../lib/content.mjs";
+import { localPath, portfolio, resume, ui } from "../../i18n.js";
+const { lang } = Astro.props;
+const t = ui[lang];
+const { profile } = portfolio[lang];
+const {
+  resumePdf,
+  selfReview,
+  education,
+  experience,
+  research,
+  projects,
+  activities,
+} = resume[lang];
+const l = {
+  zh: {
+    pdf: "下载简历 PDF",
+    portrait: "林煜轩站在红墙前",
+    education: "教育背景",
+    experience: "工作经历",
+    projects: "项目经历",
+    research: "研究经历",
+    activities: "其他经历",
+    thesis: "毕业论文",
+    teaching: "教学经历",
+    courses: (n) => `课程（${n}）`,
+    sep: "：",
+    bar: "｜",
+    code: "代码 ↗",
+    paper: "论文 ↗",
+    details: "研究详情",
+  },
+  en: {
+    pdf: "Download CV (PDF, Chinese)",
+    portrait: "Yuxuan Lin standing in front of a red wall",
+    education: "Education",
+    experience: "Experience",
+    projects: "Projects",
+    research: "Research",
+    activities: "Other",
+    thesis: "Thesis",
+    teaching: "Teaching",
+    courses: (n) => `Courses (${n})`,
+    sep: ": ",
+    bar: " | ",
+    code: "Code ↗",
+    paper: "Paper ↗",
+    details: "Research details",
+  },
+}[lang];
+---
+
+<Base
+  title={`${t.aboutTitle} · ${t.nameSuffix}`}
+  description={t.aboutDescription}
+  section="about"
+>
+  <header class="wrap about-head">
+    <div class="about-intro">
+      <h1>
+        <span class="signature" role="img" aria-label="林煜轩"></span>
+        <span>Yuxuan Lin</span>
+      </h1>
+      <div class="lead about-review">
+        {selfReview.map((t) => (
+          <p>{t}</p>
+        ))}
+      </div>
+      <p class="about-links">
+        <a href={`mailto:${profile.email}`}>Email</a>
+        <a href={profile.github}>GitHub ↗</a>
+        <a href={profile.linkedin}>LinkedIn ↗</a>
+        <a
+          href={resumePdf}
+          download="林煜轩CV.pdf"
+          hreflang={lang === "en" ? "zh-CN" : undefined}
+        >
+          {l.pdf}
+        </a>
+      </p>
+    </div>
+    <figure class="portrait">
+      <img
+        src="/media/portrait.webp"
+        alt={l.portrait}
+        {...mediaSize("/media/portrait.webp")}
+        fetchpriority="high"
+      />
+    </figure>
+  </header>
+
+  <div class="wrap cv">
+    <section id="education" aria-labelledby="edu-title">
+      <h2 id="edu-title">{l.education}</h2>
+      <div class="cv-items">
+        {education.map((e) => (
+          <article class="cv-item">
+            <h3>{e.school}</h3>
+            <p class="cv-sub">
+              <time>{e.period}</time>
+              <span>{e.college}</span>
+            </p>
+            <p>
+              {e.degree}
+              {l.bar}
+              {e.gpa}
+            </p>
+            {e.honor && (
+              <p class="cv-detail">
+                <a href={e.honor.url}>{e.honor.title} ↗</a>
+                <span lang="en">{e.honor.text}</span>
+              </p>
+            )}
+            {e.thesis && (
+              <p class="cv-detail">
+                <b>{l.thesis}</b>
+                <span>{e.thesis}</span>
+              </p>
+            )}
+            {e.teaching && (
+              <p class="cv-detail">
+                <b>{l.teaching}</b>
+                <span>{e.teaching}</span>
+              </p>
+            )}
+            <details class="cv-courses">
+              <summary>{l.courses(e.courses.length)}</summary>
+              <ul lang="en">
+                {e.courses.map((c) => (
+                  <li>{c}</li>
+                ))}
+              </ul>
+            </details>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="exp-title">
+      <h2 id="exp-title">{l.experience}</h2>
+      <div class="cv-items">
+        {experience.map((e) => (
+          <article class="cv-item">
+            <h3>
+              {e.company} <span>{e.role}</span>
+            </h3>
+            <p class="cv-sub">
+              <time>{e.period}</time>
+              <span>{e.team}</span>
+              {e.unit && <span>{e.unit}</span>}
+            </p>
+            <ul>
+              {e.points.map(([label, text]) => (
+                <li>
+                  <b>
+                    {label}
+                    {l.sep}
+                  </b>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="proj-title">
+      <h2 id="proj-title">{l.projects}</h2>
+      <div class="cv-items">
+        {projects.map((p) => (
+          <article class="cv-item">
+            <h3>
+              {p.page ? (
+                <a href={localPath(lang, p.page)}>{p.title}</a>
+              ) : (
+                p.title
+              )}
+            </h3>
+            {(p.role || p.period) && (
+              <p class="cv-sub">
+                {p.period && <time>{p.period}</time>}
+                {p.role && <span>{p.role}</span>}
+              </p>
+            )}
+            <ul>
+              {p.points.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+            {p.repo && (
+              <p class="cv-links">
+                <a href={p.repo}>{l.code}</a>
+              </p>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="research" aria-labelledby="res-title">
+      <h2 id="res-title">{l.research}</h2>
+      <div class="cv-items">
+        <article class="cv-item">
+          <h3 lang="en">{research.title}</h3>
+          <p class="cv-sub">
+            <span>{research.venue}</span>
+            <span>{research.role}</span>
+            <time>{research.date}</time>
+          </p>
+          <p>{research.text}</p>
+          <p class="cv-links">
+            <a href={research.url}>{l.paper}</a>
+            <a href={localPath(lang, "/work/probabilistic-imaging/")}>
+              {l.details}
+            </a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="activities" aria-labelledby="act-title">
+      <h2 id="act-title">{l.activities}</h2>
+      <div class="cv-items">
+        {activities.map((a) => (
+          <article class="cv-item">
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>

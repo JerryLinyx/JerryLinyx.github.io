@@ -1,0 +1,9 @@
+---
+import WorkCasePage from "../../../components/pages/WorkCasePage.astro";
+import { projects } from "../../../data/portfolio.js";
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug } }));
+}
+---
+
+<WorkCasePage lang="en" slug={Astro.params.slug} />

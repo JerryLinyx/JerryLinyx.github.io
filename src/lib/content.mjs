@@ -508,12 +508,25 @@ for (const a of legacy.articles) {
 
 // Reading routes: the original "从一个问题开始" map in docs/intro.md.
 export const readingRoutes = [
-  ["GPU 为什么快？", ["hpc/cuda"]],
-  ["模型如何跨卡训练？", ["training/distributed-training"]],
-  ["生成模型如何转换分布？", ["algo/flow-based-model", "algo/flow-matching"]],
-  ["如何构建 AI 应用？", ["application/rag", "application/evaluation"]],
-].map(([question, slugs]) => ({
+  ["GPU 为什么快？", "Why are GPUs fast?", ["hpc/cuda"]],
+  [
+    "模型如何跨卡训练？",
+    "How is a model trained across GPUs?",
+    ["training/distributed-training"],
+  ],
+  [
+    "生成模型如何转换分布？",
+    "How do generative models transform distributions?",
+    ["algo/flow-based-model", "algo/flow-matching"],
+  ],
+  [
+    "如何构建 AI 应用？",
+    "How do you build an AI application?",
+    ["application/rag", "application/evaluation"],
+  ],
+].map(([question, english, slugs]) => ({
   question,
+  english,
   posts: slugs.map((s) => {
     const post = researchPost(s);
     if (!post) throw new Error(`Missing reading route entry: ${s}`);

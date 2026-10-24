@@ -4,7 +4,14 @@ const mobile = document.querySelector(".mobile-nav");
 const menuLabel = menu?.querySelector(".sr-only");
 function setMenu(open) {
   menu.setAttribute("aria-expanded", String(open));
-  menuLabel.textContent = open ? "关闭导航" : "打开导航";
+  const en = document.documentElement.lang === "en";
+  menuLabel.textContent = open
+    ? en
+      ? "Close navigation"
+      : "关闭导航"
+    : en
+      ? "Open navigation"
+      : "打开导航";
   mobile.hidden = !open;
 }
 const closeMenu = () => menu && setMenu(false);

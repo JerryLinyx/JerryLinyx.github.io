@@ -1,4 +1,17 @@
 ---
+const { lang = "zh" } = Astro.props;
+const en = lang === "en";
+const english = [
+  "lightning",
+  "rivers",
+  "blood vessels",
+  "leaf veins",
+  "snowflakes",
+  "binary trees",
+  "galaxies",
+  "the DNA double helix",
+  "point-cloud terrain",
+];
 const names = [
   "闪电",
   "河流",
@@ -17,11 +30,12 @@ const names = [
     <canvas aria-hidden="true"></canvas>
     <figcaption class="montage-bar">
       <h2 id="interlude-title" class="montage-title">
-        同一种生长
+        {en ? "The same kind of growth" : "同一种生长"}
       </h2>
       <p class="montage-note">
-        {names.join("、")}
-        ——同一类分形结构，在不同尺度上反复出现。每一幅都由几行数学生成。
+        {en
+          ? `${english.slice(0, -1).join(", ")} and ${english.at(-1)}: one family of fractal structures recurring at every scale. Each is drawn by a few lines of maths.`
+          : `${names.join("、")}——同一类分形结构，在不同尺度上反复出现。每一幅都由几行数学生成。`}
       </p>
       <p class="montage-now" aria-live="off">
         <span data-scene-index></span>
@@ -29,10 +43,10 @@ const names = [
       </p>
       <span class="montage-buttons">
         <button type="button" data-montage-pause aria-pressed="false" hidden>
-          暂停
+          {en ? "Pause" : "暂停"}
         </button>
         <button type="button" data-montage-next hidden>
-          下一个
+          {en ? "Next" : "下一个"}
         </button>
       </span>
     </figcaption>

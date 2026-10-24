@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro";
+import WorkIndex from "../WorkIndex.astro";
+import { localPath, portfolio, ui } from "../../i18n.js";
+const { lang } = Astro.props;
+const t = ui[lang];
+const { projects, otherProjects } = portfolio[lang];
+const names = otherProjects.map((x) => x.split(" — ")[0]).join(t.tagJoin);
+const [before, after] = t.workFootnote(names);
+---
+
+<Base title={`${t.workTitle} · ${t.nameSuffix}`} section="work">
+  <header class="wrap page-head">
+    <h1>{t.workTitle}</h1>
+    <p class="lead">{t.workLead}</p>
+  </header>
+  <section class="wrap" aria-label={t.allWork}>
+    <WorkIndex items={projects} headingLevel={2} lang={lang} />
+    <p class="footnote">
+      {before}
+      <a href={`${localPath(lang, "/about/")}#projects`}>{t.aboutWord}</a>
+      {after}
+    </p>
+  </section>
+</Base>
