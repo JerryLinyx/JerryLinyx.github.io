@@ -12,6 +12,9 @@ if (hero) {
   const slider = control.querySelector("input");
   const readout = hero.querySelector("[data-flow-value]");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  // The name is Zhao Mengfu's calligraphy, traced to vector (static/img/signature.svg).
+  const signature = new Image();
+  signature.src = "/img/signature.svg";
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
   let w = 0;
   let h = 0;
@@ -45,11 +48,10 @@ if (hero) {
     off.width = Math.ceil(w);
     off.height = Math.ceil(h);
     const g = off.getContext("2d", { willReadFrequently: true });
-    const family = getComputedStyle(document.body).fontFamily;
-    g.font = `700 ${Math.round(w * 0.235)}px ${family}`;
-    g.textAlign = "center";
-    g.textBaseline = "middle";
-    g.fillText("林煜轩", w / 2, h * 0.54);
+    const ratio = signature.naturalWidth / signature.naturalHeight;
+    const sw = Math.min(w * 0.8, h * 0.66 * ratio);
+    const sh = sw / ratio;
+    g.drawImage(signature, (w - sw) / 2, h * 0.53 - sh / 2, sw, sh);
     const data = g.getImageData(0, 0, off.width, off.height).data;
     const cells = [];
     const step = w < 420 ? 1 : 1.5;
@@ -195,7 +197,12 @@ if (hero) {
   }
 
   async function start() {
-    await document.fonts.ready;
+    // Without the calligraphy image the static signature stays on screen.
+    const loaded = await signature.decode().then(
+      () => true,
+      () => false,
+    );
+    if (!loaded) return;
     readPalette();
     if (!build()) return;
     hero.classList.add("is-flowing");

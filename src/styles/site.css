@@ -306,6 +306,8 @@ button {
   border-bottom-color: var(--rule);
 }
 .wordmark {
+  display: inline-flex;
+  align-items: center;
   font-weight: 700;
   font-size: 1.0625rem;
   letter-spacing: 0.02em;
@@ -317,6 +319,21 @@ button {
   font-size: var(--t-s);
   letter-spacing: 0;
   color: var(--muted);
+}
+/* 林煜轩 in Zhao Mengfu's hand: a traced SVG painted in the current text colour.
+   The tail of 轩 hangs below, so the glyph bodies sit in the upper two thirds. */
+.signature {
+  display: inline-block;
+  height: 1em;
+  aspect-ratio: 348 / 146.4;
+  background: currentColor;
+  -webkit-mask: url("/img/signature.svg") center / contain no-repeat;
+  mask: url("/img/signature.svg") center / contain no-repeat;
+}
+.wordmark .signature {
+  height: 1.75em;
+  margin: 0;
+  transform: translateY(16%);
 }
 .nav {
   display: flex;
@@ -467,6 +484,10 @@ button {
   text-align: center;
   color: #fff;
   user-select: none;
+}
+.endcard .signature {
+  width: min(100%, 3.4em);
+  height: auto;
 }
 .footer-meta {
   display: flex;
@@ -620,6 +641,10 @@ button {
   font-size: clamp(3rem, 12vw, 11rem);
   font-weight: 700;
   letter-spacing: 0.02em;
+}
+.screen-static .signature {
+  width: 80%;
+  height: auto;
 }
 .screen-t {
   position: absolute;
@@ -1914,6 +1939,11 @@ button {
   display: block;
   color: var(--muted);
   font-weight: 500;
+}
+.about-head h1 .signature {
+  height: 1.6em;
+  margin-bottom: 0.1em;
+  color: var(--ink);
 }
 .about-focus {
   margin: 24px 0 16px;

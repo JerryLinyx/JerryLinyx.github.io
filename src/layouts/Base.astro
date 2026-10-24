@@ -61,6 +61,7 @@ const nav = [
       title="林煜轩 · 写作"
       href="/feed.xml"
     />
+    <link rel="preload" href="/img/signature.svg" as="image" />
     <link
       rel="preload"
       href="/fonts/site-song.woff2"
@@ -80,7 +81,8 @@ const nav = [
     </a>
     <header class="header">
       <a class="wordmark" href="/" aria-current={home ? "page" : undefined}>
-        林煜轩<span>Yuxuan Lin</span>
+        <span class="signature" role="img" aria-label="林煜轩"></span>
+        <span>Yuxuan Lin</span>
       </a>
       <nav class="nav" aria-label="主导航">
         {nav.map(([key, label, url]) => (
@@ -127,7 +129,7 @@ const nav = [
           <a href="/archive/">旧日存档</a>
         </div>
         <p class="endcard" aria-hidden="true">
-          林煜轩
+          <span class="signature"></span>
         </p>
         <p class="footer-meta">
           <span>© 2026 Yuxuan Lin</span>
